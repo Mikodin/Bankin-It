@@ -1,0 +1,8 @@
+/bankin-it/node_modules
+/bankin-it/npm-debug.log
+.*.*.swp
+.*.*.swo
+*.swp
+*.swo
+.vagrant
+.git
