@@ -1,5 +1,5 @@
-/bankin-it/node_modules
-/bankin-it/npm-debug.log
+/api/node_modules
+/api/npm-debug.log
 .*.*.swp
 .*.*.swo
 *.swp
