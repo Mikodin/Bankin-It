@@ -1,8 +1,18 @@
 var express = require('express');
+
+var bodyParser = require('body-parser');
+
+var routes = require('./routes/index.js');
+
 var app = express();
 
-app.get('/notes', function(req, res) {
-  res.json({UpAndRunning: true});
-})
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
-app.listen(8080);
+app.use('/', routes);
+
+app.listen(8080, function() {
+  console.log('App is listening on localhost:8080');
+});
+
+module.exports = app;
