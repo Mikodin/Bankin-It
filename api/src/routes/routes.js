@@ -5,9 +5,8 @@ router.get('/', function(req, res) {
   res.send('Hello World');
 });
 
-router.post('/user/login', function(req, res) {
-  console.log(req);
-  res.json({id: req.body.id, password: req.body.password});
+router.post('/user', function(req, res) {
+  res.json(req.body);
 });
 
 module.exports = router;
