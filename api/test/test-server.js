@@ -1,6 +1,6 @@
 var chai = require('chai');
 var chaiHttp = require('chai-http');
-var server = require('../src/app');
+var server = require('../src/server');
 var should = chai.should();
 
 chai.use(chaiHttp);
@@ -12,6 +12,7 @@ describe('Basics', function() {
       .end(function(err, res) {
         res.should.have.status(200);
         res.text.should.be.a('string');
+        res.text.should.include('Hello World');
         done();
       });
   });

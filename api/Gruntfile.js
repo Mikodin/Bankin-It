@@ -17,14 +17,14 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      all: ['Gruntfile.js', 'src/*.js', 'src/*/*.js']
+      all: ['Gruntfile.js','test/*.js', 'src/*.js', 'src/*/*.js']
     },
     jscs: {
-      src: ['Gruntfile.js', 'src/*.js', 'src/*/*.js'],
+      src: ['Gruntfile.js','test/*.js', 'src/*.js', 'src/*/*.js'],
     },
     watch: {
       scripts: {
-        files: ['src/*.js', 'src/*/*.js'],
+        files: ['test/*.js', 'src/*.js', 'src/*/*.js'],
         tasks: ['default'],
         options: {
           spawn: true,
