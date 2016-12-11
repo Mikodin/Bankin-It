@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/models/user.js"],"names":["User","name"],"mappings":";;;;IAAMA,I,GACJ,gBAAc;AAAA;;AACZ,OAAKC,IAAL,GAAY,SAAZ;AACD,C","file":"user.js","sourcesContent":["class User {\n  constructor() {\n    this.name = 'Michael';\n  }\n}\n"]}

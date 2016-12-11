@@ -3,6 +3,22 @@ module.exports = function(grunt) {
   // Add the grunt-mocha-test tasks.
 
   grunt.initConfig({
+    babel: {
+      options: {
+        sourceMap: true,
+        presets: ['es2015']
+      },
+      dist: {
+        files: [
+          {
+            expand: true,
+            cwd: 'src/',
+            src: ['*.js', '**/*.js'],
+            dest: 'dist/'
+          }
+        ]
+      }
+    },
     // Configure a mochaTest task
     mochaTest: {
       test: {
@@ -17,7 +33,10 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      all: ['Gruntfile.js','test/*.js', 'src/*.js', 'src/*/*.js']
+      all: ['Gruntfile.js','test/*.js', 'src/*.js', 'src/*/*.js'],
+      options: {
+        esversion: 6
+      }
     },
     jscs: {
       src: ['Gruntfile.js','test/*.js', 'src/*.js', 'src/*/*.js'],
@@ -37,7 +56,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-jscs');
+  grunt.loadNpmTasks('grunt-babel');
 
-  grunt.registerTask('default', ['mochaTest', 'jshint', 'jscs']);
+  grunt.registerTask('default', ['jshint', 'jscs', 'babel', 'mochaTest']);
 
 };
