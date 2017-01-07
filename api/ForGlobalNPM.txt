@@ -1,0 +1,3 @@
+vim ~/.bash_profile
+insert in it export
+export PATH=/usr/local/nodejs-binary-7.3.0/lib/node_modules/grunt-cli/bin:$PATH
