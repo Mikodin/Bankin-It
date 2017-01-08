@@ -2,7 +2,7 @@ var UserCtrl = function(User) {
 
   var UserObj = {};
 
-  UserObj.PostUser = function(req, res, next) {
+  UserObj.AddUser = function(req, res, next) {
     var newUser = new User(req.body);
 
     newUser.save(function(err, user) {
@@ -14,7 +14,7 @@ var UserCtrl = function(User) {
     });
   };
 
-  UserObj.GetUser = function(req, res, next) {
+  UserObj.GetUsers = function(req, res, next) {
     User.find(function(err, users) {
       if (err) {
         res.json({status: false, error: 'Something went wrong'});
