@@ -8,6 +8,7 @@ router.get('/api/', function(req, res) {
   res.send('Hello From API');
 });
 
+router.get('/api/user', UserController.GetUser);
 router.post('/api/user', UserController.PostUser);
 
 module.exports = router;

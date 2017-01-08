@@ -14,6 +14,16 @@ var UserCtrl = function(User) {
     });
   };
 
+  UserObj.GetUser = function(req, res, next) {
+    User.find(function(err, users) {
+      if (err) {
+        res.json({status: false, error: 'Something went wrong'});
+        return;
+      }
+      res.json({status: true, user: users});
+    });
+  };
+
   return UserObj;
 };
 

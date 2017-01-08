@@ -1,7 +1,12 @@
+process.env.NODE_ENV = 'test';
+
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 var server = require('../src/server');
 var should = chai.should();
+
+var mongoose = require('mongoose');
+var User = require('../src/models/user.model.js');
 
 chai.use(chaiHttp);
 
@@ -17,6 +22,18 @@ describe('Basics', function() {
       });
   });
 
+  describe('/GET user', () => {
+    it('it should GEt all the users', (done) => {
+      chai.request(server)
+        .get('/api/user')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('array');
+          res.body.length.should.be.eql(0);
+          done();
+        });
+    });
+  });
   /*
   it('Should return user on login ', function(done) {
     var User = {
