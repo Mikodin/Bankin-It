@@ -24,6 +24,16 @@ var UserCtrl = function(User) {
     });
   };
 
+  UserObj.GetUser = function(req, res, next) {
+    User.findById(req.params.userId, function(err, user) {
+      if (err) {
+        res.json({status: false, error: 'Something went wrong'});
+        return;
+      }
+      res.json(user);
+    });
+  };
+
   UserObj.DeleteUser = function(req, res, next) {
     User.remove({_id: req.params.userId}, function(err, todos) {
       if (err) {
