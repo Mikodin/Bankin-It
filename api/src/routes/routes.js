@@ -10,5 +10,6 @@ router.get('/api/', function(req, res) {
 
 router.get('/api/user', UserController.GetUsers);
 router.post('/api/user', UserController.AddUser);
+router.delete('/api/user/:userId', UserController.DeleteUser);
 
 module.exports = router;
