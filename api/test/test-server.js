@@ -42,6 +42,30 @@ describe('Users', () => {
       });
     });
 
+    describe('/GET user:username', () => {
+      it('it should GET a user given the username', (done) => {
+        let user = new User({
+          username: 'test',
+          password: 'test',
+          balance: 100,
+          salary: 100,
+          frequency: 'Some Test'
+        });
+
+        user.save((err, user) => {
+          chai.request(server)
+            .get('/api/user/' + user.id)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('username').
+                eql('test');
+              done();
+            });
+        });
+      });
+    });
+
     describe('/DELETE user', () => {
       it('it should DELETE a user given the id', (done) => {
         let user = new User({
@@ -65,6 +89,6 @@ describe('Users', () => {
         });
       });
     });
-  });
 
+  });
 });
