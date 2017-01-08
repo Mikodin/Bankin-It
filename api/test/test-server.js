@@ -6,13 +6,13 @@ var should = chai.should();
 chai.use(chaiHttp);
 
 describe('Basics', function() {
-  it('Should return Hello World on / GET', function(done) {
+  it('Should return Hello World on /api GET', function(done) {
     chai.request(server)
-      .get('/')
+      .get('/api')
       .end(function(err, res) {
         res.should.have.status(200);
         res.text.should.be.a('string');
-        res.text.should.include('Hello World');
+        res.text.should.include('Hello From API');
         done();
       });
   });

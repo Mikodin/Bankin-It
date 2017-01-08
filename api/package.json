@@ -5,7 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "test": "mocha",
+    "test": "NODE_ENV=test mocha",
     "test-watch": "npm run test --watch"
   },
   "repository": {
@@ -26,6 +26,7 @@
     "grunt": "^1.0.1",
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-watch": "^1.0.0",
+    "grunt-env": "^0.4.4",
     "grunt-jscs": "^3.0.1",
     "grunt-mocha-test": "^0.13.2",
     "mocha": "^3.2.0",

@@ -34,13 +34,26 @@ module.exports = function(grunt) {
         },
       },
     },
+    env: {
+      options: {
+      },
+      test: {
+        NODE_ENV: 'test'
+      },
+      prod: {
+        NODE_ENV: 'production'
+      }
+    }
   });
 
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-jscs');
+  grunt.loadNpmTasks('grunt-env');
 
   grunt.registerTask('default', ['jshint', 'jscs', 'mochaTest']);
+  grunt.registerTask('test', ['env:test', 'mochaTest']);
+  grunt.registerTask('watch-test', ['env:test', 'watch']);
 
 };

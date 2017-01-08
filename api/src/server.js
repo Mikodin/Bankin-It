@@ -1,7 +1,10 @@
+var config = require('./config/config');
+
 var express = require('express');
-var bodyParser = require('body-parser');
-var routes = require('./routes/routes.js');
+var routes = require('./routes/routes');
 var app = express();
+
+var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose');
 
@@ -11,14 +14,21 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use('/', routes);
 
 var db;
-db = mongoose.connect("mongodb://localhost/bankinapi_test");
 
-app.listen(8081, function() {
-  console.log('App is listening on localhost:8081');
-});
+if (process.env.NODE_ENV === 'test') {
+  db = mongoose.connect(config.testDB);
+  config.db = config.testDB;
+  app.listen(config.testPort);
+  console.log('App be listening on port ' + config.testPort);
+} else {
+  db = mongoose.connect(config.db);
+  config.db = config.db;
+  app.listen(config.port);
+  console.log('App listening on port ' + config.port);
+}
 
-mongoose.connection.on('connected', function () {
-  console.log('Mongoose default connection open to ' + "mongodb://localhost/todoapi_test");
+mongoose.connection.on('connected', function() {
+  console.log('Mongoose default connection open to ' + config.db);
 });
 
 module.exports = app;
