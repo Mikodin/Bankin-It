@@ -34,20 +34,31 @@ describe('Basics', function() {
         });
     });
   });
-  /*
-  it('Should return user on login ', function(done) {
-    var User = {
-      Username: 'Michael',
-      Password: 'Test'
-    };
 
-    chai.request(server)
-      .post('api/user').send(User)
-      .end(function(err, res) {
-        res.should.have.status(200);
-        res.body.should.include(User);
-        done();
+  describe('/DELETE user', () => {
+    it('it should DELETE a user given the id', (done) => {
+      let user = new User({
+        username: 'test',
+        password: 'test',
+        balance: 100,
+        salary: 100,
+        frequency: 'Some Test'
       });
-  });
-  */
+
+      user.save((err, user) => {
+        chai.request(server)
+          .delete('/user/' + book.id)
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            res.body.should.have.property('message').
+              eql('Book successfully deleted!');
+            res.body.result.should.have.property('ok').eql(1);
+            res.body.result.should.have.property('n').eql(1);
+            done();
+          });
+      });
+    });
+  });  
+
 });

@@ -24,6 +24,15 @@ var UserCtrl = function(User) {
     });
   };
 
+  UserObj.DeleteUser = function(req, res, next) {
+    User.remove({_id: req.params.todo_id}, function(err, todos) {
+      if (err) {
+        res.json({status: false, error: 'Deleting user is not successfull'});
+      }
+      res.json({status: true, message: 'User deleted successfully'});
+    });
+  };
+
   return UserObj;
 };
 
