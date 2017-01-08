@@ -20,7 +20,7 @@ var UserCtrl = function(User) {
         res.json({status: false, error: 'Something went wrong'});
         return;
       }
-      res.json({status: true, user: users});
+      res.json(users);
     });
   };
 
