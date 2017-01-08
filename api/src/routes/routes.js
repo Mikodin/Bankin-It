@@ -1,12 +1,15 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/', function(req, res) {
-  res.send('Hello World');
+var User = require('../models/user.model');
+console.log(User);
+var UserController = require('../controllers/user.controller')(User);
+
+
+router.get('/api/', function(req, res) {
+  res.send('Hello From API');
 });
 
-router.post('/user', function(req, res) {
-  res.json(req.body);
-});
+router.post('/api/user', UserController.PostUser);
 
 module.exports = router;
