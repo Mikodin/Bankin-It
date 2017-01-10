@@ -6,7 +6,6 @@ var server = require('../src/server');
 var should = chai.should();
 
 var mongoose = require('mongoose');
-var User = require('../src/models/user.model.js');
 
 describe('Basics', () => {
   chai.use(chaiHttp);

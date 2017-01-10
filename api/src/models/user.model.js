@@ -6,7 +6,7 @@ var UserSchema = new Schema({
   username: String,
   password: String,
   balance: Number,
-  accounts: [{type: ObjectId, ref: 'User'}],
+  accounts: [{type: ObjectId, ref: 'Account'}],
   salary: Number,
   frequency: String
 });
