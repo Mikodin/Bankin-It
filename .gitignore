@@ -1,5 +1,7 @@
 /api/node_modules
 /api/npm-debug.log
+/client/npm-debug.log
+/client/node_modules
 .*.*.swp
 .*.*.swo
 *.swp

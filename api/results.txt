@@ -1,0 +1,19 @@
+App be listening on port 8081
+
+[0m[0m
+[0m  Basics[0m
+Mongoose default connection open to mongodb://localhost/bankinitapi_test
+  [32m  ✓[0m[90m Should return Hello World on /api GET[0m
+
+[0m  Users[0m
+[0m    Basic CRUD commands[0m
+[0m      /GET user[0m
+      [32m  ✓[0m[90m it should GET all the users[0m
+[0m      /GET user:username[0m
+      [32m  ✓[0m[90m it should GET a user given the username[0m[33m (60ms)[0m
+[0m      /DELETE user[0m
+      [32m  ✓[0m[90m it should DELETE a user given the id[0m
+
+
+[92m [0m[32m 4 passing[0m[90m (177ms)[0m
+
