@@ -1,11 +1,17 @@
 class Account {
-  constructor(total, percentage) {
+  constructor(accountName , total, percentage) {
+    this.accountName = accountName;
     this.total = total;
     this.percentage = percentage;
+    this.subAccounts = [];
   }
 
-  calculateTotal() {
-    return this.total * this.percentage;
+  calculateTotal(total) {
+    return total * this.percentage;
+  }
+
+  addAccount(account) {
+    this.subAccounts.push(account);
   }
 }
 
