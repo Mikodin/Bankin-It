@@ -4,7 +4,7 @@ class Account {
   constructor(name, percentage) {
     this.accountName = name;
     this.percentage = percentage;
-    this.money = 10;
+    this.money = 0;
   }
 }
 
