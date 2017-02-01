@@ -8,6 +8,8 @@ class Bank extends Component {
 
     this.handlePercentageSubtraction = this.handlePercentageSubtraction.bind(this);
     this.handleUpdateMonthlyIncome = this.handleUpdateMonthlyIncome.bind(this);
+    this.handleUpdateBills = this.handleUpdateBills.bind(this);
+
 
     this.state = {
       monthlyIncome: 0,
@@ -19,6 +21,18 @@ class Bank extends Component {
 
   handleUpdateMonthlyIncome(amount) {
     this.setState({monthlyIncome: amount})
+    this.updateIncomeAfterBills();
+  }
+
+  handleUpdateBills(amount) {
+    this.setState({bills: amount})
+    this.updateIncomeAfterBills();
+  }
+
+  updateIncomeAfterBills() {
+    this.setState((state) => ({
+      incomeAfterBills: state.monthlyIncome - state.bills
+    }))
   }
 
   handlePercentageSubtraction(amount) {
@@ -31,13 +45,28 @@ class Bank extends Component {
     return (
       <div className="Bank">
         <h1>Bank</h1>
-        <Input 
-          value={this.state.monthlyIncome} 
-          handleValueChange={this.handleUpdateMonthlyIncome}/>
+        <div>
+          <p>Enter your monthly Income</p>
+          <Input 
+            value={this.state.monthlyIncome} 
+            handleValueChange={this.handleUpdateMonthlyIncome} />
+        </div>
 
-        <ParentAccount incomeAfterBills={this.state.incomeAfterBills} 
-          percentage={this.state.percentage}
-        />
+        <div>
+          <p>Enter your monthly Bills</p>
+          <Input 
+            value={this.state.bills} 
+            handleValueChange={this.handleUpdateBills} />
+        </div>
+
+        <div>
+          <p>Income After bills:</p>
+          <p>{this.state.incomeAfterBills}</p>
+        </div>
+
+        <ParentAccount 
+          incomeAfterBills={this.state.incomeAfterBills} 
+          percentage={this.state.percentage} />
 
       </div>
     );
