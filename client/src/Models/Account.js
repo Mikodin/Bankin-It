@@ -1,8 +1,8 @@
 class Account {
   constructor(accountName , total, percentage) {
     this.accountName = accountName;
-    this.total = total;
     this.percentage = percentage;
+    this.total = total * percentage;
     this.subAccounts = [];
   }
 

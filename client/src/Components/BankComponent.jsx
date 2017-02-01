@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Input from './Input.jsx'
-import ParentAccount from './ParentAccount.jsx'
+import Input from './Input.jsx';
+import ParentAccountCreator from './ParentAccountCreator.jsx';
 
 class Bank extends Component {
   constructor(props) {
@@ -9,6 +9,7 @@ class Bank extends Component {
     this.handlePercentageSubtraction = this.handlePercentageSubtraction.bind(this);
     this.handleUpdateMonthlyIncome = this.handleUpdateMonthlyIncome.bind(this);
     this.handleUpdateBills = this.handleUpdateBills.bind(this);
+    this.handleAddToParentAccounts = this.handleAddToParentAccounts.bind(this);
 
 
     this.state = {
@@ -16,6 +17,7 @@ class Bank extends Component {
       bills: 0,
       incomeAfterBills: 0,
       percentage: 1,
+      parentAccounts: []
     }
   }
 
@@ -32,13 +34,35 @@ class Bank extends Component {
   updateIncomeAfterBills() {
     this.setState((state) => ({
       incomeAfterBills: state.monthlyIncome - state.bills
-    }))
+    }), this.updateAccountsAfterIncomeChange);
+  }
+
+  updateAccountsAfterIncomeChange() {
+    var accounts = this.state.parentAccounts.map((account) => {
+      account.total = account.calculateTotal(this.state.incomeAfterBills);
+      return account;
+    });
+
+    this.handleAccountsChange(accounts);
+  }
+
+  handleAccountsChange(accounts) {
+    this.setState({parentAccounts: accounts});
   }
 
   handlePercentageSubtraction(amount) {
     var newPercentage = this.state.percentage - amount;
 
     this.setState({percentage: newPercentage})
+  }
+
+  handleAddToParentAccounts(account) {
+    var parentAccounts = this.state.parentAccounts.slice();
+    parentAccounts.push(account);
+
+    this.handlePercentageSubtraction(account.percentage);
+
+    this.setState({parentAccounts: parentAccounts});
   }
 
   render() {
@@ -64,11 +88,13 @@ class Bank extends Component {
           <p>{this.state.incomeAfterBills}</p>
         </div>
 
-        <ParentAccount 
+        <ParentAccountCreator
           incomeAfterBills={this.state.incomeAfterBills} 
-          percentage={this.state.percentage} />
+          percentage={this.state.percentage} 
+          addToParentAccounts={this.handleAddToParentAccounts}
+        />
 
-      </div>
+    </div>
     );
   }
 }
