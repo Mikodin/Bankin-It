@@ -32,8 +32,8 @@ class Bank extends Component {
       <div className="Bank">
         <h1>Bank</h1>
         <Input 
-          monthlyIcome={this.state.monthlyIncome} 
-          handleUpdateMonthlyIncome={this.handleUpdateMonthlyIncome}/>
+          value={this.state.monthlyIncome} 
+          handleValueChange={this.handleUpdateMonthlyIncome}/>
 
         <ParentAccount incomeAfterBills={this.state.incomeAfterBills} 
           percentage={this.state.percentage}
