@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Input from './Input.jsx';
 import ParentAccountCreator from './ParentAccountCreator.jsx';
+import ParentAccount from './ParentAccount.jsx';
 
 class Bank extends Component {
   constructor(props) {
@@ -10,7 +11,6 @@ class Bank extends Component {
     this.handleUpdateMonthlyIncome = this.handleUpdateMonthlyIncome.bind(this);
     this.handleUpdateBills = this.handleUpdateBills.bind(this);
     this.handleAddToParentAccounts = this.handleAddToParentAccounts.bind(this);
-
 
     this.state = {
       monthlyIncome: 0,
@@ -23,15 +23,15 @@ class Bank extends Component {
 
   handleUpdateMonthlyIncome(amount) {
     this.setState({monthlyIncome: amount})
-    this.updateIncomeAfterBills();
+    this.calculateUpdateAfterBills();
   }
 
   handleUpdateBills(amount) {
     this.setState({bills: amount})
-    this.updateIncomeAfterBills();
+    this.calculateUpdateAfterBills();
   }
 
-  updateIncomeAfterBills() {
+  calculateUpdateAfterBills() {
     this.setState((state) => ({
       incomeAfterBills: state.monthlyIncome - state.bills
     }), this.updateAccountsAfterIncomeChange);
@@ -65,6 +65,8 @@ class Bank extends Component {
     this.setState({parentAccounts: parentAccounts});
   }
 
+
+
   render() {
     return (
       <div className="Bank">
@@ -94,9 +96,27 @@ class Bank extends Component {
           addToParentAccounts={this.handleAddToParentAccounts}
         />
 
+      <ul><AccountList parentAccounts={this.state.parentAccounts} /> </ul>
+
     </div>
     );
   }
+}
+
+function AccountList(props) {
+  const accounts = props.parentAccounts;
+  const accountListItems = accounts.map((account) => 
+      <li key={account.accountName}>
+        <ParentAccount parentAccount={account} />
+    </li>
+  );
+
+  return (
+    <div>
+      <h3>Accounts</h3>
+      <ul>{accountListItems}</ul>
+    </div>
+  )
 }
 
 export default Bank;
