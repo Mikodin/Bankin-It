@@ -50,12 +50,6 @@ class Bank extends Component {
     this.setState({parentAccounts: accounts});
   }
 
-  handlePercentageSubtraction(amount) {
-    var newPercentage = this.state.percentage - amount;
-
-    this.setState({percentage: newPercentage})
-  }
-
   handleAddToParentAccounts(account) {
     var parentAccounts = this.state.parentAccounts.slice();
     parentAccounts.push(account);
@@ -65,7 +59,11 @@ class Bank extends Component {
     this.setState({parentAccounts: parentAccounts});
   }
 
+  handlePercentageSubtraction(amount) {
+    var newPercentage = this.state.percentage - amount;
 
+    this.setState({percentage: newPercentage})
+  }
 
   render() {
     return (
