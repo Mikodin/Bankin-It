@@ -11,7 +11,6 @@ class ParentAccount extends Component {
     this.state = {
       mainAccount: {},
     }
-
   }
 
   componentDidMount() {
@@ -20,19 +19,22 @@ class ParentAccount extends Component {
 
   handleAddToChildAccounts(account) {
     var mainAccount = this.state.mainAccount;
-    var childAccounts = this.mainAccount.subAccounts.slice();
+    var childAccounts = this.state.mainAccount.subAccounts.slice();
     childAccounts.push(account);
 
     this.handlePercentageSubtraction(account.percentage);
 
-    this.setState({childAccounts: childAccounts});
-    console.log('Firing?');
+    mainAccount.subAccounts = childAccounts;
+
+    this.setState({mainAccount: mainAccount});
   }
 
   handlePercentageSubtraction(amount) {
-    var newPercentage = this.state.percentage - amount;
+    var newPercentage = this.state.mainAccount.percentage - amount;
+    var mainAccount = this.state.mainAccount;
+    mainAccount.percentage = newPercentage;
 
-    this.setState({percentage: newPercentage})
+    this.setState({mainAccount: mainAccount})
   }
 
   render() {
