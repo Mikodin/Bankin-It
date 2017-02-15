@@ -9,7 +9,7 @@ class ParentAccount extends Component {
     this.handleAddToChildAccounts = this.handleAddToChildAccounts.bind(this);
 
     this.state = {
-      mainAccount: {},
+      mainAccount: new Account('', 0, 0),
     }
   }
 
@@ -21,8 +21,6 @@ class ParentAccount extends Component {
     var mainAccount = this.state.mainAccount;
     var childAccounts = this.state.mainAccount.subAccounts.slice();
     childAccounts.push(account);
-
-    this.handlePercentageSubtraction(account.percentage);
 
     mainAccount.subAccounts = childAccounts;
 
@@ -53,9 +51,31 @@ class ParentAccount extends Component {
             addToParentAccounts={this.handleAddToChildAccounts}
           />
         </div>
+
+        <div> 
+          <ul><AccountList subAccounts={this.state.mainAccount.subAccounts} /> </ul>
+        </div>
+
       </div>
     )
   }
 }
 
 export default ParentAccount;
+
+function AccountList(props) {
+  const accounts = props.subAccounts;
+  const accountListItems = accounts.map((account) => 
+      <li key={account.accountName}>
+        <ParentAccount parentAccount={account} />
+      </li>
+  );
+
+  return (
+    <div>
+      <h3>Child Accounts</h3>
+      <ul>{accountListItems}</ul>
+    </div>
+  )
+}
+
