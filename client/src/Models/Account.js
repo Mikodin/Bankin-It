@@ -10,6 +10,18 @@ class Account {
     return total * this.percentage;
   }
 
+  reCalculateTotal(total) {
+    this.total = total * this.percentage;
+
+    this.subAccounts = this.subAccounts.map((sub) => {
+      sub = sub.reCalculateTotal(this.total);
+
+      return sub;
+    });
+
+    return this;
+  }
+
   addAccount(account) {
     this.subAccounts.push(account);
   }

@@ -41,15 +41,7 @@ class Bank extends Component {
 
   updateAccountsAfterIncomeChange() {
     var accounts = this.state.parentAccounts.map((account) => {
-      account.total = account.calculateTotal(this.state.incomeAfterBills);
-
-      var subAccounts = account.subAccounts.map((subAccount) => {
-        console.log(account.total);
-        subAccount.total = subAccount.calculateTotal(account.total);
-        return subAccount;
-      });
-
-      account.subAccounts = subAccounts;
+      account = account.reCalculateTotal(this.state.incomeAfterBills);
 
       return account;
     });
