@@ -1,0 +1,14 @@
+.Bank {
+  margin-left: 15px;
+}
+
+.horizontal-aligned {
+  width: 100;
+  border: 1px solid #c3c3c3;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-content: center;
+  align-content: center;
+}

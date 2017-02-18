@@ -3,6 +3,8 @@ import Input from './Input.jsx';
 import ParentAccountCreator from './ParentAccountCreator.jsx';
 import ParentAccount from './ParentAccount.jsx';
 
+import './BankComponent.css';
+
 class Bank extends Component {
   constructor(props) {
     super(props);
@@ -103,7 +105,9 @@ class Bank extends Component {
           addToParentAccounts={this.handleAddToParentAccounts}
         />
 
-      <ul><AccountList parentAccounts={this.state.parentAccounts} /> </ul>
+      <div >
+        <AccountList parentAccounts={this.state.parentAccounts} />
+      </div>
 
     </div>
     );
@@ -113,15 +117,15 @@ class Bank extends Component {
 function AccountList(props) {
   const accounts = props.parentAccounts;
   const accountListItems = accounts.map((account) => 
-      <li key={account.accountName}>
-        <ParentAccount parentAccount={account} />
-    </li>
+      <ParentAccount key={account.accountName} parentAccount={account} />
   );
 
   return (
     <div>
-      <h3>Accounts</h3>
-      <ul>{accountListItems}</ul>
+      <h3>Main Accounts</h3>
+      <div className='horizontal-aligned'>
+        {accountListItems}
+      </div>
     </div>
   )
 }

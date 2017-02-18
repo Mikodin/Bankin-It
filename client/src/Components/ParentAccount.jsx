@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import ParentAccountCreator from './ParentAccountCreator.jsx';
 import Account from '../Models/Account.js';
 
+import './ParentAccount.css';
+
 class ParentAccount extends Component {
   constructor(props) {
     super(props);
@@ -37,7 +39,7 @@ class ParentAccount extends Component {
 
   render() {
     return (
-      <div>
+      <div className='parentAccount'>
         <div>
           <p>Account name: {this.state.mainAccount.accountName}</p>
           <p>Percentage: {this.state.mainAccount.percentage}</p>
