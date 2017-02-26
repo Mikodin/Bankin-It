@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
+import { InputGroup, InputGroupAddon, Input } from 'reactstrap';
+
 import Account from '../Models/Account.js';
 
 class ParentAccountCreator extends Component {
   constructor(props) {
     super(props);
-
-    this.handleAccountNameChange = this.handleAccountNameChange.bind(this);
-    this.handlePercentageChange = this.handlePercentageChange.bind(this);
-    this.addToParentAccounts = this.addToParentAccounts.bind(this);
 
     this.state = {
       accountName: '',
@@ -15,15 +13,15 @@ class ParentAccountCreator extends Component {
     }
   }
 
-  handleAccountNameChange(event) {
+  handleAccountNameChange = (event) => {
     this.setState({accountName: event.target.value});
   }
 
-  handlePercentageChange(event) {
+  handlePercentageChange = (event) => {
     this.setState({percentage: event.target.value});
   }
 
-  addToParentAccounts() {
+  addToParentAccounts = () => {
     var account = new Account(
       this.state.accountName, 
       this.props.incomeAfterBills,
@@ -48,7 +46,6 @@ class ParentAccountCreator extends Component {
           <button onClick={this.addToParentAccounts}>Add Account</button>
         </fieldset>
       </div>
-
     )
   }
 }

@@ -96,7 +96,7 @@ class Bank extends Component {
         />
 
       <div >
-        <AccountList parentAccounts={parentAccounts} />
+        <ParentAccountList parentAccounts={parentAccounts} />
       </div>
 
     </div>
@@ -104,7 +104,7 @@ class Bank extends Component {
   }
 }
 
-function AccountList(props) {
+function ParentAccountList(props) {
   const accounts = props.parentAccounts;
   const accountListItems = accounts.map((account) => 
       <ParentAccount key={account.accountName} parentAccount={account} />

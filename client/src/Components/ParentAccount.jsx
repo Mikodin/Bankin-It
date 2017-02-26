@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ParentAccountCreator from './ParentAccountCreator.jsx';
 import Account from '../Models/Account.js';
-
+import { Button } from 'reactstrap';
 import './ParentAccount.css';
 
 class ParentAccount extends Component {
@@ -10,6 +10,7 @@ class ParentAccount extends Component {
 
     this.state = {
       mainAccount: new Account('', 0, 0),
+      showCreator: false,
     }
   }
 
@@ -26,6 +27,11 @@ class ParentAccount extends Component {
 
     this.setState({mainAccount: mainAccount});
   }
+
+  toggleShowCreator = () => {
+    this.setState({showCreator: !this.state.showCreator})
+  }
+
 
   handlePercentageSubtraction(amount) {
     var newPercentage = this.state.mainAccount.percentage - amount;
@@ -44,15 +50,20 @@ class ParentAccount extends Component {
           <p>Account name: {accountName}</p>
           <p>Percentage: {percentage}</p>
           <p>Total: {total }</p>
+          <Button color='primary' onClick={this.toggleShowCreator}>Add Child Account</Button>
         </div>
 
-        <div>
-          <ParentAccountCreator
-            incomeAfterBills={total} 
-            percentage={percentage} 
-            addToParentAccounts={this.handleAddToChildAccounts}
-          />
-        </div>
+        { 
+          this.state.showCreator
+          ? <div>
+            <ParentAccountCreator
+              incomeAfterBills={total} 
+              percentage={percentage} 
+              addToParentAccounts={this.handleAddToChildAccounts}
+            />
+          </div>
+          : <div></div>
+        }
 
         <div> 
           <ul><AccountList subAccounts={subAccounts} /> </ul>
@@ -75,7 +86,6 @@ function AccountList(props) {
 
   return (
     <div>
-      <h3>Child Accounts</h3>
       <ul>{accountListItems}</ul>
     </div>
   )
