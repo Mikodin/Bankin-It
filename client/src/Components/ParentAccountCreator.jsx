@@ -33,15 +33,16 @@ class ParentAccountCreator extends Component {
   }
 
   render() {
+    const { accountName, percentage } = this.state;
     return (
       <div className="AccountCreator">
         <fieldset>
           <legend>Enter Account name</legend>
-          <input value={this.state.accountName}
+          <input value={accountName}
             onChange={this.handleAccountNameChange} />
 
           <legend>Enter the percentage of each paycheck it gets</legend>
-          <input value={this.state.percentage}
+          <input value={percentage}
             onChange={this.handlePercentageChange} />
 
           <button onClick={this.addToParentAccounts}>Add Account</button>

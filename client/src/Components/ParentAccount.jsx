@@ -36,24 +36,26 @@ class ParentAccount extends Component {
   }
 
   render() {
+    const {accountName, percentage, total, subAccounts} = this.state.mainAccount;
+
     return (
       <div className='parentAccount'>
         <div>
-          <p>Account name: {this.state.mainAccount.accountName}</p>
-          <p>Percentage: {this.state.mainAccount.percentage}</p>
-          <p>Total: { this.state.mainAccount.total }</p>
+          <p>Account name: {accountName}</p>
+          <p>Percentage: {percentage}</p>
+          <p>Total: {total }</p>
         </div>
 
         <div>
           <ParentAccountCreator
-            incomeAfterBills={this.state.mainAccount.total} 
-            percentage={this.state.mainAccount.percentage} 
+            incomeAfterBills={total} 
+            percentage={percentage} 
             addToParentAccounts={this.handleAddToChildAccounts}
           />
         </div>
 
         <div> 
-          <ul><AccountList subAccounts={this.state.mainAccount.subAccounts} /> </ul>
+          <ul><AccountList subAccounts={subAccounts} /> </ul>
         </div>
 
       </div>
