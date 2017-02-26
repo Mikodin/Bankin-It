@@ -26,9 +26,11 @@ class ParentAccount extends Component {
     mainAccount.subAccounts = childAccounts;
 
     this.setState({mainAccount: mainAccount});
+    this.setState({showCreator: !this.state.showCreator});
   }
 
-  toggleShowCreator = () => {
+  toggleShowCreator = (event) => {
+    event.preventDefault();
     this.setState({showCreator: !this.state.showCreator})
   }
 
