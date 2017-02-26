@@ -4,8 +4,6 @@ class Input extends Component {
   constructor(props) {
     super(props);
 
-    this.handleValueChange = this.handleValueChange.bind(this);
-
     this.state = {
       value: 0
     }
@@ -15,7 +13,7 @@ class Input extends Component {
     this.setState({value: this.props.value});
   }
 
-  handleValueChange(e) {
+  handleValueChange = (e) => {
     this.setState({value: e.target.value});
     this.props.handleValueChange(e.target.value);
   }

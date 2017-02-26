@@ -5,10 +5,6 @@ class SpendingAccount extends Component {
   constructor(props) {
     super(props);
 
-    this.handleSubmitAccount = this.handleSubmitAccount.bind(this);
-    this.handleAccountNameChange = this.handleAccountNameChange.bind(this);
-    this.handlePercentageChange = this.handlePercentageChange.bind(this);
-
     this.state = { 
       spendingAccount: this.props.spendingAccount,
       accountName: '',
@@ -16,16 +12,16 @@ class SpendingAccount extends Component {
     }
   }
 
-  handleSubmitAccount(e) {
+  handleSubmitAccount = (e) => {
     var account = new Account(this.state.accountName,0, this.state.percentage);
     this.props.updateSpendingAccount(account);
   }
 
-  handleAccountNameChange(e) {
+  handleAccountNameChange = (e) => {
     this.setState({accountName: e.target.value})
   } 
 
-  handlePercentageChange(e) {
+  handlePercentageChange = (e) => {
     this.setState({percentage: e.target.value})
   } 
 

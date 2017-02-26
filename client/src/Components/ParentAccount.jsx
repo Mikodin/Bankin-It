@@ -8,8 +8,6 @@ class ParentAccount extends Component {
   constructor(props) {
     super(props);
 
-    this.handleAddToChildAccounts = this.handleAddToChildAccounts.bind(this);
-
     this.state = {
       mainAccount: new Account('', 0, 0),
     }
@@ -19,7 +17,7 @@ class ParentAccount extends Component {
     this.setState({mainAccount: this.props.parentAccount});
   }
 
-  handleAddToChildAccounts(account) {
+  handleAddToChildAccounts = (account) => {
     var mainAccount = this.state.mainAccount;
     var childAccounts = this.state.mainAccount.subAccounts.slice();
     childAccounts.push(account);

@@ -9,11 +9,6 @@ class Bank extends Component {
   constructor(props) {
     super(props);
 
-    this.handlePercentageSubtraction = this.handlePercentageSubtraction.bind(this);
-    //this.handleUpdateMonthlyIncome = this.handleUpdateMonthlyIncome.bind(this);
-    this.handleUpdateBills = this.handleUpdateBills.bind(this);
-    this.handleAddToParentAccounts = this.handleAddToParentAccounts.bind(this);
-
     this.state = {
       monthlyIncome: 0,
       bills: 0,
@@ -28,18 +23,18 @@ class Bank extends Component {
     this.calculateUpdateAfterBills();
   }
 
-  handleUpdateBills(amount) {
+  handleUpdateBills = (amount) => {
     this.setState({bills: amount})
     this.calculateUpdateAfterBills();
   }
 
-  calculateUpdateAfterBills() {
+  calculateUpdateAfterBills = () => {
     this.setState((state) => ({
       incomeAfterBills: state.monthlyIncome - state.bills
     }), this.updateAccountsAfterIncomeChange);
   }
 
-  updateAccountsAfterIncomeChange() {
+  updateAccountsAfterIncomeChange = () => {
     var accounts = this.state.parentAccounts.map((account) => {
       account = account.reCalculateTotal(this.state.incomeAfterBills);
 
@@ -49,11 +44,11 @@ class Bank extends Component {
     this.handleAccountsChange(accounts);
   }
 
-  handleAccountsChange(accounts) {
+  handleAccountsChange = (accounts) => {
     this.setState({parentAccounts: accounts});
   }
 
-  handleAddToParentAccounts(account) {
+  handleAddToParentAccounts = (account) => {
     var parentAccounts = this.state.parentAccounts.slice();
     parentAccounts.push(account);
 
@@ -62,7 +57,7 @@ class Bank extends Component {
     this.setState({parentAccounts: parentAccounts});
   }
 
-  handlePercentageSubtraction(amount) {
+  handlePercentageSubtraction = (amount) => {
     var newPercentage = this.state.percentage - amount;
 
     this.setState({percentage: newPercentage})
