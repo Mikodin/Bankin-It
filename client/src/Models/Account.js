@@ -1,5 +1,5 @@
 class Account {
-  constructor(accountName , total, percentage) {
+  constructor(accountName, total, percentage) {
     this.accountName = accountName;
     this.percentage = percentage;
     this.total = total * percentage;
@@ -14,9 +14,9 @@ class Account {
     this.total = total * this.percentage;
 
     this.subAccounts = this.subAccounts.map((sub) => {
-      sub = sub.reCalculateTotal(this.total);
+      const account = sub.reCalculateTotal(this.total);
 
-      return sub;
+      return account;
     });
 
     return this;

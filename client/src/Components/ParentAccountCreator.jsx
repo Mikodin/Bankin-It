@@ -63,7 +63,8 @@ class ParentAccountCreator extends Component {
           </FormGroup>
           <FormGroup row>
             <Col sm={10}>
-              <Button color='primary' onClick={this.addToParentAccounts}>Add Account</Button>
+              <Button color='primary' onClick={this.addToParentAccounts}>
+                Add Account</Button>
             </Col>
           </FormGroup>
 

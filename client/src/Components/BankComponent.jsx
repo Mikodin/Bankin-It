@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Col, Row, Form, FormGroup, Label, Input} from 'reactstrap';
+import { Container, Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
 
 import ParentAccountCreator from './ParentAccountCreator.jsx';
 import ParentAccount from './ParentAccount.jsx';
@@ -15,23 +15,23 @@ class Bank extends Component {
       bills: 0,
       incomeAfterBills: 0,
       percentage: 1,
-      parentAccounts: []
-    }
+      parentAccounts: [],
+    };
   }
 
   handleUpdateMonthlyIncome = (event) => {
     const amount = event.target.value;
 
-    this.setState({monthlyIncome: amount})
+    this.setState({ monthlyIncome: amount });
     this.calculateUpdateAfterBills();
-  }
+  };
 
   handleUpdateBills = (event) => {
     const amount = event.target.value;
 
-    this.setState({bills: amount})
+    this.setState({ bills: amount })
     this.calculateUpdateAfterBills();
-  }
+  };
 
   calculateUpdateAfterBills = () => {
     this.setState((state) => ({
@@ -79,6 +79,7 @@ class Bank extends Component {
         <Container>
           <Form>
             <h4>Monthlies</h4>
+
             <FormGroup row>
               <Label for="monthlyIncome" sm={2}>Income</Label>
               <Col sm={2}>
@@ -91,6 +92,7 @@ class Bank extends Component {
                   placeholder="Enter your monthly income" />
               </Col>
             </FormGroup>
+
             <FormGroup row>
               <Label for="monthlyBills" sm={2}>Bills</Label>
               <Col sm={2}>
@@ -106,8 +108,7 @@ class Bank extends Component {
           </Form>
 
           <div>
-            <p>Income After bills:</p>
-            <p>{incomeAfterBills}</p>
+            <p>Income After bills: {incomeAfterBills}</p>
           </div>
 
           <h4>Create a parent account</h4>
