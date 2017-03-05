@@ -2,13 +2,15 @@
   margin-left: 15px;
 }
 
-.horizontal-aligned {
-  width: 100;
-  border: 1px solid #c3c3c3;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-align-content: center;
-  align-content: center;
+.bankin-header {
+  font-size: 4em;
+  color: #216C2A;
+}
+
+.income-after-bills {
+}
+
+.header {
+  text-align: left; 
+  padding: 20px !important;
 }

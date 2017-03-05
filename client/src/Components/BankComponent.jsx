@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Container, Col, Row, Form, 
+  FormGroup, Label, Input, Jumbotron } from 'reactstrap';
 
 import ParentAccountCreator from './ParentAccountCreator.jsx';
 import ParentAccount from './ParentAccount.jsx';
@@ -74,42 +75,60 @@ class Bank extends Component {
 
     return (
       <div className="Bank">
-        <h1>Bankin-it</h1>
+        <Jumbotron fluid className='header'>
+          <Container fluid>
+            <h1 
+              className="bankin-header" 
+              style={{fontFamily: 'Barrio, cursive'}}> 
+              Bankin
+              <span className="text-warning">-it
+              </span>
+            </h1>
+          </Container>
+        </Jumbotron>
 
         <Container>
-          <Form>
-            <h4>Monthlies</h4>
+          <h4>Monthlies</h4>
 
-            <FormGroup row>
-              <Label for="monthlyIncome" sm={2}>Income</Label>
-              <Col sm={2}>
-                <Input 
-                  id="monthlyIncome" 
-                  name="monthlyIncome" 
-                  type="number" 
-                  value={monthlyIncome}
-                  onChange={this.handleUpdateMonthlyIncome}
-                  placeholder="Enter your monthly income" />
-              </Col>
-            </FormGroup>
+          <Row>
+            <Col sm={12}>
+              <Form inline>
+                <FormGroup >
+                  <Label for="monthlyIncome" sm={2}>Income</Label>
+                  <Input 
+                    id="monthlyIncome" 
+                    name="monthlyIncome" 
+                    type="number" 
+                    value={monthlyIncome}
+                    onChange={this.handleUpdateMonthlyIncome}
+                    placeholder="Enter your monthly income" />
+                </FormGroup>
+                {' '}
+                <FormGroup>
+                  <Label for="monthlyBills" sm={2}>Bills</Label>
+                  <Input 
+                    id="monthlyBills"
+                    name="monthlyBills"
+                    type="number"
+                    value={bills}
+                    onChange={this.handleUpdateBills}
+                    placeholder="Enter your monthly bills" />
+                </FormGroup>
+                {''}
+              </Form>
+            </Col>
+          </Row>
 
-            <FormGroup row>
-              <Label for="monthlyBills" sm={2}>Bills</Label>
-              <Col sm={2}>
-                <Input 
-                  id="monthlyBills"
-                  name="monthlyBills"
-                  type="number"
-                  value={bills}
-                  onChange={this.handleUpdateBills}
-                  placeholder="Enter your monthly bills" />
-              </Col>
-            </FormGroup>
-          </Form>
-
-          <div>
-            <p>Income After bills: {incomeAfterBills}</p>
-          </div>
+          <Row>
+            <Col sm={12}>
+              <Jumbotron style={{textAlign: 'left', padding: 10 + 'px'}}>
+                <h3 className='income-after-bills' >
+                  Income After bills: 
+                </h3>
+                <h2>{incomeAfterBills}</h2>
+              </Jumbotron>
+            </Col>
+          </Row>
 
           <h4>Create a parent account</h4>
           <ParentAccountCreator
