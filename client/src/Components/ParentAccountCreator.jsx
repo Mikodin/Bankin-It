@@ -18,6 +18,7 @@ class ParentAccountCreator extends Component {
   }
 
   handlePercentageChange = (event) => {
+    if (event.target.value > 100) return;
     this.setState({percentage: event.target.value});
   }
 
