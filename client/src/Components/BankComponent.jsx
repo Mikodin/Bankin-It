@@ -20,6 +20,7 @@ class Bank extends Component {
     };
   }
 
+  //property initializer
   handleUpdateMonthlyIncome = (event) => {
     const amount = event.target.value;
 
@@ -35,9 +36,11 @@ class Bank extends Component {
   };
 
   calculateUpdateAfterBills = () => {
+
     this.setState((state) => ({
       incomeAfterBills: state.monthlyIncome - state.bills
     }), this.updateAccountsAfterIncomeChange);
+
   }
 
   updateAccountsAfterIncomeChange = () => {

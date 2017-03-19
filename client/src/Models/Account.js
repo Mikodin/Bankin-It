@@ -8,16 +8,6 @@ class Account {
     this.reCalculateTotal(this.total);
   }
 
-  calculateTotal(total) {
-    const decimal = this.convertPercentageToDecimal(this.percentage);
-
-    return total * decimal;
-  }
-
-  convertPercentageToDecimal(percent) {
-    return percent / 100;
-  }
-
   reCalculateTotal(total) {
     this.total = this.calculateTotal(total);
 
@@ -28,6 +18,16 @@ class Account {
     });
 
     return this;
+  }
+
+  calculateTotal(total) {
+    const decimal = this.convertPercentageToDecimal(this.percentage);
+
+    return total * decimal;
+  }
+
+  convertPercentageToDecimal(percent) {
+    return percent / 100;
   }
 
   addAccount(account) {
