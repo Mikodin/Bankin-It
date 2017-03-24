@@ -1,38 +1,43 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
-import Account from '../Models/Account.js';
+import Account from '../Models/Account';
 
 class ParentAccountCreator extends Component {
+  static propTypes = {
+    incomeAfterBills: PropTypes.number,
+    addToParentAccounts: PropTypes.func,
+  }
+
+  static defaultProps = {
+    incomeAfterBills: 0,
+    addToParentAccounts: {},
+  }
+
   constructor(props) {
     super(props);
 
     this.state = {
       accountName: '',
       percentage: 0,
-    }
+    };
   }
 
   handleAccountNameChange = (event) => {
-    this.setState({accountName: event.target.value});
+    this.setState({ accountName: event.target.value });
   }
 
   handlePercentageChange = (event) => {
-    let input = event.target.value;
+    const input = event.target.value;
 
-    this.setState({percentage: input});
-
-    if (this.isValidNumberInput(input)) {
-    }
+    this.setState({ percentage: input });
 
     if (this.state.percentage === '' || this.isValidNumberInput(input))
-      this.setState({percentage: input});
-
-    return;
+      this.setState({ percentage: input });
   }
 
   isValidNumberInput(input) {
-    let reg = /^\d+$/;
+    const reg = /^\d+$/;
 
     return reg.test(input);
   }
@@ -40,10 +45,10 @@ class ParentAccountCreator extends Component {
   addToParentAccounts = (event) => {
     event.preventDefault();
 
-    var account = new Account(
-      this.state.accountName, 
+    const account = new Account(
+      this.state.accountName,
       this.props.incomeAfterBills,
-      this.state.percentage)
+      this.state.percentage);
 
     this.props.addToParentAccounts(account);
   }

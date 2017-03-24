@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Container, Col, Row, Form, 
+import { Container, Col, Row, Form,
   FormGroup, Label, Input, Jumbotron } from 'reactstrap';
 
-import ParentAccountCreator from './ParentAccountCreator.jsx';
-import ParentAccount from './ParentAccount.jsx';
+import ParentAccountCreator from './ParentAccountCreator';
+import ParentAccount from './ParentAccount';
 
 import './BankComponent.css';
 
@@ -20,7 +20,6 @@ class Bank extends Component {
     };
   }
 
-  //property initializer
   handleUpdateMonthlyIncome = (event) => {
     const amount = event.target.value;
 
@@ -31,58 +30,56 @@ class Bank extends Component {
   handleUpdateBills = (event) => {
     const amount = event.target.value;
 
-    this.setState({ bills: amount })
+    this.setState({ bills: amount });
     this.calculateUpdateAfterBills();
   };
 
   calculateUpdateAfterBills = () => {
-
     this.setState((state) => ({
-      incomeAfterBills: state.monthlyIncome - state.bills
+      incomeAfterBills: state.monthlyIncome - state.bills,
     }), this.updateAccountsAfterIncomeChange);
-
   }
 
   updateAccountsAfterIncomeChange = () => {
-    var accounts = this.state.parentAccounts.map((account) => {
-      account = account.reCalculateTotal(this.state.incomeAfterBills);
+    const accounts = this.state.parentAccounts.map((account) => {
+      const updatedAcc = account.reCalculateTotal(this.state.incomeAfterBills);
 
-      return account;
+      return updatedAcc;
     });
 
     this.handleAccountsChange(accounts);
   }
 
   handleAccountsChange = (accounts) => {
-    this.setState({parentAccounts: accounts});
+    this.setState({ parentAccounts: accounts });
   }
 
   handleAddToParentAccounts = (account) => {
-    var parentAccounts = this.state.parentAccounts.slice();
+    const parentAccounts = this.state.parentAccounts.slice();
     parentAccounts.push(account);
 
     this.handlePercentageSubtraction(account.percentage);
 
-    this.setState({parentAccounts: parentAccounts});
+    this.setState({ parentAccounts });
   }
 
   handlePercentageSubtraction = (amount) => {
-    var newPercentage = this.state.percentage - amount;
+    const newPercentage = this.state.percentage - amount;
 
-    this.setState({percentage: newPercentage})
+    this.setState({ percentage: newPercentage });
   }
 
   render() {
-    const {monthlyIncome, bills, incomeAfterBills, parentAccounts,
-      percentage} = this.state;
+    const { monthlyIncome, bills, incomeAfterBills, parentAccounts,
+      percentage } = this.state;
 
     return (
       <div className="Bank">
-        <Jumbotron fluid className='header'>
+        <Jumbotron fluid className="header">
           <Container fluid>
-            <h1 
-              className="bankin-header" 
-              style={{fontFamily: 'Barrio, cursive'}}> 
+            <h1
+              className="bankin-header"
+              style={{ fontFamily: 'Barrio, cursive' }}>
               Bankin
               <span className="text-warning">-it
               </span>
@@ -98,10 +95,10 @@ class Bank extends Component {
               <Form inline>
                 <FormGroup >
                   <Label for="monthlyIncome" sm={2}>Income</Label>
-                  <Input 
-                    id="monthlyIncome" 
-                    name="monthlyIncome" 
-                    type="number" 
+                  <Input
+                    id="monthlyIncome"
+                    name="monthlyIncome"
+                    type="number"
                     value={monthlyIncome}
                     onChange={this.handleUpdateMonthlyIncome}
                     placeholder="Enter your monthly income" />
@@ -109,7 +106,7 @@ class Bank extends Component {
                 {' '}
                 <FormGroup>
                   <Label for="monthlyBills" sm={2}>Bills</Label>
-                  <Input 
+                  <Input
                     id="monthlyBills"
                     name="monthlyBills"
                     type="number"
@@ -124,9 +121,9 @@ class Bank extends Component {
 
           <Row>
             <Col sm={12}>
-              <Jumbotron style={{textAlign: 'left', padding: 10 + 'px'}}>
-                <h3 className='income-after-bills' >
-                  Income After bills: 
+              <Jumbotron style={{ textAlign: 'left', padding: `${10}px` }}>
+                <h3 className="income-after-bills" >
+                  Income After bills:
                 </h3>
                 <h2>{incomeAfterBills}</h2>
               </Jumbotron>
@@ -135,8 +132,8 @@ class Bank extends Component {
 
           <h4>Create a parent account</h4>
           <ParentAccountCreator
-            incomeAfterBills={incomeAfterBills} 
-            percentage={percentage} 
+            incomeAfterBills={incomeAfterBills}
+            percentage={percentage}
             addToParentAccounts={this.handleAddToParentAccounts}
           />
 
@@ -152,10 +149,10 @@ class Bank extends Component {
 
 function ParentAccountList(props) {
   const accounts = props.parentAccounts;
-  const accountListItems = accounts.map((account) => 
-      <Col key={account.accountName} sm="4">
+  const accountListItems = accounts.map((account) =>
+      <Col key={account.accountName} sm="6">
         <ParentAccount parentAccount={account} />
-      </Col>
+      </Col>,
   );
 
   return (
@@ -167,7 +164,7 @@ function ParentAccountList(props) {
         </Row>
       </Container>
     </div>
-  )
+  );
 }
 
 export default Bank;
