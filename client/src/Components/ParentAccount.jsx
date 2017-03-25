@@ -8,10 +8,12 @@ import './ParentAccount';
 class ParentAccount extends Component {
   static propTypes = {
     parentAccount: PropTypes.instanceOf(Account),
+    deleteAccount: PropTypes.func,
   }
 
   static defaultProps = {
     parentAccount: {},
+    deleteAccount: undefined,
   }
 
   constructor(props) {
@@ -47,6 +49,13 @@ class ParentAccount extends Component {
     this.setState({ showCreator: !this.state.showCreator });
   }
 
+  deleteAccount = () => {
+    this.props.deleteAccount ?
+      this.props.deleteAccount(this.state.mainAccount)
+      :
+      this.setState({ mainAccount: {} });
+  }
+
 
   handlePercentageSubtraction(amount) {
     const newPercentage = this.state.mainAccount.percentage - amount;
@@ -66,19 +75,26 @@ class ParentAccount extends Component {
           <p>Account name: {accountName}</p>
           <p>Percentage: {percentage}</p>
           <p>Total: {total }</p>
-          <Button color="primary" onClick={this.toggleShowCreator}>Add Child Account</Button>
+          <Button color="primary" onClick={this.toggleShowCreator}>
+            Add Child Account
+          </Button>
+          <Button color="danger" onClick={this.deleteAccount}>
+            Delete Account
+          </Button>
         </div>
 
         {
           this.state.showCreator
-          ? <div>
+          ?
+          <div>
             <ParentAccountCreator
               incomeAfterBills={total}
               percentage={percentage}
               addToParentAccounts={this.handleAddToChildAccounts}
             />
           </div>
-          : <div />
+          :
+          <div />
         }
 
         <div>
@@ -111,4 +127,6 @@ AccountList.propTypes = {
   subAccounts: PropTypes.arrayOf(PropTypes.instanceOf(Account)),
 };
 
-AccountList.defaultProps = { subAccounts: [] };
+AccountList.defaultProps = {
+  subAccounts: [],
+};

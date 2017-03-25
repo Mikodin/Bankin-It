@@ -1,13 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Container, Col, Row, Form,
   FormGroup, Label, Input, Jumbotron } from 'reactstrap';
 
+import Account from '../Models/Account';
 import ParentAccountCreator from './ParentAccountCreator';
 import ParentAccount from './ParentAccount';
 
 import './BankComponent.css';
 
 class Bank extends Component {
+
+
   constructor(props) {
     super(props);
 
@@ -59,6 +62,13 @@ class Bank extends Component {
     parentAccounts.push(account);
 
     this.handlePercentageSubtraction(account.percentage);
+
+    this.setState({ parentAccounts });
+  }
+
+  handleRemoveFromParentAccounts = (account) => {
+    const parentAccounts = this.state.parentAccounts.filter(parentAcc =>
+      parentAcc.accountName !== account.accountName);
 
     this.setState({ parentAccounts });
   }
@@ -138,7 +148,10 @@ class Bank extends Component {
           />
 
         <div>
-          <ParentAccountList parentAccounts={parentAccounts} />
+          <ParentAccountList
+            parentAccounts={parentAccounts}
+            deleteAccount={this.handleRemoveFromParentAccounts}
+          />
         </div>
 
       </Container>
@@ -149,9 +162,13 @@ class Bank extends Component {
 
 function ParentAccountList(props) {
   const accounts = props.parentAccounts;
+  const deleteAccount = props.deleteAccount;
   const accountListItems = accounts.map((account) =>
       <Col key={account.accountName} sm="6">
-        <ParentAccount parentAccount={account} />
+        <ParentAccount
+          parentAccount={account}
+          deleteAccount={deleteAccount}
+        />
       </Col>,
   );
 
@@ -166,5 +183,15 @@ function ParentAccountList(props) {
     </div>
   );
 }
+
+ParentAccountList.propTypes = {
+  parentAccounts: PropTypes.arrayOf(PropTypes.instanceOf(Account)),
+  deleteAccount: PropTypes.func,
+};
+
+ParentAccountList.defaultProps = {
+  parentAccounts: [],
+  deleteAccount: undefined,
+};
 
 export default Bank;

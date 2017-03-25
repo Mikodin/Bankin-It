@@ -70,6 +70,7 @@ class ParentAccountCreator extends Component {
                 placeholder="Enter a unique account name" />
             </Col>
           </FormGroup>
+
           <FormGroup row>
             <Label for="accountPercentage" sm={2}>Percentage</Label>
             <Col sm={6}>
@@ -82,6 +83,7 @@ class ParentAccountCreator extends Component {
                 placeholder="Enter what percentage of the whole it gets" />
             </Col>
           </FormGroup>
+
           <FormGroup row>
             <Col sm={10}>
               <Button color="primary" onClick={this.addToParentAccounts}>
