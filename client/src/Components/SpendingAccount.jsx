@@ -1,40 +1,53 @@
-import React, { Component } from 'react';
-import Account from '../Models/Account.js';
+import React, { Component, PropTypes } from 'react';
+import Account from '../Models/Account';
 
 class SpendingAccount extends Component {
+  static propTypes = {
+    spendingAccount: PropTypes.instanceOf(Account),
+    updateSpendingAccount: PropTypes.func,
+  }
+
+  static defaultProps = {
+    spendingAccount: {},
+    updateSpendingAccount: () => {},
+  }
+
   constructor(props) {
     super(props);
 
-    this.state = { 
+    this.state = {
       spendingAccount: this.props.spendingAccount,
       accountName: '',
-      percentage: 0
-    }
+      percentage: 0,
+    };
   }
 
-  handleSubmitAccount = (e) => {
-    var account = new Account(this.state.accountName,0, this.state.percentage);
+  handleSubmitAccount = () => {
+    const account = new Account(
+      this.state.accountName, 0, this.state.percentage);
     this.props.updateSpendingAccount(account);
   }
 
   handleAccountNameChange = (e) => {
-    this.setState({accountName: e.target.value})
-  } 
+    this.setState({ accountName: e.target.value });
+  }
 
   handlePercentageChange = (e) => {
-    this.setState({percentage: e.target.value})
-  } 
+    this.setState({ percentage: e.target.value });
+  }
 
   render() {
     return (
       <div className="SpendingAccount">
         <fieldset>
           <legend>Spending Account</legend>
-          <input value={this.state.accountName}
+          <input
+            value={this.state.accountName}
             onChange={this.handleAccountNameChange} />
 
           <legend>Enter the percentage of each paycheck you want to spend</legend>
-          <input value={this.state.percentage}
+          <input
+            value={this.state.percentage}
             onChange={this.handlePercentageChange} />
 
           <button onClick={this.handleSubmitAccount}>Add Account</button>
@@ -44,8 +57,7 @@ class SpendingAccount extends Component {
         <p>{this.props.spendingAccount.percentage}</p>
         <p>{this.props.spendingAccount.total}</p>
       </div>
-    )
-
+    );
   }
 }
 

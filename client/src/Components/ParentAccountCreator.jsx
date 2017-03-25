@@ -61,10 +61,10 @@ class ParentAccountCreator extends Component {
           <FormGroup row>
             <Label for="accountName" sm={2}>Account Name</Label>
             <Col sm={6}>
-              <Input 
-                id="accountName" 
-                name="accountName" 
-                type="text" 
+              <Input
+                id="accountName"
+                name="accountName"
+                type="text"
                 value={accountName}
                 onChange={this.handleAccountNameChange}
                 placeholder="Enter a unique account name" />
@@ -73,7 +73,7 @@ class ParentAccountCreator extends Component {
           <FormGroup row>
             <Label for="accountPercentage" sm={2}>Percentage</Label>
             <Col sm={6}>
-              <Input 
+              <Input
                 id="percentage"
                 name="percentage"
                 type="number"
@@ -84,7 +84,7 @@ class ParentAccountCreator extends Component {
           </FormGroup>
           <FormGroup row>
             <Col sm={10}>
-              <Button color='primary' onClick={this.addToParentAccounts}>
+              <Button color="primary" onClick={this.addToParentAccounts}>
                 Add Account</Button>
             </Col>
           </FormGroup>
@@ -92,8 +92,8 @@ class ParentAccountCreator extends Component {
         </Form>
       </div>
 
-    )
+    );
   }
 }
 
-export default ParentAccountCreator ;
+export default ParentAccountCreator;
