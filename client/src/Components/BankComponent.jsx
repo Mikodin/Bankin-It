@@ -39,6 +39,7 @@ class Bank extends Component {
 
     if (isValidNumberInput(amount))
       this.setState({ bills: amount });
+
     this.calculateUpdateAfterBills();
   };
 

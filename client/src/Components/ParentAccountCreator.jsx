@@ -24,6 +24,10 @@ class ParentAccountCreator extends Component {
     };
   }
 
+  focusOnAccountNameInput = () => {
+    this.accountNameInput.focus();
+  }
+
   handleAccountNameChange = (event) => {
     this.setState({ accountName: event.target.value });
   }
@@ -48,8 +52,15 @@ class ParentAccountCreator extends Component {
         percentage);
 
       this.props.addToParentAccounts(account);
+
+      this.setState({
+        accountName: '',
+        percentage: '',
+      });
+      this.focusOnAccountNameInput();
     }
   }
+
 
   render() {
     const { accountName, percentage } = this.state;
@@ -63,6 +74,7 @@ class ParentAccountCreator extends Component {
                 id="accountName"
                 name="accountName"
                 type="text"
+                getRef={(input) => (this.accountNameInput = input)}
                 value={accountName}
                 onChange={this.handleAccountNameChange}
                 placeholder="Enter a unique account name" />
