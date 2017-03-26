@@ -56,7 +56,6 @@ class ParentAccount extends Component {
       this.setState({ mainAccount: {} });
   }
 
-
   handlePercentageSubtraction(amount) {
     const newPercentage = this.state.mainAccount.percentage - amount;
     const mainAccount = this.state.mainAccount;
@@ -71,17 +70,20 @@ class ParentAccount extends Component {
 
     return (
       <div className="parentAccount">
-        <div>
-          <p>Account name: {accountName}</p>
-          <p>Percentage: {percentage}</p>
-          <p>Total: {total }</p>
-          <Button color="primary" onClick={this.toggleShowCreator}>
-            Add Child Account
-          </Button>
-          <Button color="danger" onClick={this.deleteAccount}>
-            Delete Account
-          </Button>
-        </div>
+        {accountName &&
+          <div>
+            <p>Account name: {accountName}</p>
+            <p>Percentage: {percentage}</p>
+            <p>Total: {total }</p>
+            <Button color="primary" onClick={this.toggleShowCreator}>
+              Add Child Account
+            </Button>
+            <Button color="danger" onClick={this.deleteAccount}>
+              Delete Account
+            </Button>
+          </div>
+        }
+
 
         {
           this.state.showCreator
