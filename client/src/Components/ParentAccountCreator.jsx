@@ -19,7 +19,7 @@ class ParentAccountCreator extends Component {
 
     this.state = {
       accountName: '',
-      percentage: 0,
+      percentage: '',
     };
   }
 
@@ -30,27 +30,30 @@ class ParentAccountCreator extends Component {
   handlePercentageChange = (event) => {
     const input = event.target.value;
 
-    this.setState({ percentage: input });
-
-    if (this.state.percentage === '' || this.isValidNumberInput(input))
+    if (this.isValidNumberInput(input)) {
       this.setState({ percentage: input });
+    }
   }
 
   isValidNumberInput(input) {
-    const reg = /^\d+$/;
+    const reg = /^$|\d+$/;
 
     return reg.test(input);
   }
 
   addToParentAccounts = (event) => {
     event.preventDefault();
+    const { accountName, percentage } = this.state;
+    const { incomeAfterBills } = this.props;
 
-    const account = new Account(
-      this.state.accountName,
-      this.props.incomeAfterBills,
-      this.state.percentage);
+    if (accountName && percentage) {
+      const account = new Account(
+        accountName,
+        incomeAfterBills,
+        percentage);
 
-    this.props.addToParentAccounts(account);
+      this.props.addToParentAccounts(account);
+    }
   }
 
   render() {
@@ -77,7 +80,9 @@ class ParentAccountCreator extends Component {
               <Input
                 id="percentage"
                 name="percentage"
-                type="number"
+                type="text"
+                pattern="[0-9]*"
+                inputMode="numeric"
                 value={percentage}
                 onChange={this.handlePercentageChange}
                 placeholder="Enter what percentage of the whole it gets" />
