@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import MdAddBox from 'react-icons/lib/md/add-box';
 
 import { isValidNumberInput } from '../Utilities/InputValidation.Utility';
 import Account from '../Models/Account';
@@ -97,9 +98,11 @@ class ParentAccountCreator extends Component {
           </FormGroup>
 
           <FormGroup row>
-            <Col sm={10}>
+            <Col sm={{ size: 6, push: 2, pull: 2, offset: 4 }}>
               <Button color="primary" onClick={this.addToParentAccounts}>
-                Add Account</Button>
+                <MdAddBox style={{ fontSize: '22px', marginRight: '5px' }} />
+                Add Account
+              </Button>
             </Col>
           </FormGroup>
 

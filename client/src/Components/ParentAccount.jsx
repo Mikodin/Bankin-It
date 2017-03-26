@@ -1,9 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { Button } from 'reactstrap';
+import MdDelete from 'react-icons/lib/md/delete';
+import MdAddBox from 'react-icons/lib/md/add-box';
+
 
 import ParentAccountCreator from './ParentAccountCreator';
 import Account from '../Models/Account';
-import './ParentAccount';
+import './ParentAccount.css';
 
 class ParentAccount extends Component {
   static propTypes = {
@@ -68,6 +71,11 @@ class ParentAccount extends Component {
     const { accountName, percentage, total, subAccounts } =
       this.state.mainAccount;
 
+    const faStyle = {
+      fontSize: '20px',
+      marginRight: '2px',
+    };
+
     return (
       <div className="parentAccount">
         {accountName &&
@@ -75,11 +83,13 @@ class ParentAccount extends Component {
             <p>Account name: {accountName}</p>
             <p>Percentage: {percentage}</p>
             <p>Total: {total }</p>
-            <Button color="primary" onClick={this.toggleShowCreator}>
-              Add Child Account
+            <Button outline color="danger" onClick={this.deleteAccount}>
+              <MdDelete style={faStyle} />
+              Remove
             </Button>
-            <Button color="danger" onClick={this.deleteAccount}>
-              Delete Account
+            <Button color="primary" onClick={this.toggleShowCreator}>
+              <MdAddBox style={faStyle} />
+              Add Child
             </Button>
           </div>
         }

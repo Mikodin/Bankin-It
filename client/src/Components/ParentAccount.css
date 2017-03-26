@@ -1,3 +1,7 @@
 .ParentAccount {
   width: 70px;
 }
+
+Button {
+  margin: 0 5px 0 5px;
+}
