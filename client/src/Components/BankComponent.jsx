@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Container, Col, Row, Form,
   FormGroup, Label, Input, Jumbotron } from 'reactstrap';
 
+import { isValidNumberInput } from '../Utilities/InputValidation.Utility';
 import Account from '../Models/Account';
 import ParentAccountCreator from './ParentAccountCreator';
 import ParentAccount from './ParentAccount';
@@ -26,7 +27,7 @@ class Bank extends Component {
   handleUpdateMonthlyIncome = (event) => {
     const amount = event.target.value;
 
-    if (this.isValidNumberInput(amount)) {
+    if (isValidNumberInput(amount)) {
       this.setState({ monthlyIncome: amount });
     }
 
@@ -36,16 +37,10 @@ class Bank extends Component {
   handleUpdateBills = (event) => {
     const amount = event.target.value;
 
-    if (this.isValidNumberInput(amount))
+    if (isValidNumberInput(amount))
       this.setState({ bills: amount });
     this.calculateUpdateAfterBills();
   };
-
-  isValidNumberInput(input) {
-    const reg = /^$|\d+$/;
-
-    return reg.test(input);
-  }
 
   calculateUpdateAfterBills = () => {
     this.setState((state) => ({

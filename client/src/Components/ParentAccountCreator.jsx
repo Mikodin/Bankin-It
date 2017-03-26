@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
+import { isValidNumberInput } from '../Utilities/InputValidation.Utility';
 import Account from '../Models/Account';
 
 class ParentAccountCreator extends Component {
@@ -30,15 +31,9 @@ class ParentAccountCreator extends Component {
   handlePercentageChange = (event) => {
     const input = event.target.value;
 
-    if (this.isValidNumberInput(input) && input <= 100) {
+    if (isValidNumberInput(input) && input <= 100) {
       this.setState({ percentage: input });
     }
-  }
-
-  isValidNumberInput(input) {
-    const reg = /^$|\d+$/;
-
-    return reg.test(input);
   }
 
   addToParentAccounts = (event) => {
