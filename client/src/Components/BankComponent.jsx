@@ -1,17 +1,17 @@
-import React, { Component, PropTypes } from 'react';
+import firebase from 'firebase';
+
+import React, { Component } from 'react';
 import { Container, Col, Row, Form,
   FormGroup, Label, Input, Jumbotron } from 'reactstrap';
 
 import { isValidNumberInput } from '../Utilities/InputValidation.Utility';
-import Account from '../Models/Account';
 import ParentAccountCreator from './ParentAccountCreator';
-import ParentAccount from './ParentAccount';
+
+import ParentAccountList from '../Containers/ParentAccountList';
 
 import './BankComponent.css';
 
 class Bank extends Component {
-
-
   constructor(props) {
     super(props);
 
@@ -22,6 +22,18 @@ class Bank extends Component {
       percentage: 1,
       parentAccounts: [],
     };
+  }
+
+  componentDidMount() {
+      /*
+    this.firebaseRef = firebase.database().ref('bankin-it');
+    this.firebaseRef.orderByChild('bankin-it').on('value', snap => {
+      console.log(snap);
+      snap.forEach((bank) => {
+        console.log(bank);
+      });
+    });
+    */
   }
 
   handleUpdateMonthlyIncome = (event) => {
@@ -165,39 +177,5 @@ class Bank extends Component {
     );
   }
 }
-
-function ParentAccountList(props) {
-  const accounts = props.parentAccounts;
-  const deleteAccount = props.deleteAccount;
-  const accountListItems = accounts.map((account) =>
-      <Col key={account.accountName} sm="6">
-        <ParentAccount
-          parentAccount={account}
-          deleteAccount={deleteAccount}
-        />
-      </Col>,
-  );
-
-  return (
-    <div>
-      <h3>Main Accounts</h3>
-      <Container>
-        <Row>
-          {accountListItems}
-        </Row>
-      </Container>
-    </div>
-  );
-}
-
-ParentAccountList.propTypes = {
-  parentAccounts: PropTypes.arrayOf(PropTypes.instanceOf(Account)),
-  deleteAccount: PropTypes.func,
-};
-
-ParentAccountList.defaultProps = {
-  parentAccounts: [],
-  deleteAccount: undefined,
-};
 
 export default Bank;

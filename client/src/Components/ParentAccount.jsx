@@ -6,6 +6,7 @@ import MdAddBox from 'react-icons/lib/md/add-box';
 
 import ParentAccountCreator from './ParentAccountCreator';
 import Account from '../Models/Account';
+import SubAccountList from '../Containers/SubAccountList';
 import './ParentAccount.css';
 
 class ParentAccount extends Component {
@@ -110,7 +111,7 @@ class ParentAccount extends Component {
         }
 
         <div>
-          <ul><AccountList subAccounts={subAccounts} /> </ul>
+          <ul><SubAccountList subAccounts={subAccounts} /> </ul>
         </div>
 
       </div>
@@ -119,26 +120,3 @@ class ParentAccount extends Component {
 }
 
 export default ParentAccount;
-
-function AccountList(props) {
-  const accounts = props.subAccounts;
-  const accountListItems = accounts.map((account) =>
-      <li key={account.accountName}>
-        <ParentAccount parentAccount={account} />
-      </li>,
-  );
-
-  return (
-    <div>
-      <ul>{accountListItems}</ul>
-    </div>
-  );
-}
-
-AccountList.propTypes = {
-  subAccounts: PropTypes.arrayOf(PropTypes.instanceOf(Account)),
-};
-
-AccountList.defaultProps = {
-  subAccounts: [],
-};
