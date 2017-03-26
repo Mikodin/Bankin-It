@@ -26,16 +26,26 @@ class Bank extends Component {
   handleUpdateMonthlyIncome = (event) => {
     const amount = event.target.value;
 
-    this.setState({ monthlyIncome: amount });
+    if (this.isValidNumberInput(amount)) {
+      this.setState({ monthlyIncome: amount });
+    }
+
     this.calculateUpdateAfterBills();
   };
 
   handleUpdateBills = (event) => {
     const amount = event.target.value;
 
-    this.setState({ bills: amount });
+    if (this.isValidNumberInput(amount))
+      this.setState({ bills: amount });
     this.calculateUpdateAfterBills();
   };
+
+  isValidNumberInput(input) {
+    const reg = /^$|\d+$/;
+
+    return reg.test(input);
+  }
 
   calculateUpdateAfterBills = () => {
     this.setState((state) => ({
@@ -68,7 +78,7 @@ class Bank extends Component {
 
   handleRemoveFromParentAccounts = (account) => {
     const parentAccounts = this.state.parentAccounts.filter(parentAcc =>
-      parentAcc.accountName !== account.accountName);
+        parentAcc.accountName !== account.accountName);
 
     this.setState({ parentAccounts });
   }
@@ -108,7 +118,7 @@ class Bank extends Component {
                   <Input
                     id="monthlyIncome"
                     name="monthlyIncome"
-                    type="number"
+                    type="text"
                     value={monthlyIncome}
                     onChange={this.handleUpdateMonthlyIncome}
                     placeholder="Enter your monthly income" />
@@ -119,7 +129,7 @@ class Bank extends Component {
                   <Input
                     id="monthlyBills"
                     name="monthlyBills"
-                    type="number"
+                    type="text"
                     value={bills}
                     onChange={this.handleUpdateBills}
                     placeholder="Enter your monthly bills" />
