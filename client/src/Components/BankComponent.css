@@ -1,5 +1,15 @@
 .Bank {
-  margin-left: 15px;
+}
+
+.input-section {
+  text-align: left;
+  background-color: #F0EFE4;
+  padding-bottom: 1px;
+}
+
+.accounts {
+  color: white;
+  text-align: left;
 }
 
 .bankin-header {

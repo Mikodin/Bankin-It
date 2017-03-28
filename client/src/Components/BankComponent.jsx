@@ -25,15 +25,9 @@ class Bank extends Component {
   }
 
   componentDidMount() {
-      /*
     this.firebaseRef = firebase.database().ref('bankin-it');
-    this.firebaseRef.orderByChild('bankin-it').on('value', snap => {
-      console.log(snap);
-      snap.forEach((bank) => {
-        console.log(bank);
-      });
+    this.firebaseRef.on('value', dataSnap => {
     });
-    */
   }
 
   handleUpdateMonthlyIncome = (event) => {
@@ -103,77 +97,80 @@ class Bank extends Component {
 
     return (
       <div className="Bank">
-        <Jumbotron fluid className="header">
-          <Container fluid>
-            <h1
-              className="bankin-header"
-              style={{ fontFamily: 'Barrio, cursive' }}>
-              Bankin
-              <span className="text-warning">-it
-              </span>
-            </h1>
+        <div className="input-section">
+          <Jumbotron fluid className="header">
+            <Container fluid>
+              <h1
+                className="bankin-header"
+                style={{ fontFamily: 'Barrio, cursive' }}>
+                Bankin
+                <span className="text-warning">-it
+                </span>
+              </h1>
+            </Container>
+          </Jumbotron>
+
+          <Container>
+            <h4>Monthlies</h4>
+
+            <Row>
+              <Col sm={12}>
+                <Form inline>
+                  <FormGroup >
+                    <Label for="monthlyIncome" sm={2}>Income</Label>
+                    <Input
+                      id="monthlyIncome"
+                      name="monthlyIncome"
+                      type="text"
+                      value={monthlyIncome}
+                      onChange={this.handleUpdateMonthlyIncome}
+                      placeholder="Enter your monthly income" />
+                  </FormGroup>
+                  {' '}
+                  <FormGroup>
+                    <Label for="monthlyBills" sm={2}>Bills</Label>
+                    <Input
+                      id="monthlyBills"
+                      name="monthlyBills"
+                      type="text"
+                      value={bills}
+                      onChange={this.handleUpdateBills}
+                      placeholder="Enter your monthly bills" />
+                  </FormGroup>
+                  {''}
+                </Form>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col sm={12}>
+                <Jumbotron style={{ textAlign: 'left', padding: `${10}px` }}>
+                  <h3 className="income-after-bills" >
+                    Income after bills:
+                  </h3>
+                  <h2>{incomeAfterBills}</h2>
+                </Jumbotron>
+              </Col>
+            </Row>
+
+            <h4>Create a parent account</h4>
+            <ParentAccountCreator
+              incomeAfterBills={incomeAfterBills}
+              percentage={percentage}
+              addToParentAccounts={this.handleAddToParentAccounts}
+            />
           </Container>
-        </Jumbotron>
-
-        <Container>
-          <h4>Monthlies</h4>
-
-          <Row>
-            <Col sm={12}>
-              <Form inline>
-                <FormGroup >
-                  <Label for="monthlyIncome" sm={2}>Income</Label>
-                  <Input
-                    id="monthlyIncome"
-                    name="monthlyIncome"
-                    type="text"
-                    value={monthlyIncome}
-                    onChange={this.handleUpdateMonthlyIncome}
-                    placeholder="Enter your monthly income" />
-                </FormGroup>
-                {' '}
-                <FormGroup>
-                  <Label for="monthlyBills" sm={2}>Bills</Label>
-                  <Input
-                    id="monthlyBills"
-                    name="monthlyBills"
-                    type="text"
-                    value={bills}
-                    onChange={this.handleUpdateBills}
-                    placeholder="Enter your monthly bills" />
-                </FormGroup>
-                {''}
-              </Form>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col sm={12}>
-              <Jumbotron style={{ textAlign: 'left', padding: `${10}px` }}>
-                <h3 className="income-after-bills" >
-                  Income After bills:
-                </h3>
-                <h2>{incomeAfterBills}</h2>
-              </Jumbotron>
-            </Col>
-          </Row>
-
-          <h4>Create a parent account</h4>
-          <ParentAccountCreator
-            incomeAfterBills={incomeAfterBills}
-            percentage={percentage}
-            addToParentAccounts={this.handleAddToParentAccounts}
-          />
-
-        <div>
-          <ParentAccountList
-            parentAccounts={parentAccounts}
-            deleteAccount={this.handleRemoveFromParentAccounts}
-          />
         </div>
 
-      </Container>
-    </div>
+        <div className="accounts">
+          <Container>
+            <ParentAccountList
+              parentAccounts={parentAccounts}
+              deleteAccount={this.handleRemoveFromParentAccounts}
+            />
+          </Container>
+        </div>
+      </div>
     );
   }
 }

@@ -6,7 +6,9 @@ import Bank from './Components/BankComponent';
 class App extends Component {
   render() {
     return (
-      <Bank />
+      <div className="App">
+        <Bank />
+      </div>
     );
   }
 }
