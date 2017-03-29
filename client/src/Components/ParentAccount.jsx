@@ -86,7 +86,7 @@ class ParentAccount extends Component {
     };
 
     return (
-      <div className={`ParentAccount ${collapsed ? '' : ''}`}>
+      <div className={`ParentAccount ${collapsed ? 'collapsed' : 'expanded'}`}>
         {accountName && !collapsed ?
           <div>
             <Button outline color="warning" onClick={this.toggleCollapse}>
@@ -115,7 +115,6 @@ class ParentAccount extends Component {
           </p>
         </div>
         }
-
 
         {
           this.state.showCreator
