@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Button } from 'reactstrap';
 import MdDelete from 'react-icons/lib/md/delete';
 import MdAddBox from 'react-icons/lib/md/add-box';
+import MdMinus from 'react-icons/lib/md/remove-circle-outline';
 
 
 import ParentAccountCreator from './ParentAccountCreator';
@@ -26,6 +27,7 @@ class ParentAccount extends Component {
     this.state = {
       mainAccount: new Account('', 0, 0),
       showCreator: false,
+      collapsed: false,
     };
   }
 
@@ -53,6 +55,11 @@ class ParentAccount extends Component {
     this.setState({ showCreator: !this.state.showCreator });
   }
 
+  toggleCollapse = (event) => {
+    event.preventDefault();
+    this.setState({ collapsed: !this.state.collapsed });
+  }
+
   deleteAccount = () => {
     this.props.deleteAccount ?
       this.props.deleteAccount(this.state.mainAccount)
@@ -69,6 +76,7 @@ class ParentAccount extends Component {
   }
 
   render() {
+    const { collapsed } = this.state;
     const { accountName, percentage, total, subAccounts } =
       this.state.mainAccount;
 
@@ -78,12 +86,17 @@ class ParentAccount extends Component {
     };
 
     return (
-      <div className="parentAccount">
-        {accountName &&
+      <div className={`ParentAccount ${collapsed ? '' : ''}`}>
+        {accountName && !collapsed ?
           <div>
+            <Button outline color="warning" onClick={this.toggleCollapse}>
+              <MdMinus style={faStyle} />
+              Collapse
+            </Button>
             <p>Account name: {accountName}</p>
             <p>Percentage: {percentage}</p>
             <p>Total: {total }</p>
+
             <Button outline color="danger" onClick={this.deleteAccount}>
               <MdDelete style={faStyle} />
               Remove
@@ -93,6 +106,14 @@ class ParentAccount extends Component {
               Add Child
             </Button>
           </div>
+          :
+          <div>
+            <p>{`${accountName} - Total ${total}`}
+              <Button outline color="warning" onClick={this.toggleCollapse}>
+                <MdAddBox style={faStyle} />
+              </Button>
+          </p>
+        </div>
         }
 
 
