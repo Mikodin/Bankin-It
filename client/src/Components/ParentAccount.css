@@ -16,12 +16,10 @@
   }
 }
 
-/*
 .expanded {
   animation-name: expand;
   animation-duration: .2s;
 }
-*/
 
 @keyframes expand {
   from {
