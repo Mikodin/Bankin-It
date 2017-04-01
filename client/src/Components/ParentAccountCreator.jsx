@@ -93,7 +93,7 @@ class ParentAccountCreator extends Component {
                 inputMode="numeric"
                 value={percentage}
                 onChange={this.handlePercentageChange}
-                placeholder="Enter what percentage of the whole it gets" />
+                placeholder="Enter a percentage" />
             </Col>
           </FormGroup>
 

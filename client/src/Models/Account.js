@@ -1,5 +1,6 @@
 class Account {
   constructor(accountName, total, percentage) {
+    this.id = Math.floor(Math.random() * 100000);
     this.accountName = accountName;
     this.percentage = percentage;
     this.total = total;
