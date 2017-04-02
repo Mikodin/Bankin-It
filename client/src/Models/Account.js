@@ -1,4 +1,4 @@
-class Account {
+export default class Account {
   constructor(accountName, total, percentage) {
     this.id = Math.floor(Math.random() * 100000);
     this.accountName = accountName;
@@ -35,5 +35,3 @@ class Account {
     this.subAccounts.push(account);
   }
 }
-
-export default Account;

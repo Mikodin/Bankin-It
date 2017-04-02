@@ -1,12 +1,18 @@
-import firebase from 'firebase';
+// import firebase from 'firebase';
 
 import React, { Component } from 'react';
 import { Container, Col, Row, Form,
   FormGroup, Label, Input, Jumbotron } from 'reactstrap';
 
+import { connect } from 'react-redux';
+
+import { addBill } from '../Actions/addBill.action';
+import { deleteBill } from '../Actions/deleteBill.action';
+
 import { isValidNumberInput } from '../Utilities/InputValidation.Utility';
 import ParentAccountCreator from './ParentAccountCreator';
 
+import BillCreator from './BillCreator';
 import ParentAccountList from '../Containers/ParentAccountList';
 
 import './BankComponent.css';
@@ -25,9 +31,11 @@ class Bank extends Component {
   }
 
   componentDidMount() {
+    /*
     this.firebaseRef = firebase.database().ref('bankin-it');
     this.firebaseRef.on('value', dataSnap => {
     });
+    */
   }
 
   handleUpdateMonthlyIncome = (event) => {
@@ -127,6 +135,7 @@ class Bank extends Component {
                       placeholder="Enter your monthly income" />
                   </FormGroup>
                   {' '}
+
                   <FormGroup>
                     <Label for="monthlyBills" sm={2}>Bills</Label>
                     <Input
@@ -139,6 +148,12 @@ class Bank extends Component {
                   </FormGroup>
                   {''}
                 </Form>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col sm={8}>
+                <BillCreator />
               </Col>
             </Row>
 
@@ -175,4 +190,6 @@ class Bank extends Component {
   }
 }
 
-export default Bank;
+const mapStateToProps = (state) => ({ bills: state.bills });
+
+export default connect(mapStateToProps, { addBill, deleteBill })(Bank);
