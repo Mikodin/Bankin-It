@@ -151,7 +151,7 @@ class Bank extends Component {
               </Col>
             </Row>
 
-            <Row>
+            <Row style={{ marginTop: `${20}px` }}>
               <Col sm={8}>
                 <BillCreator />
               </Col>
