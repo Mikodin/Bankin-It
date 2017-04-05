@@ -1,6 +1,6 @@
 // import firebase from 'firebase';
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Container, Col, Row, Form,
   FormGroup, Label, Input, Jumbotron } from 'reactstrap';
 
@@ -14,10 +14,20 @@ import ParentAccountCreator from './ParentAccountCreator';
 
 import BillCreator from './BillCreator';
 import ParentAccountList from '../Containers/ParentAccountList';
+import BillList from '../Containers/BillList';
+import Bill from '../Models/Bill';
 
 import './BankComponent.css';
 
 class Bank extends Component {
+  static propTypes = {
+    bills: PropTypes.arrayOf(PropTypes.instanceOf(Bill)),
+  };
+
+  static defaultProps = {
+    bills: [],
+  };
+
   constructor(props) {
     super(props);
 
@@ -154,6 +164,11 @@ class Bank extends Component {
             <Row style={{ marginTop: `${20}px` }}>
               <Col sm={8}>
                 <BillCreator />
+              </Col>
+              <Col sm={4}>
+                <BillList
+                  bills={this.props.bills}
+                />
               </Col>
             </Row>
 

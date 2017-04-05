@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Col, Button, Form, FormGroup, Label, Input, Container } from 'reactstrap';
+import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 import { connect } from 'react-redux';
 
