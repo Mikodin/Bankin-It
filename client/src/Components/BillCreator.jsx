@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import Bill from '../Models/Bill';
 import { addBill } from '../Actions/addBill.action';
 import { deleteBill } from '../Actions/deleteBill.action';
+import { calculateTotal } from '../Actions/calculateTotal.action';
 
 class BillCreator extends Component {
   static propTypes = {
@@ -29,6 +30,7 @@ class BillCreator extends Component {
     event.preventDefault();
     const bill = new Bill(this.state.billName, this.state.billAmount);
     this.props.addBill(bill);
+    this.props.calculateTotal(this.props.bills);
   }
 
   deleteBill = () => {
@@ -86,4 +88,4 @@ class BillCreator extends Component {
 
 const mapStateToProps = (state) => ({ bills: state.bills });
 
-export default connect(mapStateToProps, { addBill, deleteBill })(BillCreator);
+export default connect(mapStateToProps, { addBill, deleteBill, calculateTotal })(BillCreator);

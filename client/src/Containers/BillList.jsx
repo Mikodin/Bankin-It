@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { Col, Card, CardImg, CardText, CardBlock, CardTitle, CardSubtitle,
   ListGroup, ListGroupItem } from 'reactstrap';
 
 import Bill from '../Models/Bill';
+import { calculateTotal } from '../Actions/calculateTotal.action';
 
 // import './BillList.css';
 
@@ -21,7 +23,6 @@ class BillList extends Component {
 
   render() {
     const bills = this.props.bills;
-    // const deleteAccount = props.deleteAccount;
     const billListItems = bills.map((bill) => {
       return (
         <ListGroupItem key={bill.name}>
@@ -29,10 +30,6 @@ class BillList extends Component {
         </ListGroupItem>
       );
     });
-
-    let total = 0;
-    for (let i = 0; i < bills.length; i++)
-      total += +bills[i].amount;
 
     return (
       <div>
@@ -43,12 +40,13 @@ class BillList extends Component {
               {billListItems} 
             </ListGroup>
           </CardBlock>
-          <p>Total: {total}</p>
+          <p>Total: {this.props.total}</p>
         </Card>
       </div>
     );
   }
 
 }
-export default BillList;
 
+const mapStateToProps = (state) => ({ total: state.total });
+export default connect(mapStateToProps, { calculateTotal })(BillList);
