@@ -29,8 +29,15 @@ class BillCreator extends Component {
   addBill = (event) => {
     event.preventDefault();
     const bill = new Bill(this.state.billName, this.state.billAmount);
-    this.props.addBill(bill);
-    this.props.calculateTotal(this.props.bills);
+    this.addBillPromise(bill)
+      .then((data => this.props.calculateTotal(this.props.bills)));
+  }
+
+  addBillPromise(bill) {
+    return new Promise((resolve, reject) => {
+      this.props.addBill(bill);
+      resolve(true);
+    })
   }
 
   deleteBill = () => {
@@ -86,6 +93,19 @@ class BillCreator extends Component {
   }
 }
 
+
+/*
+function mapDispatchToProps (dispatch) {
+    return({
+      addBill: (bill) => {dispatch(ADD_BILL)},
+      deleteBill: (bill) => {dispatch(DELETE_BILL)},
+      calculateTotal: (bills) => {dispatch(CALCULATE_TOTAL)},
+    })
+};
+*/
+
 const mapStateToProps = (state) => ({ bills: state.bills });
 
-export default connect(mapStateToProps, { addBill, deleteBill, calculateTotal })(BillCreator);
+
+export default connect(mapStateToProps, 
+  { addBill, deleteBill, calculateTotal })(BillCreator);

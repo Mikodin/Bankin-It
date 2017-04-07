@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 
 import { addBill } from '../Actions/addBill.action';
 import { deleteBill } from '../Actions/deleteBill.action';
+import { calculateTotal } from '../Actions/calculateTotal.action';
 
 import { isValidNumberInput } from '../Utilities/InputValidation.Utility';
 import ParentAccountCreator from './ParentAccountCreator';
@@ -22,10 +23,12 @@ import './BankComponent.css';
 class Bank extends Component {
   static propTypes = {
     bills: PropTypes.arrayOf(PropTypes.instanceOf(Bill)),
+    billsTotal: PropTypes.number
   };
 
   static defaultProps = {
     bills: [],
+    billsTotal: 0,
   };
 
   constructor(props) {
@@ -69,7 +72,7 @@ class Bank extends Component {
 
   calculateUpdateAfterBills = () => {
     this.setState((state) => ({
-      incomeAfterBills: state.monthlyIncome - state.bills,
+      incomeAfterBills: state.monthlyIncome - this.props.billsTotal,
     }), this.updateAccountsAfterIncomeChange);
   }
 
@@ -205,6 +208,7 @@ class Bank extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({ bills: state.bills });
+const mapStateToProps = (state) => ({ bills: state.bills, billsTotal: state.total });
 
-export default connect(mapStateToProps, { addBill, deleteBill })(Bank);
+export default connect(mapStateToProps, 
+  { addBill, deleteBill, calculateTotal})(Bank);
