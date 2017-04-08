@@ -1,36 +1,46 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Card, CardText, CardBlock, ListGroup, ListGroupItem } from 'reactstrap';
+import { Card,
+  CardText,
+  CardBlock,
+  ListGroup,
+  ListGroupItem,
+  Button } from 'reactstrap';
 
 import './BillList.css';
 import Bill from '../Models/Bill';
 import { calculateTotal } from '../Actions/calculateTotal.action';
-
-// import './BillList.css';
+import { deleteBill } from '../Actions/deleteBill.action';
 
 class BillList extends Component {
-  static propTypes = {
-    bills: PropTypes.arrayOf(PropTypes.instanceOf(Bill)),
-    total: PropTypes.number,
-  };
-
-  static defaultProps = {
-    bills: [],
-    deleteBill: undefined,
-    total: 0,
-  };
   constructor(props) {
     super(props);
+  }
+
+  deleteBillUpdateTotal= (bill) => {
+    this.deleteBillPromise(bill)
+      .then(() => {
+        this.props.calculateTotal(this.props.bills);
+      });
+  }
+
+  deleteBillPromise(bill) {
+    return new Promise((resolve, reject) => {
+      if (!bill) reject(false);
+      this.props.deleteBill(bill.name);
+      resolve(true);
+    });
   }
 
   render() {
     const bills = this.props.bills;
     const billListItems = bills.map((bill) =>
-      (
-        <ListGroupItem key={bill.name}>
-          <CardText>{bill.name}: ${bill.amount}</CardText>
-        </ListGroupItem>
-      ),
+        (
+          <ListGroupItem key={bill.name}>
+            <CardText>{bill.name}: ${bill.amount}</CardText>
+            <Button onClick={() => this.deleteBillUpdateTotal(bill)}>Delete</Button>
+          </ListGroupItem>
+        ),
     );
 
     return (
@@ -47,8 +57,21 @@ class BillList extends Component {
       </div>
     );
   }
-
 }
 
-const mapStateToProps = (state) => ({ total: state.total });
-export default connect(mapStateToProps, { calculateTotal })(BillList);
+BillList.propTypes = {
+  bills: PropTypes.arrayOf(PropTypes.instanceOf(Bill)),
+  total: PropTypes.number,
+  deleteBill: PropTypes.func,
+  calculateTotal: PropTypes.func,
+};
+
+BillList.defaultProps = {
+  bills: [],
+  deleteBill: undefined,
+  total: 0,
+  calculateTotal: undefined,
+};
+
+const mapStateToProps = (state) => ({ bills: state.bills, total: state.total });
+export default connect(mapStateToProps, { calculateTotal, deleteBill })(BillList);

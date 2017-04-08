@@ -6,7 +6,7 @@ export default function (state = [], action) {
       return state.concat(action.payload);
 
     case DELETE_BILL:
-      return state.filter(bill => bill.billName !== action.payload);
+      return state.filter(bill => bill.billName !== action.payload.billName);
 
     default:
       return state;

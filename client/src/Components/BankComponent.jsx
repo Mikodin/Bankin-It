@@ -170,9 +170,7 @@ class Bank extends Component {
                   updateIncomeAfterBills={this.calculateUpdateAfterBills} />
               </Col>
               <Col sm={4}>
-                <BillList
-                  bills={this.props.bills}
-                />
+                <BillList />
               </Col>
             </Row>
 
@@ -209,7 +207,7 @@ class Bank extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({ bills: state.bills, billsTotal: state.total });
+const mapStateToProps = (state) => ({ billsTotal: state.total });
 
 export default connect(mapStateToProps,
   { addBill, deleteBill, calculateTotal })(Bank);
