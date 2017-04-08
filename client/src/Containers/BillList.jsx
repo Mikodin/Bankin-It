@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Col, Card, CardImg, CardText, CardBlock, CardTitle, CardSubtitle,
-  ListGroup, ListGroupItem } from 'reactstrap';
+import { Card, CardText, CardBlock, ListGroup, ListGroupItem } from 'reactstrap';
 
+import './BillList.css';
 import Bill from '../Models/Bill';
 import { calculateTotal } from '../Actions/calculateTotal.action';
 
@@ -11,11 +11,13 @@ import { calculateTotal } from '../Actions/calculateTotal.action';
 class BillList extends Component {
   static propTypes = {
     bills: PropTypes.arrayOf(PropTypes.instanceOf(Bill)),
+    total: PropTypes.number,
   };
 
   static defaultProps = {
     bills: [],
     deleteBill: undefined,
+    total: 0,
   };
   constructor(props) {
     super(props);
@@ -23,24 +25,24 @@ class BillList extends Component {
 
   render() {
     const bills = this.props.bills;
-    const billListItems = bills.map((bill) => {
-      return (
+    const billListItems = bills.map((bill) =>
+      (
         <ListGroupItem key={bill.name}>
-          <CardText>{bill.name}</CardText>
+          <CardText>{bill.name}: ${bill.amount}</CardText>
         </ListGroupItem>
-      );
-    });
+      ),
+    );
 
     return (
       <div>
+        <h2>Bills</h2>
         <Card>
-          <CardTitle>Bills</CardTitle>
           <CardBlock>
-            <ListGroup>
-              {billListItems} 
+            <ListGroup className="bill-list">
+              {billListItems}
             </ListGroup>
           </CardBlock>
-          <p>Total: {this.props.total}</p>
+          <h3>Total: {this.props.total}</h3>
         </Card>
       </div>
     );

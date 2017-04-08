@@ -10,12 +10,18 @@ import { calculateTotal } from '../Actions/calculateTotal.action';
 
 class BillCreator extends Component {
   static propTypes = {
+    calculateTotal: PropTypes.func,
+    updateIncomeAfterBills: PropTypes.func,
     addBill: PropTypes.func,
     deleteBill: PropTypes.func,
+    bills: PropTypes.arrayOf(PropTypes.instanceOf(Bill)),
   }
   static defaultProps = {
     addBill: undefined,
     deleteBill: undefined,
+    bills: [],
+    calculateTotal: undefined,
+    updateIncomeAfterBills: undefined,
   }
   constructor(props) {
     super(props);
@@ -30,14 +36,19 @@ class BillCreator extends Component {
     event.preventDefault();
     const bill = new Bill(this.state.billName, this.state.billAmount);
     this.addBillPromise(bill)
-      .then((data => this.props.calculateTotal(this.props.bills)));
+      .then(() => {
+        this.props.calculateTotal(this.props.bills);
+        this.props.updateIncomeAfterBills();
+      });
   }
 
   addBillPromise(bill) {
     return new Promise((resolve, reject) => {
+      if (!bill) reject(false);
+
       this.props.addBill(bill);
       resolve(true);
-    })
+    });
   }
 
   deleteBill = () => {
@@ -93,19 +104,7 @@ class BillCreator extends Component {
   }
 }
 
-
-/*
-function mapDispatchToProps (dispatch) {
-    return({
-      addBill: (bill) => {dispatch(ADD_BILL)},
-      deleteBill: (bill) => {dispatch(DELETE_BILL)},
-      calculateTotal: (bills) => {dispatch(CALCULATE_TOTAL)},
-    })
-};
-*/
-
 const mapStateToProps = (state) => ({ bills: state.bills });
 
-
-export default connect(mapStateToProps, 
+export default connect(mapStateToProps,
   { addBill, deleteBill, calculateTotal })(BillCreator);

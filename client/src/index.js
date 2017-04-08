@@ -10,7 +10,7 @@ import App from './App';
 import './index.css';
 
 import { rootReducer }from './Reducers/index.js';
-import './Config/firebaseConfig.js';
+// import './Config/firebaseConfig.js';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

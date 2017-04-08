@@ -23,7 +23,7 @@ import './BankComponent.css';
 class Bank extends Component {
   static propTypes = {
     bills: PropTypes.arrayOf(PropTypes.instanceOf(Bill)),
-    billsTotal: PropTypes.number
+    billsTotal: PropTypes.number,
   };
 
   static defaultProps = {
@@ -166,7 +166,8 @@ class Bank extends Component {
 
             <Row style={{ marginTop: `${20}px` }}>
               <Col sm={8}>
-                <BillCreator />
+                <BillCreator
+                  updateIncomeAfterBills={this.calculateUpdateAfterBills} />
               </Col>
               <Col sm={4}>
                 <BillList
@@ -210,5 +211,5 @@ class Bank extends Component {
 
 const mapStateToProps = (state) => ({ bills: state.bills, billsTotal: state.total });
 
-export default connect(mapStateToProps, 
-  { addBill, deleteBill, calculateTotal})(Bank);
+export default connect(mapStateToProps,
+  { addBill, deleteBill, calculateTotal })(Bank);
