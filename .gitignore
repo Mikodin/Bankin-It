@@ -1,11 +1,7 @@
-/api/node_modules
-/api/npm-debug.log
-/client/npm-debug.log
-/client/node_modules
-/client/old
+node_modules
+npm-debug.log
 .*.*.swp
 .*.*.swo
 *.swp
 *.swo
-.vagrant
 .git
