@@ -1,4 +1,4 @@
-class Bill {
+export default class Bill {
   constructor(name, amount) {
     // TODO: Hacky but it works for now.  I'll pull in a library at some point
     this.id = Math.floor(Math.random() * 100000);
@@ -6,5 +6,3 @@ class Bill {
     this.amount = amount;
   }
 }
-
-export default Bill;

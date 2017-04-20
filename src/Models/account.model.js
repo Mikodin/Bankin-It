@@ -6,6 +6,7 @@ export default class Account {
     this.percentageOfParent = percentage;
     this.amount = this.calculateAmount(initialAmount, this.percentageOfParent);
     this.percent = 100;
+    this.childAccounts = [];
   }
 
   calculateAmount(amount, percentage) {
