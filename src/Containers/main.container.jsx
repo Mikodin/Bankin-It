@@ -43,11 +43,24 @@ class MainContainer extends Component {
         </Button>
       )
 
+    const addChildAccount = 
+      (
+        <Button
+          onClick={() => {
+            this.props.addAccount(
+              new Account('child', 50, 10),
+              this.props.accounts[0])
+          }}>
+          TESTING: Add Child Accounts
+        </Button>
+      )
+
     return (
       <Container>
         {header}
         <MonthliesContainer />
         {logAccounts}
+        {addChildAccount}
       </Container>
     );
   }
