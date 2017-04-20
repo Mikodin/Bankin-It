@@ -4,7 +4,7 @@ import {
   MODIFY_ACCOUNT,
 } from './types';
 
-export const addAccount = (parentAccount, childAccount) =>
+export const addAccount = (childAccount, parentAccount = undefined) =>
   dispatch => {
     dispatch({
       type: ADD_ACCOUNT,

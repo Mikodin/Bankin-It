@@ -10,6 +10,7 @@
     "react"
   ],
   "rules" : {
+    "no-plusplus": 0,
     "arrow-body-style": 0,
     "allowForLoopAfterthoughts": 0,
     "import/prefer-default-export": 0,

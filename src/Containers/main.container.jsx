@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Header, Icon } from 'semantic-ui-react';
+import { Container, Header, Icon, Button } from 'semantic-ui-react';
 
+import { addAccount } from '../Actions/account.actions';
+import Account from '../Models/account.model';
 import MonthliesContainer from './monthlies.container';
 
 class MainContainer extends Component {
@@ -10,6 +12,12 @@ class MainContainer extends Component {
 
     this.state = {
     };
+  }
+
+  componentWillMount() {
+    this.props.addAccount(new Account('Parent1', 50, 50));
+    this.props.addAccount(new Account('Parent2', 50, 50));
+    console.log(this.props.accounts);
   }
 
   render() {
@@ -27,10 +35,19 @@ class MainContainer extends Component {
         </Header>
       );
 
+    const logAccounts = 
+      (
+        <Button
+          onClick={() => {console.log(this.props.accounts)}}>
+          TESTING: Print Accounts To Console
+        </Button>
+      )
+
     return (
       <Container>
         {header}
         <MonthliesContainer />
+        {logAccounts}
       </Container>
     );
   }
@@ -38,11 +55,14 @@ class MainContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    accounts: state.accounts,
   };
+};
+
+const mapDispatchToProps = {
+  addAccount,
 };
 
 export default connect(
   mapStateToProps,
-  {
-  },
-)(MainContainer);
+  mapDispatchToProps)(MainContainer);
