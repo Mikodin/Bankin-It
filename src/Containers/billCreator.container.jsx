@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Input, Button, Form } from 'semantic-ui-react';
 
-import Bill from '../Models/Bill';
+import Bill from '../Models/bill.model';
 import { isValidNumberInput } from '../Utilities/inputValidation.utility';
 import { addBill, deleteBill, modifyBill } from '../Actions/bill.actions';
 

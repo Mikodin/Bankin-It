@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
 
 import '../styles.css';
-import Bill from '../Models/Bill';
+import Bill from '../Models/bill.model';
 import { deleteBill, modifyBill } from '../Actions/bill.actions';
 
 class BillList extends Component {
