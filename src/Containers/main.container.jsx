@@ -11,6 +11,8 @@ class MainContainer extends Component {
     super(props);
 
     this.state = {
+      childAccountToAddToParent1: new Account('child', 50, 10),
+      childAccountToAddToChild: new Account('childofChild', 50, 10),
     };
   }
 
@@ -27,10 +29,10 @@ class MainContainer extends Component {
           <Icon name="money" />
           Bankin-It
           <Header.Subheader>
-           The sum is more than just the parts of the whole
+            The sum is more than just the parts of the whole
           </Header.Subheader>
           <Header.Subheader>
-          Or some other cheesy quote
+            Or some other cheesy quote
           </Header.Subheader>
         </Header>
       );
@@ -43,15 +45,23 @@ class MainContainer extends Component {
         </Button>
       )
 
+
     const addChildAccount = 
       (
         <Button
           onClick={() => {
-            this.props.addAccount(
-              new Account('child', 50, 10),
-              this.props.accounts[0])
+            this.props.addAccount(this.state.childAccountToAddToParent1, this.props.accounts[0]);
           }}>
-          TESTING: Add Child Accounts
+          TESTING: Add Child To Parent
+        </Button>
+      )
+    const addChildToChildAccount = 
+      (
+        <Button
+          onClick={() => {
+            this.props.addAccount(this.state.childAccountToAddToChild, this.state.childAccountToAddToParent1);
+          }}>
+          TESTING: Add Child to Child
         </Button>
       )
 
@@ -61,6 +71,7 @@ class MainContainer extends Component {
         <MonthliesContainer />
         {logAccounts}
         {addChildAccount}
+        {addChildToChildAccount}
       </Container>
     );
   }

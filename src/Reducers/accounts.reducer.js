@@ -6,33 +6,24 @@ import {
 
 const initialState = [];
 
-let mutableState = [];
-
-function traverseAccountsAndInsert(accounts, accountToAdd, idToFind) {
-  for (let i = 0; i < accounts.length; i++) {
-    if (accounts[i].id === idToFind) {
-      accounts[i].childAccounts.push(accountToAdd);
-      return;
+function insertIntoAccountsTree(accounts, accountToAdd, idToFind) {
+  return accounts.map((account) => {
+    if (account.id === idToFind) {
+      account.childAccounts.push(accountToAdd);
+      return account;
     }
+    if (account.childAccounts.length >= 1)
+      insertIntoAccountsTree(account.childAccounts, accountToAdd, idToFind);
 
-    if (accounts[i].childAccounts.length > 1)
-      traverseAccountsAndInsert(accounts[i].childAccounts, accountToAdd, idToFind);
-  }
-}
-
-function insertAccountIntoState(state, parentAccount, childAccount) {
-  mutableState = state.slice();
-  const idToAddChildAccountTo = parentAccount.id;
-
-  traverseAccountsAndInsert(mutableState, childAccount, idToAddChildAccountTo);
-  return mutableState;
+    return account;
+  });
 }
 
 export default function accountsReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_ACCOUNT: {
       return action.parentAccount
-      ? insertAccountIntoState(state, action.parentAccount, action.payload)
+      ? insertIntoAccountsTree(state, action.payload, action.parentAccount.id)
       : state.concat(action.payload);
     }
 
