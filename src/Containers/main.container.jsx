@@ -1,25 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Header, Icon, Button } from 'semantic-ui-react';
+import { Container, Header, Icon } from 'semantic-ui-react';
 
-import { addAccount } from '../Actions/account.actions';
-import Account from '../Models/account.model';
 import MonthliesContainer from './monthlies.container';
+import AccountsContainer from './accounts.container';
 
 class MainContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      childAccountToAddToParent1: new Account('child', 50, 10),
-      childAccountToAddToChild: new Account('childofChild', 50, 10),
     };
   }
 
   componentWillMount() {
-    this.props.addAccount(new Account('Parent1', 50, 50));
-    this.props.addAccount(new Account('Parent2', 50, 50));
-    console.log(this.props.accounts);
   }
 
   render() {
@@ -37,41 +31,11 @@ class MainContainer extends Component {
         </Header>
       );
 
-    const logAccounts = 
-      (
-        <Button
-          onClick={() => {console.log(this.props.accounts)}}>
-          TESTING: Print Accounts To Console
-        </Button>
-      )
-
-
-    const addChildAccount = 
-      (
-        <Button
-          onClick={() => {
-            this.props.addAccount(this.state.childAccountToAddToParent1, this.props.accounts[0]);
-          }}>
-          TESTING: Add Child To Parent
-        </Button>
-      )
-    const addChildToChildAccount = 
-      (
-        <Button
-          onClick={() => {
-            this.props.addAccount(this.state.childAccountToAddToChild, this.state.childAccountToAddToParent1);
-          }}>
-          TESTING: Add Child to Child
-        </Button>
-      )
-
     return (
       <Container>
         {header}
         <MonthliesContainer />
-        {logAccounts}
-        {addChildAccount}
-        {addChildToChildAccount}
+        <AccountsContainer />
       </Container>
     );
   }
@@ -84,7 +48,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  addAccount,
 };
 
 export default connect(

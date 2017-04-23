@@ -6,8 +6,8 @@ import {
 
 const initialState = [];
 
-function insertIntoAccountsTree(accounts, accountToAdd, idToFind) {
-  return accounts.map((account) => {
+function insertIntoAccountsTree(accountList, accountToAdd, idToFind) {
+  return accountList.map((account) => {
     if (account.id === idToFind) {
       account.childAccounts.push(accountToAdd);
       return account;
@@ -22,9 +22,13 @@ function insertIntoAccountsTree(accounts, accountToAdd, idToFind) {
 export default function accountsReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_ACCOUNT: {
-      return action.parentAccount
-      ? insertIntoAccountsTree(state, action.payload, action.parentAccount.id)
-      : state.concat(action.payload);
+      const mutableState = state.slice();
+      return action.payload.parentAccount
+      ? insertIntoAccountsTree(
+          mutableState,
+          action.payload.childAccount,
+          action.payload.parentAccount.id)
+      : state.concat(action.payload.childAccount);
     }
 
     case DELETE_ACCOUNT:

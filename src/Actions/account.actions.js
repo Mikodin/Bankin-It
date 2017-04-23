@@ -8,8 +8,10 @@ export const addAccount = (childAccount, parentAccount = undefined) =>
   dispatch => {
     dispatch({
       type: ADD_ACCOUNT,
-      payload: childAccount,
-      parentAccount,
+      payload: {
+        childAccount,
+        parentAccount,
+      },
     });
   };
 
