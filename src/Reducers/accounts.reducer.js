@@ -2,6 +2,7 @@ import {
   ADD_ACCOUNT,
   DELETE_ACCOUNT,
   MODIFY_ACCOUNT,
+  UPDATE_INCOME,
 } from '../Actions/types';
 
 const initialState = [];
@@ -36,6 +37,10 @@ export default function accountsReducer(state = initialState, action) {
 
     case MODIFY_ACCOUNT:
       return state;
+
+    case UPDATE_INCOME:
+      return state;
+
 
     default:
       return state;

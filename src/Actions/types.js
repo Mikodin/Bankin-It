@@ -1,6 +1,7 @@
 export const ADD_BILL = 'ADD_BILL';
 export const DELETE_BILL = 'DELETE_BILL';
 export const MODIFY_BILL = 'MODIFY_BILL';
+export const UPDATE_INCOME_AFTER_BILLS = 'UPDATE_INCOME_AFTER_BILLS';
 
 export const ADD_ACCOUNT = 'ADD_ACCOUNT';
 export const DELETE_ACCOUNT = 'DELETE_ACCOUNT';
