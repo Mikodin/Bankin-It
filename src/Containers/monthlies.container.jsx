@@ -11,12 +11,16 @@ import BillList from './billList.container';
 
 class MonthliesContainer extends Component {
   static propTypes = {
-    monthlies: PropTypes.object,
+    income: PropTypes.number,
+    billsTotal: PropTypes.number,
+    incomeAfterBills: PropTypes.number,
     updateIncome: PropTypes.func,
   }
 
   static defaultProps = {
-    monthlies: {},
+    income: 0,
+    billsTotal: 0,
+    incomeAfterBills: 0,
     updateIncome: undefined,
   }
 
@@ -38,13 +42,13 @@ class MonthliesContainer extends Component {
         <Header as="h3">Monthlies</Header>
         <Input
           label="Income"
-          value={this.props.monthlies.income}
+          value={this.props.income}
           onChange={(event) => this.updateIncome(event)} />
 
         <BillCreator />
         <BillList />
-        <h3>Bills Total: {this.props.monthlies.billsTotal}</h3>
-        <h3>Income After Bills: {this.props.monthlies.incomeAfterBills}</h3>
+        <h3>Bills Total: {this.props.billsTotal}</h3>
+        <h3>Income After Bills: {this.props.incomeAfterBills}</h3>
       </div>
     );
   }
@@ -53,7 +57,9 @@ class MonthliesContainer extends Component {
 const mapStateToProps = (state) => {
   return {
     bills: state.bills,
-    monthlies: state.monthlies,
+    billsTotal: state.billsTotal,
+    income: state.income,
+    incomeAfterBills: state.incomeAfterBills,
   };
 };
 

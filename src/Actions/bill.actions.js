@@ -8,11 +8,11 @@ export const addBill = (bill) =>
     });
   };
 
-export const deleteBill = (bill) =>
+export const deleteBill = (id) =>
   dispatch => {
     dispatch({
       type: DELETE_BILL,
-      payload: bill,
+      payload: id,
     });
   };
 
