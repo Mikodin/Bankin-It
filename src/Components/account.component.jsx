@@ -13,7 +13,7 @@ export default function AccountComp(props) {
     <div>
       <h3>ID: {account.id} Name: {account.name}</h3>
       <p>Amount: {account.amount}</p>
-      <Button onClick={() => deleteAccount(account)}>
+      <Button onClick={() => deleteAccount(account.id)}>
         Delete
       </Button>
       <AccountCreator

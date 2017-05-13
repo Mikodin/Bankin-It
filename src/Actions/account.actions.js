@@ -15,11 +15,13 @@ export const addAccount = (childAccount, parentAccount = undefined) =>
     });
   };
 
-export const deleteAccount = (account) =>
+export const deleteAccount = (accountId) =>
   dispatch => {
     dispatch({
       type: DELETE_ACCOUNT,
-      payload: account,
+      payload: {
+        id: accountId,
+      },
     });
   };
 

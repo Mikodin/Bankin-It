@@ -8,8 +8,6 @@ import {
   MODIFY_ACCOUNT,
 } from '../Actions/types';
 
-import Account from '../Models/account.model';
-
 const initialState = {
   income: 0,
   bills: [],
@@ -18,32 +16,43 @@ const initialState = {
   accounts: [],
 };
 
-function insertIntoAccountsTree(accountList, accountToAdd, idToFind) {
+function insertAccountIntoTree(accountList, accountToAdd, idToFind) {
   return accountList.map((account) => {
     if (account.id === idToFind) {
       account.childAccounts.push(accountToAdd);
       return account;
     }
     if (account.childAccounts.length >= 1)
-      insertIntoAccountsTree(account.childAccounts, accountToAdd, idToFind);
+      insertAccountIntoTree(account.childAccounts, accountToAdd, idToFind);
 
     return account;
   });
 }
 
-function updateIncomeInAccountsTree(accountList, newIncome) {
+function updateIncomeInTree(accountList, newIncome) {
   return accountList.map((oldAccount) => {
     const { calculateAmount, percentageOfParent } = oldAccount;
     const amount = calculateAmount(newIncome, percentageOfParent);
-    // const account = Object.assign(new Account(), oldAccount, { amount });
-    var account = oldAccount;
+    /*
+     * TODO: Refactor
+     * I know I'm mutating the object, Object.assign isn't copying deep enough.
+     * Open for suggestions
+    */
+    const account = oldAccount;
     account.amount = amount;
 
     if (account.childAccounts.length >= 1)
-      updateIncomeInAccountsTree(account.childAccounts, amount);
+      updateIncomeInTree(account.childAccounts, amount);
 
-    console.log(account);
     return account;
+  });
+}
+
+function deleteAccountFromTree(accountList, accountIdToRemove) {
+  return accountList.filter((account) => {
+    return account.childAccounts.length >= 1
+    ? deleteAccountFromTree(account.childAccounts, accountIdToRemove)
+    : account.id !== accountIdToRemove;
   });
 }
 
@@ -52,7 +61,9 @@ export default function userReducer(state = initialState, action) {
     case UPDATE_INCOME: {
       const income = action.payload;
       const incomeAfterBills = income - state.billsTotal;
-      const accounts = updateIncomeInAccountsTree(state.accounts, incomeAfterBills);
+      const accounts = updateIncomeInTree(
+        state.accounts.slice(),
+        incomeAfterBills);
       return Object.assign({}, state, { income, incomeAfterBills, accounts });
     }
 
@@ -99,7 +110,7 @@ export default function userReducer(state = initialState, action) {
     case ADD_ACCOUNT: {
       if (action.payload.parentAccount) {
         const mutableAccounts = state.accounts.slice();
-        const accounts = insertIntoAccountsTree(
+        const accounts = insertAccountIntoTree(
           mutableAccounts,
           action.payload.childAccount,
           action.payload.parentAccount.id);
@@ -114,8 +125,11 @@ export default function userReducer(state = initialState, action) {
     case MODIFY_ACCOUNT:
       return state;
 
-    case DELETE_ACCOUNT:
-      return state;
+    case DELETE_ACCOUNT: {
+      const accounts = deleteAccountFromTree(state.accounts.slice(), action.payload.id);
+
+      return Object.assign({}, state, { accounts });
+    }
 
     default:
       return state;
