@@ -16,10 +16,13 @@ export const deleteBill = (id) =>
     });
   };
 
-export const modifyBill = (bill) =>
+export const modifyBill = (origBillId, modBill) =>
   dispatch => {
     dispatch({
       type: MODIFY_BILL,
-      payload: bill,
+      payload: {
+        origBillId,
+        modBill,
+      },
     });
   };

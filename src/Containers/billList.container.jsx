@@ -36,6 +36,7 @@ class BillList extends Component {
               onClick={() => this.props.deleteBill(bill.id)}>
               Delete Bill
             </Button>
+            <Button>Modify Bill</Button>
           </li>
         );
       });

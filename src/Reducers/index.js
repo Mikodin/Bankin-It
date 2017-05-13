@@ -8,14 +8,26 @@ import {
   MODIFY_ACCOUNT,
 } from '../Actions/types';
 
-
 const initialState = {
   income: 0,
   bills: [],
   billsTotal: 0,
-  IncomeAfterBills: 0,
-  Accounts: [],
+  incomeAfterBills: 0,
+  accounts: [],
 };
+
+function insertIntoAccountsTree(accountList, accountToAdd, idToFind) {
+  return accountList.map((account) => {
+    if (account.id === idToFind) {
+      account.childAccounts.push(accountToAdd);
+      return account;
+    }
+    if (account.childAccounts.length >= 1)
+      insertIntoAccountsTree(account.childAccounts, accountToAdd, idToFind);
+
+    return account;
+  });
+}
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
@@ -53,11 +65,32 @@ export default function userReducer(state = initialState, action) {
       });
     }
 
-    case MODIFY_BILL:
-      return state;
+    case MODIFY_BILL: {
+      const bills = state.bills.map((bill) => {
+        return bill.id === action.apyload.originBillId
+          ? action.payload.modBill
+          : bill;
+      });
 
-    case ADD_ACCOUNT:
-      return state;
+      return Object.assign({}, state, {
+        bills,
+      });
+    }
+
+    case ADD_ACCOUNT: {
+      if (action.payload.parentAccount) {
+        const mutableAccounts = state.accounts.slice();
+        const accounts = insertIntoAccountsTree(
+          mutableAccounts,
+          action.payload.childAccount,
+          action.payload.parentAccount.id);
+
+        return Object.assign({}, state, { accounts });
+      }
+
+      const accounts = [...state.accounts, action.payload.childAccount];
+      return Object.assign({}, state, { accounts });
+    }
 
     case MODIFY_ACCOUNT:
       return state;
