@@ -43,10 +43,12 @@ class AccountCreator extends Component {
   }
 
   addAccount = () => {
-    const account = new Account(
-      this.state.name,
-      this.props.incomeAfterBills,
-      this.state.percentageOfParent);
+    const { name, percentageOfParent } = this.state;
+    const amount = this.props.parentAccount
+      ? this.props.parentAccount.amount
+      : this.props.incomeAfterBills;
+    const account = new Account(name, amount, percentageOfParent);
+
     this.props.addAccount(account, this.props.parentAccount);
   }
 
@@ -75,8 +77,9 @@ class AccountCreator extends Component {
   }
 }
 
-const mapStateToProps = () => {
+const mapStateToProps = (state) => {
   return {
+    incomeAfterBills: state.incomeAfterBills,
   };
 };
 

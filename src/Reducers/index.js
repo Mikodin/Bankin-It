@@ -29,12 +29,25 @@ function insertIntoAccountsTree(accountList, accountToAdd, idToFind) {
   });
 }
 
+function updateIncomeInAccountsTree(accountList, newIncome) {
+  return accountList.map((oldAccount) => {
+    oldAccount.amount =
+      oldAccount.calculateAmount(newIncome, oldAccount.percentageOfParent);
+
+    if (oldAccount.childAccounts.length >= 1)
+      updateIncomeInAccountsTree(oldAccount.childAccounts, oldAccount.amount);
+
+    return oldAccount;
+  });
+}
+
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_INCOME: {
       const income = action.payload;
       const incomeAfterBills = income - state.billsTotal;
-      return Object.assign({}, state, { income, incomeAfterBills });
+      const accounts = updateIncomeInAccountsTree(state.accounts, incomeAfterBills);
+      return Object.assign({}, state, { income, incomeAfterBills, accounts });
     }
 
     case ADD_BILL: {
