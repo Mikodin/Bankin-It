@@ -8,6 +8,8 @@ import {
   MODIFY_ACCOUNT,
 } from '../Actions/types';
 
+import Account from '../Models/account.model';
+
 const initialState = {
   income: 0,
   bills: [],
@@ -31,13 +33,17 @@ function insertIntoAccountsTree(accountList, accountToAdd, idToFind) {
 
 function updateIncomeInAccountsTree(accountList, newIncome) {
   return accountList.map((oldAccount) => {
-    oldAccount.amount =
-      oldAccount.calculateAmount(newIncome, oldAccount.percentageOfParent);
+    const { calculateAmount, percentageOfParent } = oldAccount;
+    const amount = calculateAmount(newIncome, percentageOfParent);
+    // const account = Object.assign(new Account(), oldAccount, { amount });
+    var account = oldAccount;
+    account.amount = amount;
 
-    if (oldAccount.childAccounts.length >= 1)
-      updateIncomeInAccountsTree(oldAccount.childAccounts, oldAccount.amount);
+    if (account.childAccounts.length >= 1)
+      updateIncomeInAccountsTree(account.childAccounts, amount);
 
-    return oldAccount;
+    console.log(account);
+    return account;
   });
 }
 
