@@ -8,14 +8,16 @@ import AccountComp from '../Components/account.component';
 export default function AccountListComp(props) {
   const accountList =
     props.accounts.map(account => {
-      return (
-        <li key={account.id}>
-          <AccountComp
-            account={account}
-            deleteAccount={props.deleteAccount}
-          />
-        </li>
-      );
+      return account.id !== 'DELETE'
+        ? (
+          <li key={account.id}>
+            <AccountComp
+              account={account}
+              deleteAccount={props.deleteAccount}
+            />
+          </li>
+        )
+        : undefined;
     });
 
   return (

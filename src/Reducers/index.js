@@ -48,11 +48,25 @@ function updateIncomeInTree(accountList, newIncome) {
   });
 }
 
+  /*
 function deleteAccountFromTree(accountList, accountIdToRemove) {
   return accountList.filter((account) => {
-    return account.childAccounts.length >= 1
-    ? deleteAccountFromTree(account.childAccounts, accountIdToRemove)
-    : account.id !== accountIdToRemove;
+    account.childAccounts.length >= 1
+      ? deleteAccountFromTree(account.childAccounts, accountIdToRemove)
+      : account.id !== accountIdToRemove;
+  });
+}
+*/
+
+function deleteAccountFromTree(accountList, accountIdToRemove) {
+  return accountList.map((account) => {
+    if (account.id === accountIdToRemove)
+        account.id = 'DELETE';
+
+    if (account && account.childAccounts.length >= 1)
+      deleteAccountFromTree(account.childAccounts, accountIdToRemove);
+
+    return account;
   });
 }
 
