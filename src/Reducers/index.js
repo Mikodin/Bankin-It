@@ -109,17 +109,8 @@ export default function userReducer(state = initialState, action) {
       });
     }
 
-    case MODIFY_BILL: {
-      const bills = state.bills.map((bill) => {
-        return bill.id === action.apyload.originBillId
-          ? action.payload.modBill
-          : bill;
-      });
-
-      return Object.assign({}, state, {
-        bills,
-      });
-    }
+    case MODIFY_BILL:
+      return state;
 
     case ADD_ACCOUNT: {
       if (action.payload.parentAccount) {

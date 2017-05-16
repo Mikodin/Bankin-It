@@ -7,7 +7,7 @@ import { isValidNumberInput } from '../Utilities/inputValidation.utility';
 import { updateIncome } from '../Actions/monthly.actions';
 
 import BillCreator from './billCreator.container';
-import BillList from './billList.container';
+import BillListComp from '../Components/billList.component';
 
 class MonthliesContainer extends Component {
   static propTypes = {
@@ -46,7 +46,7 @@ class MonthliesContainer extends Component {
           onChange={(event) => this.updateIncome(event)} />
 
         <BillCreator />
-        <BillList />
+        <BillListComp />
         <h3>Bills Total: {this.props.billsTotal}</h3>
         <h3>Income After Bills: {this.props.incomeAfterBills}</h3>
       </div>
