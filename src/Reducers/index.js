@@ -82,12 +82,16 @@ export default function userReducer(state = initialState, action) {
       const billsTotal = bills.map((bill) => +bill.amount)
       .reduce((inc, amount) => inc + amount);
       const incomeAfterBills = state.income - billsTotal;
+      const accounts = updateIncomeInTree(
+        state.accounts.slice(),
+        incomeAfterBills);
 
       return Object.assign({}, state,
         {
           bills,
           billsTotal,
           incomeAfterBills,
+          accounts,
         });
     }
 
