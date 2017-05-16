@@ -41,6 +41,10 @@ class BillCreator extends Component {
     event.preventDefault();
     const bill = new Bill(this.state.name, this.state.amount);
     this.props.addBill(bill);
+    this.setState({
+      name: '',
+      amount: '',
+    });
   }
 
   render() {
