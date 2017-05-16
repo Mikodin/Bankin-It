@@ -50,6 +50,11 @@ class AccountCreator extends Component {
     const account = new Account(name, amount, percentageOfParent);
 
     this.props.addAccount(account, this.props.parentAccount);
+    this.setState({
+      name: '',
+      percentageOfParent: '',
+      percentageForChildren: '',
+    });
   }
 
   render() {
