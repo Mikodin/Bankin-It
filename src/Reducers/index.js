@@ -30,43 +30,39 @@ function insertAccountIntoTree(accountList, accountToAdd, idToFind) {
 }
 
 function updateIncomeInTree(accountList, newIncome) {
-  return accountList.map((oldAccount) => {
-    const { calculateAmount, percentageOfParent } = oldAccount;
-    const amount = calculateAmount(newIncome, percentageOfParent);
+  return accountList.map((account) => {
+    const { calculateAmount, percentageOfParent } = account;
     /*
      * TODO: Refactor
      * I know I'm mutating the object, Object.assign isn't copying deep enough.
      * Open for suggestions
     */
-    const account = oldAccount;
-    account.amount = amount;
+    // eslint-disable-next-line no-param-reassign
+    account.amount = calculateAmount(newIncome, percentageOfParent);
 
     if (account.childAccounts.length >= 1)
-      updateIncomeInTree(account.childAccounts, amount);
+      updateIncomeInTree(account.childAccounts, account.amount);
 
     return account;
   });
 }
 
-  /*
 function deleteAccountFromTree(accountList, accountIdToRemove) {
   return accountList.filter((account) => {
-    account.childAccounts.length >= 1
-      ? deleteAccountFromTree(account.childAccounts, accountIdToRemove)
-      : account.id !== accountIdToRemove;
-  });
-}
-*/
+    /*
+     * TODO: Refactor
+     * I know I'm mutating the object, Object.assign isn't copying deep enough.
+     * Open for suggestions
+    */
+    // eslint-disable-next-line no-param-reassign
+    account.childAccounts = account.childAccounts.filter((childAcc) => {
+      return childAcc.id !== accountIdToRemove;
+    });
 
-function deleteAccountFromTree(accountList, accountIdToRemove) {
-  return accountList.map((account) => {
-    if (account.id === accountIdToRemove)
-        account.id = 'DELETE';
-
-    if (account && account.childAccounts.length >= 1)
+    if (account.childAccounts)
       deleteAccountFromTree(account.childAccounts, accountIdToRemove);
 
-    return account;
+    return account.id !== accountIdToRemove;
   });
 }
 
