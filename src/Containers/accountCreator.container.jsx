@@ -38,7 +38,7 @@ class AccountCreator extends Component {
   updatePercentageOfParent = (event) => {
     const percentageOfParent = event.target.value;
 
-    if (isValidNumberInput(event.target.value))
+    if (isValidNumberInput(percentageOfParent) && percentageOfParent <= 100)
       this.setState({ percentageOfParent });
   }
 
