@@ -11,14 +11,12 @@ import BillListComp from '../Components/billList.component';
 
 class MonthliesContainer extends Component {
   static propTypes = {
-    income: PropTypes.number,
     billsTotal: PropTypes.number,
     incomeAfterBills: PropTypes.number,
     updateIncome: PropTypes.func,
   }
 
   static defaultProps = {
-    income: 0,
     billsTotal: 0,
     incomeAfterBills: 0,
     updateIncome: undefined,
@@ -28,12 +26,17 @@ class MonthliesContainer extends Component {
     super(props);
 
     this.state = {
+      income: '',
     };
   }
 
   updateIncome = (event) => {
-    if (isValidNumberInput(event.target.value))
-      this.props.updateIncome(event.target.value);
+    const input = event.target.value;
+    if (isValidNumberInput(input)) {
+      this.setState({ income: input }, () => {
+        this.props.updateIncome(this.state.income);
+      });
+    }
   }
 
   render() {
@@ -42,7 +45,8 @@ class MonthliesContainer extends Component {
         <Header as="h3">Monthlies</Header>
         <Input
           label="Income"
-          value={this.props.income}
+          placeholder="Monthly Income"
+          value={this.state.income}
           onChange={(event) => this.updateIncome(event)} />
 
         <BillCreator />
