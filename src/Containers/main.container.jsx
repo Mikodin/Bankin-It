@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Header, Icon } from 'semantic-ui-react';
 
-import Todos from './todos.container';
-import Login from './login.container';
+import HeaderContainer from './header.container';
+import { Todos } from './todos.container';
 import MonthliesContainer from './monthlies.container';
 import AccountsContainer from './accounts.container';
 
@@ -34,13 +34,15 @@ class MainContainer extends Component {
       );
 
     return (
-      <Container>
-        <Todos />
-        <Login />
-        {header}
-        <MonthliesContainer />
-        <AccountsContainer />
-      </Container>
+      <div>
+        <HeaderContainer />
+        <Container style={{ paddingTop: '50px' }}>
+          {header}
+          <Todos />
+          <MonthliesContainer />
+          <AccountsContainer />
+        </Container>
+      </div>
     );
   }
 }

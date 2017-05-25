@@ -67,7 +67,7 @@ class Login extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{marginTop: '55px'}}>
         <Form>
           <Form.Field>
             <Input
