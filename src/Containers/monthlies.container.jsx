@@ -60,10 +60,10 @@ class MonthliesContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    bills: state.bills,
-    billsTotal: state.billsTotal,
-    income: state.income,
-    incomeAfterBills: state.incomeAfterBills,
+    bills: state.userReducer.bills,
+    billsTotal: state.userReducer.billsTotal,
+    income: state.userReducer.income,
+    incomeAfterBills: state.userReducer.incomeAfterBills,
   };
 };
 

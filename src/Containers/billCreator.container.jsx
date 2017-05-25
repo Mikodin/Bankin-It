@@ -74,7 +74,7 @@ class BillCreator extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    bills: state.bills,
+    bills: state.userReducer.bills,
   };
 };
 

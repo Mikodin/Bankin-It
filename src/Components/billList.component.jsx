@@ -43,7 +43,7 @@ BillListComp.defaultProps = {
 
 const mapStateToProps = (state) => {
   return {
-    bills: state.bills,
+    bills: state.userReducer.bills,
   };
 };
 

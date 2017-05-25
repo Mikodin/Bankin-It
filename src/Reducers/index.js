@@ -1,3 +1,6 @@
+import { combineReducers } from 'redux';
+import { firebaseStateReducer } from 'react-redux-firebase';
+
 import {
   UPDATE_INCOME,
   ADD_BILL,
@@ -66,7 +69,7 @@ function deleteAccountFromTree(accountList, accountIdToRemove) {
   });
 }
 
-export default function userReducer(state = initialState, action) {
+function userReducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_INCOME: {
       const income = action.payload;
@@ -140,3 +143,8 @@ export default function userReducer(state = initialState, action) {
       return state;
   }
 }
+
+export const rootReducer = combineReducers({
+  userReducer,
+  firebase: firebaseStateReducer,
+});

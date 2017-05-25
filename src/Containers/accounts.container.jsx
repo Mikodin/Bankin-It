@@ -45,7 +45,7 @@ class AccountsContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    accounts: state.accounts,
+    accounts: state.userReducer.accounts,
   };
 };
 

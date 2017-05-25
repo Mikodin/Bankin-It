@@ -84,7 +84,7 @@ class AccountCreator extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    incomeAfterBills: state.incomeAfterBills,
+    incomeAfterBills: state.userReducer.incomeAfterBills,
   };
 };
 
