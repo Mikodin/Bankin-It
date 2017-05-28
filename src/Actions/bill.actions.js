@@ -1,3 +1,5 @@
+/* eslint jsx-a11y/img-has-alt: 0 */
+
 import { ADD_BILL, DELETE_BILL, MODIFY_BILL } from './types';
 
 export const addBill = (bill) =>

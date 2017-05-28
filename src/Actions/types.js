@@ -1,3 +1,5 @@
+/* eslint jsx-a11y/img-has-alt: 0 */
+
 export const ADD_BILL = 'ADD_BILL';
 export const DELETE_BILL = 'DELETE_BILL';
 export const MODIFY_BILL = 'MODIFY_BILL';
@@ -14,3 +16,7 @@ export const FB_LOGIN = 'FB_LOGIN';
 export const FB_GOOGLE_LOGIN = 'FB_GOOGLE_LOGIN';
 export const FB_LOGOUT = 'FB_LOGOUT';
 export const FB_ADD_BILL = 'FB_ADD_BILL';
+export const FB_ADD_ACCOUNT = 'FB_ADD_ACCOUNT';
+export const FB_UPDATE_INCOME = 'FB_UPDATE_INCOME';
+export const FB_GET_BILLS = 'FB_GET_BILLS';
+

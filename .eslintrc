@@ -7,9 +7,10 @@
   },
   "extends": ["airbnb"],
   "plugins": [
-    "react"
+    "react",
+    "jsx-a11y"
   ],
-  "rules" : {
+  "rules": {
     "no-plusplus": 0,
     "arrow-body-style": 0,
     "allowForLoopAfterthoughts": 0,

@@ -1,3 +1,5 @@
+/* eslint jsx-a11y/img-has-alt: 0 */
+
 import * as firebase from 'firebase';
 
 import {
@@ -6,6 +8,9 @@ import {
   FB_GOOGLE_LOGIN,
   FB_LOGOUT,
   FB_ADD_BILL,
+  FB_ADD_ACCOUNT,
+  FB_UPDATE_INCOME,
+  FB_GET_BILLS,
 } from './types';
 
 
@@ -88,21 +93,15 @@ export const logout = () => {
 
 export const fbAddBill = (uid, bill) => {
   return dispatch => {
-    console.log(`user ${uid} bill: ${JSON.stringify(bill)}`);
-    // let messageListRef = firebase.database().ref(`${uid}/bills`);
-    let billsRef = firebase.database().ref().child(`users/${uid}/bills`);
+    const billsRef = firebase.database().ref().child(`users/${uid}/bills`);
     billsRef.push(bill)
     .then((data) => {
-      console.log('DATA');
-      console.log(data);
       dispatch({
         type: FB_ADD_BILL,
         payload: data,
       });
     })
     .catch((error) => {
-      console.log('AB Error');
-      console.log(error);
       dispatch({
         type: FB_ADD_BILL,
         payload: error,
@@ -110,3 +109,73 @@ export const fbAddBill = (uid, bill) => {
     });
   };
 };
+
+export const fbAddAccount = (uid, account) => {
+  return dispatch => {
+    const accountsRef = firebase.database().ref().child(`users/${uid}/accounts`);
+    accountsRef.push(account)
+    .then((data) => {
+      dispatch({
+        type: FB_ADD_ACCOUNT,
+        payload: data,
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: FB_ADD_ACCOUNT,
+        payload: error,
+      });
+    });
+  };
+};
+
+export const fbUpdateIncome = (uid, income) => {
+  return dispatch => {
+    const accountsRef = firebase.database().ref().child(`users/${uid}/income`);
+    accountsRef.set({ income })
+    .then((data) => {
+      dispatch({
+        type: FB_UPDATE_INCOME,
+        payload: data,
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: FB_UPDATE_INCOME,
+        payload: error,
+      });
+    });
+  };
+};
+
+export const fbGetBills = (uid) => {
+  return dispatch => {
+    firebase.database().ref().child(`users/${uid}/bills`).once('value')
+      .then((snapshot) => {
+        console.log(snapshot);
+        dispatch({
+          type: FB_GET_BILLS,
+          payload: snapshot,
+        });
+      });
+  };
+};
+
+/*
+export const fbGetBills = (uid) => {
+  return new Promise((resolve, reject) => {
+    return dispatch => {
+      firebase.database().ref().child(`users/${uid}/bills`).once('value')
+        .then((snapshot) => {
+          console.log(snapshot);
+          resolve(snapshot);
+          dispatch({
+            type: FB_GET_BILLS,
+            payload: snapshot,
+          });
+        });
+    };
+
+  });
+};
+*/

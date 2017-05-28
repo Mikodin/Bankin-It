@@ -1,3 +1,5 @@
+/* eslint jsx-a11y/img-has-alt: 0 */
+
 import React, { Component } from 'react';
 import { Sidebar, Button, Menu, Icon } from 'semantic-ui-react';
 
@@ -16,8 +18,8 @@ class HeaderContainer extends Component {
       <div>
           <Sidebar as={Menu} direction="top" visible>
             <Menu.Item name="home">
-              <Icon name="home" />
-              Home
+              <Icon name="travel" />
+              The Stache
             </Menu.Item>
             <Menu.Item name="gamepad">
               <Button onClick={this.toggleLogin}>Login</Button>

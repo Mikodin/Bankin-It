@@ -1,3 +1,4 @@
+/* eslint jsx-a11y/img-has-alt: 0 */
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
@@ -11,10 +12,14 @@ import { fbAddBill } from '../Actions/firebase.actions';
 class BillCreator extends Component {
   static propTypes = {
     addBill: PropTypes.func,
+    fbAddBill: PropTypes.func,
+    uid: PropTypes.string,
   }
 
   static defaultProps = {
     addBill: undefined,
+    fbAddBill: undefined,
+    uid: undefined,
   }
 
   constructor(props) {
@@ -41,8 +46,11 @@ class BillCreator extends Component {
   addBill = (event) => {
     event.preventDefault();
     const bill = new Bill(this.state.name, this.state.amount);
+
+    if (this.props.uid)
+      this.props.fbAddBill(this.props.uid, bill);
+
     this.props.addBill(bill);
-    this.props.fbAddBill(this.props.uid, bill);
 
     this.setState({
       name: '',

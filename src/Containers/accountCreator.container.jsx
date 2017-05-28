@@ -1,9 +1,12 @@
+/* eslint jsx-a11y/img-has-alt: 0 */
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Input, Button, Form } from 'semantic-ui-react';
 
 import { addAccount } from '../Actions/account.actions';
+import { fbAddAccount } from '../Actions/firebase.actions';
 import Account from '../Models/account.model';
 import { isValidNumberInput } from '../Utilities/inputValidation.utility';
 
@@ -12,12 +15,16 @@ class AccountCreator extends Component {
     addAccount: PropTypes.func,
     incomeAfterBills: PropTypes.number,
     parentAccount: PropTypes.instanceOf(Account),
+    uid: PropTypes.string,
+    fbAddAccount: PropTypes.func,
   }
 
   static defaultProps = {
     addAccount: undefined,
     incomeAfterBills: 0,
     parentAccount: undefined,
+    fbAddAccount: undefined,
+    uid: undefined,
   }
 
   constructor(props) {
@@ -47,7 +54,14 @@ class AccountCreator extends Component {
     const amount = this.props.parentAccount
       ? this.props.parentAccount.amount
       : this.props.incomeAfterBills;
-    const account = new Account(name, amount, percentageOfParent);
+    const parentId = this.props.parentAccount
+      ? this.props.parentAccount.id
+      : false;
+
+    const account = new Account(name, amount, percentageOfParent, parentId);
+
+    if (this.props.uid)
+      this.props.fbAddAccount(this.props.uid, account, this.props.parentAccount);
 
     this.props.addAccount(account, this.props.parentAccount);
     this.setState({
@@ -85,11 +99,13 @@ class AccountCreator extends Component {
 const mapStateToProps = (state) => {
   return {
     incomeAfterBills: state.userReducer.incomeAfterBills,
+    uid: state.firebaseReducer.user.uid,
   };
 };
 
 const mapDispatchToProps = {
   addAccount,
+  fbAddAccount,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountCreator);

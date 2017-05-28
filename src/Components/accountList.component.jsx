@@ -1,3 +1,5 @@
+/* eslint jsx-a11y/img-has-alt: 0 */
+
 import React from 'react';
 import { PropTypes } from 'prop-types';
 

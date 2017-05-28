@@ -1,3 +1,5 @@
+/* eslint jsx-a11y/img-has-alt: 0 */
+
 export default class Bill {
   constructor(name, amount) {
     // TODO: Hacky but it works for now.  I'll pull in a library at some point

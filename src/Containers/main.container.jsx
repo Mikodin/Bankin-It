@@ -1,9 +1,10 @@
+/* eslint jsx-a11y/img-has-alt: 0 */
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Header, Icon } from 'semantic-ui-react';
 
 import HeaderContainer from './header.container';
-import { Todos } from './todos.container';
 import MonthliesContainer from './monthlies.container';
 import AccountsContainer from './accounts.container';
 
@@ -38,7 +39,6 @@ class MainContainer extends Component {
         <HeaderContainer />
         <Container style={{ paddingTop: '50px' }}>
           {header}
-          <Todos />
           <MonthliesContainer />
           <AccountsContainer />
         </Container>

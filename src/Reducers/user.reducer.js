@@ -1,3 +1,5 @@
+/* eslint jsx-a11y/img-has-alt: 0 */
+
 import {
   UPDATE_INCOME,
   ADD_BILL,

@@ -1,3 +1,5 @@
+/* eslint jsx-a11y/img-has-alt: 0 */
+
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
@@ -5,6 +7,7 @@ import { Input, Header } from 'semantic-ui-react';
 
 import { isValidNumberInput } from '../Utilities/inputValidation.utility';
 import { updateIncome } from '../Actions/monthly.actions';
+import { fbUpdateIncome } from '../Actions/firebase.actions';
 
 import BillCreator from './billCreator.container';
 import BillListComp from '../Components/billList.component';
@@ -14,12 +17,16 @@ class MonthliesContainer extends Component {
     billsTotal: PropTypes.number,
     incomeAfterBills: PropTypes.number,
     updateIncome: PropTypes.func,
+    fbUpdateIncome: PropTypes.func,
+    uid: PropTypes.string,
   }
 
   static defaultProps = {
     billsTotal: 0,
     incomeAfterBills: 0,
     updateIncome: undefined,
+    fbUpdateIncome: undefined,
+    uid: undefined,
   }
 
   constructor(props) {
@@ -36,6 +43,9 @@ class MonthliesContainer extends Component {
       this.setState({ income: input }, () => {
         this.props.updateIncome(this.state.income);
       });
+
+      if (this.props.uid)
+        this.props.fbUpdateIncome(this.props.uid, input);
     }
   }
 
@@ -64,11 +74,13 @@ const mapStateToProps = (state) => {
     billsTotal: state.userReducer.billsTotal,
     income: state.userReducer.income,
     incomeAfterBills: state.userReducer.incomeAfterBills,
+    uid: state.firebaseReducer.user.uid,
   };
 };
 
 const mapDispatchToProps = {
   updateIncome,
+  fbUpdateIncome,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MonthliesContainer);

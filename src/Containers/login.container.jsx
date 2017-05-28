@@ -1,15 +1,41 @@
+/* eslint jsx-a11y/img-has-alt: 0 */
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Input, Button, Form } from 'semantic-ui-react';
 
-import { googleLogin, login, logout, register } from '../Actions/firebase.actions';
+import {
+  googleLogin,
+  login,
+  logout,
+  register,
+  fbGetBills,
+ } from '../Actions/firebase.actions';
+
+ import {
+   addBill,
+ } from '../Actions/bill.actions';
 
 class Login extends Component {
   static propTypes = {
+    login: PropTypes.func,
+    googleLogin: PropTypes.func,
+    logout: PropTypes.func,
+    register: PropTypes.func,
+    fbGetBills: PropTypes.func,
+    uid: PropTypes.string,
+    addBill: PropTypes.func,
   }
 
   static defaultProps = {
+    login: undefined,
+    googleLogin: undefined,
+    logout: undefined,
+    register: undefined,
+    fbGetBills: undefined,
+    uid: undefined,
+    addBill: undefined,
   }
 
   constructor(props) {
@@ -36,6 +62,10 @@ class Login extends Component {
     const user = { email, password };
 
     this.props.login(user);
+  }
+
+  getBills = () => {
+    this.props.fbGetBills(this.props.uid);
   }
 
   logout = () => {
@@ -74,6 +104,7 @@ class Login extends Component {
           <Button type="button" onClick={this.googleLogin}>Login With Google</Button>
           <Button type="button" onClick={this.register}>Register</Button>
           <Button type="button" onClick={this.logout}>Logout</Button>
+          <Button type="button" onClick={this.getBills}>Get Bills</Button>
         </Form>
       </div>
     );
@@ -82,7 +113,7 @@ class Login extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    uid: state.firebaseReducer.uid,
+    uid: state.firebaseReducer.user.uid,
   };
 };
 
@@ -91,6 +122,8 @@ const mapDispatchToProps = {
   googleLogin,
   logout,
   register,
+  fbGetBills,
+  addBill,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
