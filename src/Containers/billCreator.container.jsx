@@ -6,6 +6,7 @@ import { Input, Button, Form } from 'semantic-ui-react';
 import Bill from '../Models/bill.model';
 import { isValidNumberInput } from '../Utilities/inputValidation.utility';
 import { addBill, deleteBill, modifyBill } from '../Actions/bill.actions';
+import { fbAddBill } from '../Actions/firebase.actions';
 
 class BillCreator extends Component {
   static propTypes = {
@@ -41,6 +42,8 @@ class BillCreator extends Component {
     event.preventDefault();
     const bill = new Bill(this.state.name, this.state.amount);
     this.props.addBill(bill);
+    this.props.fbAddBill(this.props.uid, bill);
+
     this.setState({
       name: '',
       amount: '',
@@ -75,6 +78,7 @@ class BillCreator extends Component {
 const mapStateToProps = (state) => {
   return {
     bills: state.userReducer.bills,
+    uid: state.firebaseReducer.user.uid,
   };
 };
 
@@ -82,6 +86,7 @@ const mapDispatchToProps = {
   addBill,
   deleteBill,
   modifyBill,
+  fbAddBill,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BillCreator);

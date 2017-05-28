@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Input, Button, Form } from 'semantic-ui-react';
-import { firebaseConnect } from 'react-redux-firebase';
+
+import { googleLogin, login, logout, register } from '../Actions/firebase.actions';
 
 class Login extends Component {
   static propTypes = {
-    firebase: PropTypes.object,
   }
 
   static defaultProps = {
-    firebase: {},
   }
 
   constructor(props) {
@@ -36,38 +35,26 @@ class Login extends Component {
     const { email, password } = this.state;
     const user = { email, password };
 
-    this.props.firebase.login(user)
-      .then((uid) => {
-        console.log(JSON.stringify(uid));
-        console.log(this.props.firebase.auth().currentUser);
-      })
-      .catch((error) => console.error(error));
+    this.props.login(user);
   }
 
-  createUser = () => {
+  logout = () => {
+    this.props.logout();
+  }
+
+  register = () => {
     const { email, password } = this.state;
     const user = { email, password };
-
-    this.props.firebase.createUser(user, user)
-      .then((data) => {
-        console.log('Registered');
-        console.log(data);
-      })
-      .catch((error) => console.error(error));
+    this.props.register(user);
   }
 
   googleLogin = () => {
-    this.props.firebase.login({
-      provider: 'google',
-      type: 'popup',
-    })
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
+    this.props.googleLogin();
   }
 
   render() {
     return (
-      <div style={{marginTop: '55px'}}>
+      <div style={{ marginTop: '55px' }}>
         <Form>
           <Form.Field>
             <Input
@@ -85,7 +72,8 @@ class Login extends Component {
           </Form.Field>
           <Button type="button" onClick={this.login}>Login</Button>
           <Button type="button" onClick={this.googleLogin}>Login With Google</Button>
-          <Button type="button" onClick={this.createUser}>Register</Button>
+          <Button type="button" onClick={this.register}>Register</Button>
+          <Button type="button" onClick={this.logout}>Logout</Button>
         </Form>
       </div>
     );
@@ -94,10 +82,15 @@ class Login extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    uid: state.firebaseReducer.uid,
   };
 };
 
 const mapDispatchToProps = {
+  login,
+  googleLogin,
+  logout,
+  register,
 };
 
-export default firebaseConnect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
