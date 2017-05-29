@@ -34,19 +34,23 @@ export const register = ({ email, password }) => {
 
 export const login = ({ email, password }) => {
   return dispatch => {
-    firebase.auth().signInWithEmailAndPassword(email, password)
-      .then((user) => {
-        dispatch({
-          type: FB_LOGIN,
-          payload: user,
+    return new Promise((resolve, reject) => {
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((user) => {
+          dispatch({
+            type: FB_LOGIN,
+            payload: user,
+          });
+          resolve(user);
+        })
+        .catch((error) => {
+          dispatch({
+            type: FB_LOGIN,
+            payload: error,
+          });
+          reject(error);
         });
-      })
-      .catch((error) => {
-        dispatch({
-          type: FB_LOGIN,
-          payload: error,
-        });
-      });
+    });
   };
 };
 
@@ -95,18 +99,18 @@ export const fbAddBill = (uid, bill) => {
   return dispatch => {
     const billsRef = firebase.database().ref().child(`users/${uid}/bills`);
     billsRef.push(bill)
-    .then((data) => {
-      dispatch({
-        type: FB_ADD_BILL,
-        payload: data,
+      .then((data) => {
+        dispatch({
+          type: FB_ADD_BILL,
+          payload: data,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: FB_ADD_BILL,
+          payload: error,
+        });
       });
-    })
-    .catch((error) => {
-      dispatch({
-        type: FB_ADD_BILL,
-        payload: error,
-      });
-    });
   };
 };
 
@@ -114,18 +118,18 @@ export const fbAddAccount = (uid, account) => {
   return dispatch => {
     const accountsRef = firebase.database().ref().child(`users/${uid}/accounts`);
     accountsRef.push(account)
-    .then((data) => {
-      dispatch({
-        type: FB_ADD_ACCOUNT,
-        payload: data,
+      .then((data) => {
+        dispatch({
+          type: FB_ADD_ACCOUNT,
+          payload: data,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: FB_ADD_ACCOUNT,
+          payload: error,
+        });
       });
-    })
-    .catch((error) => {
-      dispatch({
-        type: FB_ADD_ACCOUNT,
-        payload: error,
-      });
-    });
   };
 };
 
@@ -133,31 +137,36 @@ export const fbUpdateIncome = (uid, income) => {
   return dispatch => {
     const accountsRef = firebase.database().ref().child(`users/${uid}/income`);
     accountsRef.set({ income })
-    .then((data) => {
-      dispatch({
-        type: FB_UPDATE_INCOME,
-        payload: data,
+      .then((data) => {
+        dispatch({
+          type: FB_UPDATE_INCOME,
+          payload: data,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: FB_UPDATE_INCOME,
+          payload: error,
+        });
       });
-    })
-    .catch((error) => {
-      dispatch({
-        type: FB_UPDATE_INCOME,
-        payload: error,
-      });
-    });
   };
 };
 
 export const fbGetBills = (uid) => {
   return dispatch => {
-    firebase.database().ref().child(`users/${uid}/bills`).once('value')
-      .then((snapshot) => {
-        console.log(snapshot);
-        dispatch({
-          type: FB_GET_BILLS,
-          payload: snapshot,
+    return new Promise((resolve, reject) => {
+      firebase.database().ref().child(`users/${uid}/bills`).once('value')
+        .then((snapshot) => {
+          dispatch({
+            type: FB_GET_BILLS,
+            payload: snapshot.val(),
+          });
+          resolve(snapshot.val());
+        })
+        .catch((error) => {
+          reject(error);
         });
-      });
+    });
   };
 };
 

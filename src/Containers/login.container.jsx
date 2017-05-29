@@ -11,11 +11,11 @@ import {
   logout,
   register,
   fbGetBills,
- } from '../Actions/firebase.actions';
+} from '../Actions/firebase.actions';
 
- import {
-   addBill,
- } from '../Actions/bill.actions';
+import {
+  addBill,
+} from '../Actions/bill.actions';
 
 class Login extends Component {
   static propTypes = {
@@ -61,11 +61,19 @@ class Login extends Component {
     const { email, password } = this.state;
     const user = { email, password };
 
-    this.props.login(user);
+    this.props.login(user)
+      .then(({ uid }) => {
+        this.initializeUser(uid);
+      });
   }
 
-  getBills = () => {
-    this.props.fbGetBills(this.props.uid);
+  initializeUser = (uid) => {
+    this.props.fbGetBills(uid)
+      .then((bills) => {
+        Object.keys(bills).map((key) => {
+          return this.props.addBill(bills[key]);
+        });
+      });
   }
 
   logout = () => {

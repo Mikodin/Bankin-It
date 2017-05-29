@@ -36,7 +36,7 @@ function BillListComp(props) {
 }
 
 BillListComp.propTypes = {
-  bills: PropTypes.arrayOf(PropTypes.instanceOf(Bill)),
+  bills: PropTypes.arrayOf(PropTypes.object),
 };
 
 BillListComp.defaultProps = {
