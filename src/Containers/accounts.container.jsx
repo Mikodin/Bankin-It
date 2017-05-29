@@ -1,5 +1,4 @@
 /* eslint jsx-a11y/img-has-alt: 0 */
-
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
@@ -7,7 +6,6 @@ import { Header, Grid } from 'semantic-ui-react';
 
 import AccountCreator from './accountCreator.container';
 import AccountContainer from './account.container';
-import AccountListComp from '../Components/accountList.component';
 import { deleteAccount, modifyAccount } from '../Actions/account.actions';
 
 class AccountsContainer extends Component {

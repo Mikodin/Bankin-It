@@ -13,8 +13,9 @@ import {
   fbInitUser,
 } from '../Actions/firebase.actions';
 
-class Login extends Component {
+class LoginContainer extends Component {
   static propTypes = {
+    toggleVisible: PropTypes.func,
     login: PropTypes.func,
     googleLogin: PropTypes.func,
     logout: PropTypes.func,
@@ -23,6 +24,7 @@ class Login extends Component {
   }
 
   static defaultProps = {
+    toggleVisible: undefined,
     login: undefined,
     googleLogin: undefined,
     logout: undefined,
@@ -56,6 +58,7 @@ class Login extends Component {
     this.props.login(user)
       .then(({ uid }) => {
         this.initializeUser(uid);
+        this.props.toggleVisible();
       });
   }
 
@@ -71,6 +74,7 @@ class Login extends Component {
     const { email, password } = this.state;
     const user = { email, password };
     this.props.register(user);
+    this.props.toggleVisible();
   }
 
   googleLogin = () => {
@@ -96,10 +100,8 @@ class Login extends Component {
               onChange={(event) => this.updatePassword(event)} />
           </Form.Field>
           <Button type="button" onClick={this.login}>Login</Button>
-          <Button type="button" onClick={this.googleLogin}>Login With Google</Button>
+          <Button type="button" icon='google' onClick={this.googleLogin}></Button>
           <Button type="button" onClick={this.register}>Register</Button>
-          <Button type="button" onClick={this.logout}>Logout</Button>
-          <Button type="button" onClick={this.getBills}>Get Bills</Button>
         </Form>
       </div>
     );
@@ -119,4 +121,4 @@ const mapDispatchToProps = {
   fbInitUser,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);

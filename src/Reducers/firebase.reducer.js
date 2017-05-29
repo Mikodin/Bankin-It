@@ -18,7 +18,7 @@ import {
 } from '../Actions/types';
 
 const initialState = {
-  user: '',
+  user: {},
   email: '',
   bills: [],
   income: 0,

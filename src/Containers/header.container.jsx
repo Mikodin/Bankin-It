@@ -1,37 +1,82 @@
 /* eslint jsx-a11y/img-has-alt: 0 */
-
 import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
+import { connect } from 'react-redux';
 import { Sidebar, Button, Menu, Icon } from 'semantic-ui-react';
 
-import Login from './login.container';
+import { logout } from '../Actions/firebase.actions';
+import LoginContainer from './login.container';
 
 class HeaderContainer extends Component {
-  state = {
-    loginVisibile: false,
+  static propTypes = {
+    user: PropTypes.object,
+    logout: PropTypes.func,
+  };
+
+  static defaultProps = {
+    user: {},
+    logout: undefined,
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loginVisibile: false,
+    };
+  }
+
+  logout = () => {
+    this.props.logout();
   }
 
   toggleLogin = () => this.setState({ loginVisibile: !this.state.loginVisibile })
 
   render() {
-    const loginCont = this.state.loginVisibile ? <Login /> : null;
+    const loginCont = this.state.loginVisibile
+      ? <LoginContainer toggleVisible={this.toggleLogin} />
+      : undefined;
+    const loginLogoutButton = this.props.user.uid
+      ? (
+        <Menu.Item name="logout">
+          <Button onClick={this.logout}>Logout</Button>
+        </Menu.Item>
+      )
+      : (
+        <Menu.Item name="login">
+          <Button onClick={this.toggleLogin}>Login</Button>
+        </Menu.Item>
+      );
+
     return (
       <div>
-          <Sidebar as={Menu} direction="top" visible>
-            <Menu.Item name="home">
-              <Icon name="travel" />
-              The Stache
+        <Sidebar as={Menu} direction="top" visible>
+          <Menu.Item name="home">
+            <Icon name="travel" />
+            The Stache
             </Menu.Item>
-            <Menu.Item name="gamepad">
-              <Button onClick={this.toggleLogin}>Login</Button>
-            </Menu.Item>
-            <Menu.Item name="camera">
-              <Button onClick={this.toggleLogin}>Save</Button>
-            </Menu.Item>
-          </Sidebar>
-          {loginCont}
+          {loginLogoutButton}
+          <Menu.Item name="save">
+            <Button onClick={this.toggleLogin}>Save</Button>
+          </Menu.Item>
+        </Sidebar>
+        {loginCont}
       </div>
     );
   }
 }
 
-export default HeaderContainer;
+const mapStateToProps = (state) => {
+  return {
+    user: state.firebaseReducer.user,
+  };
+};
+
+const mapDispatchToProps = {
+  logout,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps)(HeaderContainer);
+
