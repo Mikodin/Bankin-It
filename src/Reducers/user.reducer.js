@@ -116,7 +116,6 @@ export default function userReducer(state = initialState, action) {
 
     case ADD_ACCOUNT: {
       const account = action.payload;
-      console.log(account);
       if (account.parentId) {
         const mutableAccounts = state.accounts.slice();
         const accounts = insertAccountIntoTree(
