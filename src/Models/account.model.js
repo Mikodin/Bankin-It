@@ -1,3 +1,5 @@
+/* eslint jsx-a11y/img-has-alt: 0 */
+
 export default class Account {
   constructor(name = undefined, initialAmount = 0, percentage = 0, parentId = undefined) {
     // TODO: Hacky but it works for now.  I'll pull in a library at some point
