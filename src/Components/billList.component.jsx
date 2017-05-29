@@ -3,8 +3,10 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 
+import './billList.css';
+
 import { connect } from 'react-redux';
-import { Button } from 'semantic-ui-react';
+import { Button, Card, Grid } from 'semantic-ui-react';
 
 import '../styles.css';
 import { deleteBill, modifyBill } from '../Actions/bill.actions';
@@ -13,23 +15,45 @@ function BillListComp(props) {
   const billList =
     props.bills.map(bill => {
       return (
-        <li key={bill.id}>
-          <h3>{bill.name}</h3>
-          <h3>{bill.amount}</h3>
-          <Button
-            onClick={() => props.deleteBill(bill.id)}>
-            Delete Bill
+        <Grid.Column key={bill.id} style={{marginTop: '10px'}}>
+          <Card fluid raised>
+            <Card.Content>
+              <Card.Header>{bill.name}</Card.Header>
+              <Card.Meta>${bill.amount}</Card.Meta>
+            </Card.Content>
+            <Card.Content extra>
+              <Button
+                fluid
+                onClick={() => props.deleteBill(bill.id)}
+                basic
+                color="red">
+                Delete Bill
           </Button>
-          <Button>Modify Bill</Button>
-        </li>
+              <Button
+                fluid
+                basic
+                color="yellow">
+                Modify Bill
+            </Button>
+            </Card.Content>
+          </Card>
+        </Grid.Column>
       );
     });
 
   return (
-    <div>
-      <ul className="billList">
-        {billList}
-      </ul>
+    <div className="bill-cont">
+      <Grid
+        container
+        doubling
+        stackable
+        columns={4}
+        padded
+         >
+        <Grid.Row>
+          {billList}
+        </Grid.Row>
+      </Grid>
     </div>
   );
 }

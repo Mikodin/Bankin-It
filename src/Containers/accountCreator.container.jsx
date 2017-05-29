@@ -84,7 +84,8 @@ class AccountCreator extends Component {
       <div>
         <Form>
           <Form.Field>
-            <Input
+            <Form.Input
+              width={4}
               ref={(input) => { this.textInputDOM = input; }}
               label="Account Name"
               placeholder="Account Name"
@@ -92,7 +93,8 @@ class AccountCreator extends Component {
               onChange={(event) => this.updateName(event)} />
           </Form.Field>
           <Form.Field>
-            <Input
+            <Form.Input
+              width={4}
               label="Account Percentage"
               placeholder="Account Percentage"
               value={this.state.percentageOfParent}

@@ -40,7 +40,7 @@ class MainContainer extends Component {
         <Container style={{ paddingTop: '50px' }}>
           <Dimmer.Dimmable as={Segment} dimmed={this.props.fetchingData}>
             <Dimmer active={this.props.fetchingData} inverted>
-              <Loader>Loading</Loader>
+              <Loader>Fetching your Stache...</Loader>
             </Dimmer>
             <MonthliesContainer />
             <AccountsContainer />

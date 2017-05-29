@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { Input, Header } from 'semantic-ui-react';
+import { Input, Header, Segment, Grid } from 'semantic-ui-react';
 
 import { isValidNumberInput } from '../Utilities/inputValidation.utility';
 import { updateIncome } from '../Actions/monthly.actions';
@@ -15,6 +15,7 @@ import BillListComp from '../Components/billList.component';
 class MonthliesContainer extends Component {
   static propTypes = {
     billsTotal: PropTypes.number,
+    income: PropTypes.number,
     incomeAfterBills: PropTypes.number,
     updateIncome: PropTypes.func,
     fbUpdateIncome: PropTypes.func,
@@ -23,6 +24,7 @@ class MonthliesContainer extends Component {
 
   static defaultProps = {
     billsTotal: 0,
+    income: 0,
     incomeAfterBills: 0,
     updateIncome: undefined,
     fbUpdateIncome: undefined,
@@ -64,9 +66,19 @@ class MonthliesContainer extends Component {
           value={this.props.income}
           onChange={(event) => this.updateIncome(event)} />
 
-        <BillCreator />
-        <BillListComp />
-        <h3>Bills Total: {this.props.billsTotal}</h3>
+        <Segment>
+          <Grid container doubling stackable columns={2} padded>
+            <Grid.Row>
+              <Grid.Column verticalAlign='middle' width={4}>
+                <BillCreator />
+                <h3>Bills Total: {this.props.billsTotal}</h3>
+              </Grid.Column>
+              <Grid.Column width={12}>
+                <BillListComp />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Segment>
         <h3>Income After Bills: {this.props.incomeAfterBills}</h3>
       </div>
     );

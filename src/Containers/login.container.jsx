@@ -86,14 +86,16 @@ class LoginContainer extends Component {
       <div style={{ marginTop: '55px' }}>
         <Form>
           <Form.Field>
-            <Input
+            <Form.Input
+              width={4}
               label="Email"
               placeholder="Email"
               value={this.state.email}
               onChange={(event) => this.updateEmail(event)} />
           </Form.Field>
           <Form.Field>
-            <Input
+            <Form.Input
+              width={4}
               label="Password"
               placeholder="Password"
               value={this.state.password}

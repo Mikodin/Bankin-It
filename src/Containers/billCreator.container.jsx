@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { Input, Button, Form } from 'semantic-ui-react';
+import { Input, Button, Form, Segment } from 'semantic-ui-react';
 
 import Bill from '../Models/bill.model';
 import { isValidNumberInput } from '../Utilities/inputValidation.utility';
@@ -63,14 +63,14 @@ class BillCreator extends Component {
       <div>
         <Form>
           <Form.Field>
-            <Input
+            <Form.Input
               label="Bill Name"
               placeholder="Bill Name"
               value={this.state.name}
               onChange={(event) => this.updateName(event)} />
           </Form.Field>
           <Form.Field>
-            <Input
+            <Form.Input
               label="Bill Amount"
               placeholder="Bill Amount"
               value={this.state.amount}
