@@ -12,6 +12,7 @@ import {
   FB_UPDATE_INCOME,
   FB_GET_BILLS,
   FB_GET_INCOME,
+  FB_GET_ACCOUNTS,
 } from './types';
 
 
@@ -178,6 +179,24 @@ export const fbGetIncome = (uid) => {
         .then((snapshot) => {
           dispatch({
             type: FB_GET_INCOME,
+            payload: snapshot.val(),
+          });
+          resolve(snapshot.val());
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  };
+};
+
+export const fbGetAccounts = (uid) => {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      firebase.database().ref().child(`users/${uid}/accounts`).once('value')
+        .then((snapshot) => {
+          dispatch({
+            type: FB_GET_ACCOUNTS,
             payload: snapshot.val(),
           });
           resolve(snapshot.val());

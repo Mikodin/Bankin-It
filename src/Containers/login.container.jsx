@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Input, Button, Form } from 'semantic-ui-react';
 
+import Account from '../Models/account.model';
+
 import {
   googleLogin,
   login,
@@ -12,9 +14,11 @@ import {
   register,
   fbGetBills,
   fbGetIncome,
+  fbGetAccounts,
 } from '../Actions/firebase.actions';
 
 import { addBill } from '../Actions/bill.actions';
+import { addAccount } from '../Actions/account.actions';
 import { updateIncome } from '../Actions/monthly.actions';
 
 class Login extends Component {
@@ -24,10 +28,11 @@ class Login extends Component {
     logout: PropTypes.func,
     register: PropTypes.func,
     fbGetBills: PropTypes.func,
-    uid: PropTypes.string,
     addBill: PropTypes.func,
     fbGetIncome: PropTypes.func,
     updateIncome: PropTypes.func,
+    fbGetAccounts: PropTypes.func,
+    addAccount: PropTypes.func,
   }
 
   static defaultProps = {
@@ -36,10 +41,11 @@ class Login extends Component {
     logout: undefined,
     register: undefined,
     fbGetBills: undefined,
-    uid: undefined,
     addBill: undefined,
     fbGetIncome: undefined,
     updateIncome: undefined,
+    fbGetAccounts: undefined,
+    addAccount: undefined,
   }
 
   constructor(props) {
@@ -77,11 +83,22 @@ class Login extends Component {
         Object.keys(bills).map((key) => {
           return this.props.addBill(bills[key]);
         });
-      });
 
-      this.props.fbGetIncome(uid)
-      .then((income) => {
-        this.props.updateIncome(income.income);
+        this.props.fbGetAccounts(uid)
+          .then((accounts) => {
+            Object.keys(accounts).map((key) => {
+              const { id, name, parentId, percent, percentageOfParent } = accounts[key];
+              const accToAdd = new Account(name, 0, percentageOfParent, parentId);
+              accToAdd.id = id;
+              accToAdd.percent = percent;
+              return this.props.addAccount(accToAdd);
+            });
+
+            this.props.fbGetIncome(uid)
+              .then((income) => {
+                this.props.updateIncome(income.income);
+              });
+          });
       });
   }
 
@@ -130,7 +147,6 @@ class Login extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    uid: state.firebaseReducer.user.uid,
   };
 };
 
@@ -143,6 +159,8 @@ const mapDispatchToProps = {
   addBill,
   fbGetIncome,
   updateIncome,
+  fbGetAccounts,
+  addAccount,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -4,7 +4,6 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 
 import '../styles.css';
-import Account from '../Models/account.model';
 import AccountComp from '../Components/account.component';
 
 export default function AccountListComp(props) {
@@ -32,7 +31,7 @@ export default function AccountListComp(props) {
 }
 
 AccountListComp.propTypes = {
-  accounts: PropTypes.arrayOf(PropTypes.instanceOf(Account)),
+  accounts: PropTypes.arrayOf(PropTypes.object),
   deleteAccount: PropTypes.func,
 };
 

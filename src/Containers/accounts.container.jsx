@@ -5,14 +5,13 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Header } from 'semantic-ui-react';
 
-import Account from '../Models/account.model';
 import AccountCreator from './accountCreator.container';
 import AccountListComp from '../Components/accountList.component';
 import { deleteAccount, modifyAccount } from '../Actions/account.actions';
 
 class AccountsContainer extends Component {
   static propTypes = {
-    accounts: PropTypes.arrayOf(PropTypes.instanceOf(Account)),
+    accounts: PropTypes.arrayOf(PropTypes.object),
     modifyAccount: PropTypes.func,
     deleteAccount: PropTypes.func,
   }

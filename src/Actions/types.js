@@ -19,5 +19,6 @@ export const FB_ADD_BILL = 'FB_ADD_BILL';
 export const FB_ADD_ACCOUNT = 'FB_ADD_ACCOUNT';
 export const FB_UPDATE_INCOME = 'FB_UPDATE_INCOME';
 export const FB_GET_BILLS = 'FB_GET_BILLS';
+export const FB_GET_ACCOUNTS = 'FB_GET_ACCOUNTS';
 export const FB_GET_INCOME = 'FB_GET_INCOME';
 

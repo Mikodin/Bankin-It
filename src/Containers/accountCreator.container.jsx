@@ -14,7 +14,7 @@ class AccountCreator extends Component {
   static propTypes = {
     addAccount: PropTypes.func,
     incomeAfterBills: PropTypes.number,
-    parentAccount: PropTypes.instanceOf(Account),
+    parentAccount: PropTypes.object,
     uid: PropTypes.string,
     fbAddAccount: PropTypes.func,
   }

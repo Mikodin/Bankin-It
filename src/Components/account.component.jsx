@@ -4,7 +4,6 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Button } from 'semantic-ui-react';
 
-import Account from '../Models/account.model';
 import AccountList from './accountList.component';
 import AccountCreator from '../Containers/accountCreator.container';
 
@@ -30,7 +29,7 @@ export default function AccountComp(props) {
 }
 
 AccountComp.propTypes = {
-  account: PropTypes.instanceOf(Account),
+  account: PropTypes.object,
   deleteAccount: PropTypes.func,
 };
 

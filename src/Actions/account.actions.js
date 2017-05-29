@@ -6,14 +6,14 @@ import {
   MODIFY_ACCOUNT,
 } from './types';
 
-export const addAccount = (childAccount, parentAccount = undefined) =>
+export const addAccount = (account) =>
   dispatch => {
-    dispatch({
-      type: ADD_ACCOUNT,
-      payload: {
-        childAccount,
-        parentAccount,
-      },
+    return new Promise((resolve, reject) => {
+      dispatch({
+        type: ADD_ACCOUNT,
+        payload: account,
+      });
+      resolve(account);
     });
   };
 
