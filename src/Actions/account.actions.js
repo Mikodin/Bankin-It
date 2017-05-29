@@ -8,12 +8,9 @@ import {
 
 export const addAccount = (account) =>
   dispatch => {
-    return new Promise((resolve, reject) => {
-      dispatch({
-        type: ADD_ACCOUNT,
-        payload: account,
-      });
-      resolve(account);
+    dispatch({
+      type: ADD_ACCOUNT,
+      payload: account,
     });
   };
 

@@ -2,6 +2,8 @@
 
 import * as firebase from 'firebase';
 
+import Account from '../Models/account.model';
+
 import {
   FB_REGISTER,
   FB_LOGIN,
@@ -13,7 +15,12 @@ import {
   FB_GET_BILLS,
   FB_GET_INCOME,
   FB_GET_ACCOUNTS,
+  FB_INIT_USER,
 } from './types';
+
+import { addBill } from './bill.actions';
+import { addAccount } from './account.actions';
+import { updateIncome } from './monthly.actions';
 
 
 export const register = ({ email, password }) => {
@@ -204,6 +211,45 @@ export const fbGetAccounts = (uid) => {
         .catch((error) => {
           reject(error);
         });
+    });
+  };
+};
+
+export const fbInitUser = (uid) => {
+  return dispatch => {
+    return new Promise((resolve, reject) => {
+      dispatch({
+        type: FB_INIT_USER,
+        payload: true,
+      });
+
+      dispatch(fbGetBills(uid))
+        .then((bills) => {
+          Object.keys(bills).map((key) => {
+            return dispatch(addBill(bills[key]));
+          });
+
+          dispatch(fbGetAccounts(uid))
+            .then((accounts) => {
+              Object.keys(accounts).map((key) => {
+                const { id, name, parentId, percent, percentageOfParent } = accounts[key];
+                const accToAdd = new Account(name, 0, percentageOfParent, parentId);
+                accToAdd.id = id;
+                accToAdd.percent = percent;
+                return dispatch(addAccount(accToAdd));
+              });
+
+              dispatch(fbGetIncome(uid))
+                .then((income) => {
+                  dispatch(updateIncome(income.income));
+                })
+                .catch(error => reject(error));
+
+              resolve(true);
+            })
+            .catch(error => reject(error));
+        })
+        .catch(error => reject(error));
     });
   };
 };

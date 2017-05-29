@@ -5,21 +5,13 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Input, Button, Form } from 'semantic-ui-react';
 
-import Account from '../Models/account.model';
-
 import {
   googleLogin,
   login,
   logout,
   register,
-  fbGetBills,
-  fbGetIncome,
-  fbGetAccounts,
+  fbInitUser,
 } from '../Actions/firebase.actions';
-
-import { addBill } from '../Actions/bill.actions';
-import { addAccount } from '../Actions/account.actions';
-import { updateIncome } from '../Actions/monthly.actions';
 
 class Login extends Component {
   static propTypes = {
@@ -27,12 +19,7 @@ class Login extends Component {
     googleLogin: PropTypes.func,
     logout: PropTypes.func,
     register: PropTypes.func,
-    fbGetBills: PropTypes.func,
-    addBill: PropTypes.func,
-    fbGetIncome: PropTypes.func,
-    updateIncome: PropTypes.func,
-    fbGetAccounts: PropTypes.func,
-    addAccount: PropTypes.func,
+    fbInitUser: PropTypes.func,
   }
 
   static defaultProps = {
@@ -40,12 +27,7 @@ class Login extends Component {
     googleLogin: undefined,
     logout: undefined,
     register: undefined,
-    fbGetBills: undefined,
-    addBill: undefined,
-    fbGetIncome: undefined,
-    updateIncome: undefined,
-    fbGetAccounts: undefined,
-    addAccount: undefined,
+    fbInitUser: undefined,
   }
 
   constructor(props) {
@@ -78,29 +60,8 @@ class Login extends Component {
   }
 
   initializeUser = (uid) => {
-    this.props.fbGetBills(uid)
-      .then((bills) => {
-        Object.keys(bills).map((key) => {
-          return this.props.addBill(bills[key]);
-        });
-
-        this.props.fbGetAccounts(uid)
-          .then((accounts) => {
-            Object.keys(accounts).map((key) => {
-              const { id, name, parentId, percent, percentageOfParent } = accounts[key];
-              const accToAdd = new Account(name, 0, percentageOfParent, parentId);
-              accToAdd.id = id;
-              accToAdd.percent = percent;
-              return this.props.addAccount(accToAdd);
-            });
-
-            this.props.fbGetIncome(uid)
-              .then((income) => {
-                this.props.updateIncome(income.income);
-              });
-          });
-      });
-  }
+    this.props.fbInitUser(uid);
+  };
 
   logout = () => {
     this.props.logout();
@@ -155,12 +116,7 @@ const mapDispatchToProps = {
   googleLogin,
   logout,
   register,
-  fbGetBills,
-  addBill,
-  fbGetIncome,
-  updateIncome,
-  fbGetAccounts,
-  addAccount,
+  fbInitUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
