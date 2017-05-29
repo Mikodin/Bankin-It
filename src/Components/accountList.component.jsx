@@ -20,7 +20,7 @@ export default function AccountListComp(props) {
     });
 
   return (
-    <ul>
+    <ul style={{listStyle: 'none'}}>
       {accountList}
     </ul>
   );

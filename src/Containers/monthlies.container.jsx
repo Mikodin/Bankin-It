@@ -37,6 +37,10 @@ class MonthliesContainer extends Component {
     };
   }
 
+  componentDidMount() {
+    this.incomeInputDOM.focus();
+  }
+
   updateIncome = (event) => {
     const input = event.target.value;
     if (isValidNumberInput(input)) {
@@ -54,6 +58,7 @@ class MonthliesContainer extends Component {
       <div>
         <Header as="h3">Monthlies</Header>
         <Input
+          ref={(input) => { this.incomeInputDOM = input; }}
           label="Income"
           placeholder="Monthly Income"
           value={this.props.income}

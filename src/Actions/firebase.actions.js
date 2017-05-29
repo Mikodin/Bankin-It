@@ -1,12 +1,14 @@
 /* eslint jsx-a11y/img-has-alt: 0 */
-
 import * as firebase from 'firebase';
 
 import Account from '../Models/account.model';
 
 import {
+  FB_RESET_STATE,
   FB_REGISTER,
   FB_LOGIN,
+  FB_LOGIN_SUCCESS,
+  FB_LOGIN_FAIL,
   FB_GOOGLE_LOGIN,
   FB_LOGOUT,
   FB_ADD_BILL,
@@ -16,12 +18,19 @@ import {
   FB_GET_INCOME,
   FB_GET_ACCOUNTS,
   FB_INIT_USER,
+  FB_INIT_USER_SUCCESS,
 } from './types';
 
 import { addBill } from './bill.actions';
 import { addAccount } from './account.actions';
 import { updateIncome } from './monthly.actions';
+import { userResetState } from './user.actions';
 
+export const fbResetState = () =>
+  ({
+    type: FB_RESET_STATE,
+    payload: true,
+  });
 
 export const register = ({ email, password }) => {
   return dispatch => {
@@ -44,19 +53,15 @@ export const register = ({ email, password }) => {
 export const login = ({ email, password }) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
+      dispatch({ type: FB_LOGIN, payload: { fetchingData: true } });
       firebase.auth().signInWithEmailAndPassword(email, password)
         .then((user) => {
-          dispatch({
-            type: FB_LOGIN,
-            payload: user,
-          });
+          dispatch(fbResetState());
+          dispatch({ type: FB_LOGIN_SUCCESS, payload: { user } });
           resolve(user);
         })
         .catch((error) => {
-          dispatch({
-            type: FB_LOGIN,
-            payload: error,
-          });
+          dispatch({ type: FB_LOGIN_FAIL, payload: { error } });
           reject(error);
         });
     });
@@ -218,34 +223,36 @@ export const fbGetAccounts = (uid) => {
 export const fbInitUser = (uid) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
-      dispatch({
-        type: FB_INIT_USER,
-        payload: true,
-      });
+      dispatch({ type: FB_INIT_USER, payload: { fetchingData: true } });
+      dispatch(userResetState());
 
       dispatch(fbGetBills(uid))
         .then((bills) => {
-          Object.keys(bills).map((key) => {
-            return dispatch(addBill(bills[key]));
-          });
+          if (bills)
+            Object.keys(bills).map((key) => dispatch(addBill(bills[key])));
 
           dispatch(fbGetAccounts(uid))
             .then((accounts) => {
-              Object.keys(accounts).map((key) => {
-                const { id, name, parentId, percent, percentageOfParent } = accounts[key];
-                const accToAdd = new Account(name, 0, percentageOfParent, parentId);
-                accToAdd.id = id;
-                accToAdd.percent = percent;
-                return dispatch(addAccount(accToAdd));
-              });
+              if (accounts)
+                Object.keys(accounts).map((key) => {
+                  const { id, name, parentId, percent, percentageOfParent } = accounts[key];
+                  const accToAdd = new Account(name, 0, percentageOfParent, parentId);
+                  accToAdd.id = id;
+                  accToAdd.percent = percent;
+                  return dispatch(addAccount(accToAdd));
+                });
 
               dispatch(fbGetIncome(uid))
                 .then((income) => {
-                  dispatch(updateIncome(income.income));
+                  if (income)
+                    dispatch(updateIncome(income.income));
+                  dispatch({
+                    type: FB_INIT_USER_SUCCESS,
+                    payload: { fetchingData: false },
+                  });
+                  resolve(true);
                 })
                 .catch(error => reject(error));
-
-              resolve(true);
             })
             .catch(error => reject(error));
         })

@@ -3,9 +3,10 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { Header } from 'semantic-ui-react';
+import { Header, Grid } from 'semantic-ui-react';
 
 import AccountCreator from './accountCreator.container';
+import AccountContainer from './account.container';
 import AccountListComp from '../Components/accountList.component';
 import { deleteAccount, modifyAccount } from '../Actions/account.actions';
 
@@ -30,15 +31,25 @@ class AccountsContainer extends Component {
   }
 
   render() {
+    const parentAccounts = this.props.accounts.map((account) => {
+      return (
+        <Grid.Column key={account.id}>
+          <AccountContainer
+            account={account}
+            deleteAccount={this.props.deleteAccount}
+          />
+        </Grid.Column>
+      );
+    });
     return (
       <div>
         <Header as="h3">Accounts</Header>
         <AccountCreator />
-        <AccountListComp
-          accounts={this.props.accounts}
-          deleteAccount={this.props.deleteAccount}
-          modifyAccount={this.props.modifyAccount}
-        />
+        <Grid doubling stackable container columns={2}>
+          <Grid.Row>
+            {parentAccounts}
+          </Grid.Row>
+        </Grid>
       </div>
     );
   }

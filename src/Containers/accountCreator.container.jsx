@@ -12,6 +12,7 @@ import { isValidNumberInput } from '../Utilities/inputValidation.utility';
 
 class AccountCreator extends Component {
   static propTypes = {
+    isModal: PropTypes.bool,
     addAccount: PropTypes.func,
     incomeAfterBills: PropTypes.number,
     parentAccount: PropTypes.object,
@@ -20,6 +21,7 @@ class AccountCreator extends Component {
   }
 
   static defaultProps = {
+    isModal: false,
     addAccount: undefined,
     incomeAfterBills: 0,
     parentAccount: undefined,
@@ -37,6 +39,11 @@ class AccountCreator extends Component {
     };
   }
 
+  componentDidMount() {
+    if (this.props.isModal)
+      this.textInputDOM.focus();
+  }
+
   updateName = (event) => {
     const name = event.target.value;
     this.setState({ name });
@@ -48,6 +55,7 @@ class AccountCreator extends Component {
     if (isValidNumberInput(percentageOfParent) && percentageOfParent <= 100)
       this.setState({ percentageOfParent });
   }
+
 
   addAccount = () => {
     const { name, percentageOfParent } = this.state;
@@ -77,6 +85,7 @@ class AccountCreator extends Component {
         <Form>
           <Form.Field>
             <Input
+              ref={(input) => { this.textInputDOM = input; }}
               label="Account Name"
               placeholder="Account Name"
               value={this.state.name}

@@ -1,6 +1,7 @@
 /* eslint jsx-a11y/img-has-alt: 0 */
 
 import {
+  USER_RESET_STATE,
   UPDATE_INCOME,
   ADD_BILL,
   DELETE_BILL,
@@ -70,6 +71,9 @@ function deleteAccountFromTree(accountList, accountIdToRemove) {
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
+    case USER_RESET_STATE: {
+      return Object.assign({}, initialState);
+    }
     case UPDATE_INCOME: {
       const income = action.payload;
       const incomeAfterBills = income - state.billsTotal;

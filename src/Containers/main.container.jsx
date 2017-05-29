@@ -1,6 +1,6 @@
 /* eslint jsx-a11y/img-has-alt: 0 */
-
 import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Container, Header, Icon } from 'semantic-ui-react';
 
@@ -9,6 +9,13 @@ import MonthliesContainer from './monthlies.container';
 import AccountsContainer from './accounts.container';
 
 class MainContainer extends Component {
+  static propTypes = {
+    fetchingData: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    fetchingData: false,
+  }
   constructor(props) {
     super(props);
 
@@ -34,13 +41,22 @@ class MainContainer extends Component {
         </Header>
       );
 
+    const body =
+      this.props.fetchingData
+        ?
+        <h1> Loading...</h1>
+        :
+        (<div>
+            <MonthliesContainer />
+            <AccountsContainer />
+          </div>);
+
     return (
       <div>
         <HeaderContainer />
         <Container style={{ paddingTop: '50px' }}>
           {header}
-          <MonthliesContainer />
-          <AccountsContainer />
+          { body }
         </Container>
       </div>
     );
@@ -49,7 +65,7 @@ class MainContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    accounts: state.userReducer.accounts,
+    fetchingData: state.firebaseReducer.fetchingData,
   };
 };
 
