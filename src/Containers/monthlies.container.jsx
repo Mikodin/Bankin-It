@@ -56,7 +56,7 @@ class MonthliesContainer extends Component {
         <Input
           label="Income"
           placeholder="Monthly Income"
-          value={this.state.income}
+          value={this.props.income}
           onChange={(event) => this.updateIncome(event)} />
 
         <BillCreator />

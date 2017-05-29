@@ -11,11 +11,11 @@ import {
   logout,
   register,
   fbGetBills,
+  fbGetIncome,
 } from '../Actions/firebase.actions';
 
-import {
-  addBill,
-} from '../Actions/bill.actions';
+import { addBill } from '../Actions/bill.actions';
+import { updateIncome } from '../Actions/monthly.actions';
 
 class Login extends Component {
   static propTypes = {
@@ -26,6 +26,8 @@ class Login extends Component {
     fbGetBills: PropTypes.func,
     uid: PropTypes.string,
     addBill: PropTypes.func,
+    fbGetIncome: PropTypes.func,
+    updateIncome: PropTypes.func,
   }
 
   static defaultProps = {
@@ -36,6 +38,8 @@ class Login extends Component {
     fbGetBills: undefined,
     uid: undefined,
     addBill: undefined,
+    fbGetIncome: undefined,
+    updateIncome: undefined,
   }
 
   constructor(props) {
@@ -73,6 +77,11 @@ class Login extends Component {
         Object.keys(bills).map((key) => {
           return this.props.addBill(bills[key]);
         });
+      });
+
+      this.props.fbGetIncome(uid)
+      .then((income) => {
+        this.props.updateIncome(income.income);
       });
   }
 
@@ -132,6 +141,8 @@ const mapDispatchToProps = {
   register,
   fbGetBills,
   addBill,
+  fbGetIncome,
+  updateIncome,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

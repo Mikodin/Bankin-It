@@ -11,6 +11,7 @@ import {
   FB_ADD_ACCOUNT,
   FB_UPDATE_INCOME,
   FB_GET_BILLS,
+  FB_GET_INCOME,
 } from './types';
 
 
@@ -153,7 +154,7 @@ export const fbUpdateIncome = (uid, income) => {
 };
 
 export const fbGetBills = (uid) => {
-  return dispatch => {
+  return (dispatch) => {
     return new Promise((resolve, reject) => {
       firebase.database().ref().child(`users/${uid}/bills`).once('value')
         .then((snapshot) => {
@@ -170,21 +171,20 @@ export const fbGetBills = (uid) => {
   };
 };
 
-/*
-export const fbGetBills = (uid) => {
-  return new Promise((resolve, reject) => {
-    return dispatch => {
-      firebase.database().ref().child(`users/${uid}/bills`).once('value')
+export const fbGetIncome = (uid) => {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      firebase.database().ref().child(`users/${uid}/income`).once('value')
         .then((snapshot) => {
-          console.log(snapshot);
-          resolve(snapshot);
           dispatch({
-            type: FB_GET_BILLS,
-            payload: snapshot,
+            type: FB_GET_INCOME,
+            payload: snapshot.val(),
           });
+          resolve(snapshot.val());
+        })
+        .catch((error) => {
+          reject(error);
         });
-    };
-
-  });
+    });
+  };
 };
-*/
