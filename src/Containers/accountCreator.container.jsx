@@ -40,8 +40,10 @@ class AccountCreator extends Component {
   }
 
   componentDidMount() {
+    // eslint-disable-next-line no-undef
+    const nameInput = document.querySelector('input[name="accNameInput"]');
     if (this.props.isModal)
-      this.textInputDOM.focus();
+      nameInput.focus();
   }
 
   updateName = (event) => {
@@ -86,7 +88,7 @@ class AccountCreator extends Component {
           <Form.Field>
             <Form.Input
               width={4}
-              ref={(input) => { this.textInputDOM = input; }}
+              name="accNameInput"
               label="Account Name"
               placeholder="Account Name"
               value={this.state.name}

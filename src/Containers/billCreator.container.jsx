@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { Input, Button, Form, Segment } from 'semantic-ui-react';
+import { Button, Form, Icon } from 'semantic-ui-react';
 
 import Bill from '../Models/bill.model';
 import { isValidNumberInput } from '../Utilities/inputValidation.utility';
@@ -51,11 +51,14 @@ class BillCreator extends Component {
       this.props.fbAddBill(this.props.uid, bill);
 
     this.props.addBill(bill);
-
     this.setState({
       name: '',
       amount: '',
     });
+
+    // eslint-disable-next-line no-undef
+    const billNameInput = document.querySelector('input[name="billNameInput"]');
+    billNameInput.focus();
   }
 
   render() {
@@ -64,6 +67,7 @@ class BillCreator extends Component {
         <Form>
           <Form.Field>
             <Form.Input
+              name="billNameInput"
               label="Bill Name"
               placeholder="Bill Name"
               value={this.state.name}
@@ -76,7 +80,13 @@ class BillCreator extends Component {
               value={this.state.amount}
               onChange={(event) => this.updateAmount(event)} />
           </Form.Field>
-          <Button type="submit" onClick={this.addBill}>Add Bill</Button>
+          <Button primary animated onClick={this.addBill}>
+            <Button.Content visible>Add Bill</Button.Content>
+            <Button.Content hidden>
+              <Icon name="plus" />
+              Add
+            </Button.Content>
+          </Button>
         </Form>
       </div>
     );

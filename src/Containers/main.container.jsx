@@ -38,7 +38,7 @@ class MainContainer extends Component {
       <div>
         <HeaderContainer />
         <Container style={{ paddingTop: '50px' }}>
-          <Dimmer.Dimmable as={Segment} dimmed={this.props.fetchingData}>
+          <Dimmer.Dimmable  dimmed={this.props.fetchingData}>
             <Dimmer active={this.props.fetchingData} inverted>
               <Loader>Fetching your Stache...</Loader>
             </Dimmer>

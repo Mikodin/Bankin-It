@@ -16,7 +16,7 @@ function BillListComp(props) {
     props.bills.map(bill => {
       return (
         <Grid.Column key={bill.id} style={{marginTop: '10px'}}>
-          <Card fluid raised>
+          <Card color="red" fluid raised>
             <Card.Content>
               <Card.Header>{bill.name}</Card.Header>
               <Card.Meta>${bill.amount}</Card.Meta>

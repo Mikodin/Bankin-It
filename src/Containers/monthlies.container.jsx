@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { Input, Header, Segment, Grid } from 'semantic-ui-react';
+import { Form, Header, Segment, Grid } from 'semantic-ui-react';
 
 import { isValidNumberInput } from '../Utilities/inputValidation.utility';
 import { updateIncome } from '../Actions/monthly.actions';
@@ -40,7 +40,9 @@ class MonthliesContainer extends Component {
   }
 
   componentDidMount() {
-    this.incomeInputDOM.focus();
+    // eslint-disable-next-line no-undef
+    const incomeInput = document.querySelector('input[name="incomeInput"]');
+    incomeInput.focus();
   }
 
   updateIncome = (event) => {
@@ -57,29 +59,37 @@ class MonthliesContainer extends Component {
 
   render() {
     return (
-      <div>
+      <div className="monthlies">
         <Header as="h3">Monthlies</Header>
-        <Input
-          ref={(input) => { this.incomeInputDOM = input; }}
-          label="Income"
-          placeholder="Monthly Income"
-          value={this.props.income}
-          onChange={(event) => this.updateIncome(event)} />
-
-        <Segment>
-          <Grid container doubling stackable columns={2} padded>
+        <Grid as={Segment} container doubling stackable columns={2} padded>
             <Grid.Row>
-              <Grid.Column verticalAlign='middle' width={4}>
+              <Grid.Column width={4}>
+            <Form>
+              <Form.Field>
+                <Form.Input
+                  name="incomeInput"
+                  label="Income"
+                  placeholder="Monthly Income"
+                  value={this.props.income}
+                  onChange={(event) => this.updateIncome(event)} />
+              </Form.Field>
+            </Form>
+            </Grid.Column>
+            </Grid.Row>
+
+            <h3>Monthly Income: {this.props.income}</h3>
+
+            <Grid.Row>
+              <Grid.Column width={4}>
                 <BillCreator />
                 <h3>Bills Total: {this.props.billsTotal}</h3>
+                <h3>Income After Bills: {this.props.incomeAfterBills}</h3>
               </Grid.Column>
               <Grid.Column width={12}>
                 <BillListComp />
               </Grid.Column>
             </Grid.Row>
           </Grid>
-        </Segment>
-        <h3>Income After Bills: {this.props.incomeAfterBills}</h3>
       </div>
     );
   }
