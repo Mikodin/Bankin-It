@@ -7,7 +7,8 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import 'semantic-ui-css/semantic.min.css';
 import * as firebase from 'firebase';
-
+import Perf from 'react-addons-perf';
+window.Perf = Perf;
 
 import App from './App';
 import { FB_CREDS } from './firebaseConfig';
