@@ -15,6 +15,7 @@ import {
   FB_ADD_BILL,
   FB_DELETE_BILL,
   FB_ADD_ACCOUNT,
+  FB_DELETE_ACCOUNT,
   FB_UPDATE_INCOME,
   FB_GET_BILLS,
   FB_GET_INCOME,
@@ -134,8 +135,7 @@ export const fbDeleteBill = (uid, billFbKey) => {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       firebase.database().ref().child(`users/${uid}/bills/${billFbKey}`).remove()
-        .then((data) => {
-          console.log(data);
+        .then(() => {
           dispatch({
             type: FB_DELETE_BILL,
             payload: true,
@@ -143,8 +143,6 @@ export const fbDeleteBill = (uid, billFbKey) => {
           resolve(true);
         })
         .catch((error) => {
-          console.log('Error in delete');
-          console.log(error);
           reject(error);
         });
     });
@@ -170,6 +168,36 @@ export const fbAddAccount = (uid, account) => {
   };
 };
 
+export const fbDeleteAccount = (uid, accountFbKey) => {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      firebase.database().ref()
+        .child(`users/${uid}/accounts/${accountFbKey}`).remove()
+        .then(() => {
+          dispatch({
+            type: FB_DELETE_ACCOUNT,
+            payload: true,
+          });
+          resolve(true);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  };
+};
+
+/*
+export const fbDeleteParentAccountAndChildren = (
+  uid,
+  parentAccountFbKey,
+  allAccountsInFirebase) => {
+
+    const childAccounts =
+
+};
+*/
+
 export const fbUpdateIncome = (uid, income) => {
   return dispatch => {
     const accountsRef = firebase.database().ref().child(`users/${uid}/income`);
@@ -194,7 +222,6 @@ export const fbGetBills = (uid) => {
     return new Promise((resolve, reject) => {
       firebase.database().ref().child(`users/${uid}/bills`).once('value')
         .then((snapshot) => {
-          const bills = snapshot.val()
           dispatch({
             type: FB_GET_BILLS,
             payload: snapshot.val(),
@@ -257,15 +284,23 @@ export const fbInitUser = (uid) => {
               const { id, name, amount } = bills[key];
               const billToAdd = new Bill(name, amount, key);
               billToAdd.id = id;
-              dispatch(addBill(billToAdd));
+              return dispatch(addBill(billToAdd));
             });
 
           dispatch(fbGetAccounts(uid))
             .then((accounts) => {
               if (accounts)
                 Object.keys(accounts).map((key) => {
-                  const { id, name, parentId, percent, percentageOfParent } = accounts[key];
-                  const accToAdd = new Account(name, 0, percentageOfParent, parentId, key);
+                  const {
+                    id,
+                    name,
+                    parentId,
+                    percent,
+                    percentageOfParent,
+                  } = accounts[key];
+
+                  const accToAdd =
+                    new Account(name, 0, percentageOfParent, parentId, key);
                   accToAdd.id = id;
                   accToAdd.percent = percent;
                   return dispatch(addAccount(accToAdd));

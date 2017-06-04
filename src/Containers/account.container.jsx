@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 
 import { Button, Modal, Header, Icon, Card } from 'semantic-ui-react';
 
+import { deleteAccount, modifyAccount } from '../Actions/account.actions';
+import { fbDeleteAccount } from '../Actions/firebase.actions';
+
 import AccountList from '../Components/accountList.component';
 import AccountCreator from '../Containers/accountCreator.container';
 
@@ -61,8 +64,13 @@ class AccountContainer extends Component {
   componentDidMount() {
   }
 
+  removeAccount = (account) => {
+    this.props.deleteAccount(account.id);
+    if (this.props.uid) this.props.fbDeleteAccount(this.props.uid, account.fbKey);
+  };
+
   render() {
-    const { account, deleteAccount } = this.props;
+    const { account } = this.props;
     const modal = (<Modal
       dimmer={'inverted'}
       trigger={
@@ -105,7 +113,7 @@ class AccountContainer extends Component {
           <Button
             color="red"
             animated="vertical"
-            onClick={() => deleteAccount(account.id)}>
+            onClick={() => this.removeAccount(account)}>
             <Button.Content hidden>Delete</Button.Content>
             <Button.Content visible>
               <Icon name="trash" />
@@ -149,10 +157,13 @@ class AccountContainer extends Component {
 const mapStateToProps = (state) => {
   return {
     accounts: state.userReducer.accounts,
+    uid: state.firebaseReducer.user.uid,
   };
 };
 
 const mapDispatchToProps = {
+  deleteAccount,
+  fbDeleteAccount,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountContainer);
