@@ -5,7 +5,7 @@ import {
   FB_REGISTER,
   FB_LOGIN,
   FB_LOGIN_SUCCESS,
-  FB_LOGIN_ERROR,
+  FB_LOGIN_FAIL,
   FB_GOOGLE_LOGIN,
   FB_LOGOUT,
   FB_ADD_BILL,
@@ -49,7 +49,7 @@ export default function firebaseReducer(state = initialState, action) {
         fetchingData: false,
       });
     }
-    case FB_LOGIN_ERROR: {
+    case FB_LOGIN_FAIL: {
       const { error } = action.payload;
       return Object.assign({}, state, {
         error,
