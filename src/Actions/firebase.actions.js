@@ -168,6 +168,12 @@ export const fbAddAccount = (uid, account) => {
   };
 };
 
+/*
+  TODO: Create a delete account and child accounts action
+  This works but it doesn't truly delete it's nested accounts (In FB).
+  Those accounts just won't get displayed or placed in the Redux store bc
+    their parents cannot be found
+*/
 export const fbDeleteAccount = (uid, accountFbKey) => {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
@@ -186,17 +192,6 @@ export const fbDeleteAccount = (uid, accountFbKey) => {
     });
   };
 };
-
-/*
-export const fbDeleteParentAccountAndChildren = (
-  uid,
-  parentAccountFbKey,
-  allAccountsInFirebase) => {
-
-    const childAccounts =
-
-};
-*/
 
 export const fbUpdateIncome = (uid, income) => {
   return dispatch => {

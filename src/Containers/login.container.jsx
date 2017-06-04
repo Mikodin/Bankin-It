@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import { Input, Button, Form } from 'semantic-ui-react';
+import { Button, Form } from 'semantic-ui-react';
 
 import {
   googleLogin,

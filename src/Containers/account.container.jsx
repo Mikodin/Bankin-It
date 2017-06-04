@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { Button, Modal, Header, Icon, Card } from 'semantic-ui-react';
 
-import { deleteAccount, modifyAccount } from '../Actions/account.actions';
+import { deleteAccount } from '../Actions/account.actions';
 import { fbDeleteAccount } from '../Actions/firebase.actions';
 
 import AccountList from '../Components/accountList.component';
@@ -14,12 +14,16 @@ import AccountCreator from '../Containers/accountCreator.container';
 class AccountContainer extends Component {
   static propTypes = {
     account: PropTypes.object,
+    uid: PropTypes.string,
     deleteAccount: PropTypes.func,
+    fbDeleteAccount: PropTypes.func,
   }
 
   static defaultProps = {
     account: {},
+    uid: undefined,
     deleteAccount: undefined,
+    fbDeleteAccount: undefined,
   }
 
   constructor(props) {
@@ -35,11 +39,11 @@ class AccountContainer extends Component {
     this.collapse = this.collapse.bind(this);
   }
 
-  handleOpen = (e) => this.setState({
+  handleOpen = () => this.setState({
     modalOpen: true,
   });
 
-  handleClose = (e) => this.setState({
+  handleClose = () => this.setState({
     modalOpen: false,
   });
 
@@ -56,12 +60,11 @@ class AccountContainer extends Component {
   collapse() {
     const account = this.props.account;
     this.setState({ showChildren: !this.state.showChildren });
-    const queryInput =
-      document.querySelector(`button[name='collapse-${account.id}']`);
+    // eslint-disable-next-line no-undef
+    const queryInput = document.querySelector(
+      `button[name='collapse-${account.id}']`,
+    );
     queryInput.blur();
-  }
-
-  componentDidMount() {
   }
 
   removeAccount = (account) => {

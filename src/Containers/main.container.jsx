@@ -2,14 +2,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  Container,
-  Header,
-  Icon,
-  Dimmer,
-  Loader,
-  Segment 
-} from 'semantic-ui-react';
+import { Container, Dimmer, Loader } from 'semantic-ui-react';
 
 import HeaderContainer from './header.container';
 import MonthliesContainer from './monthlies.container';
