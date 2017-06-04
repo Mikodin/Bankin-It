@@ -2,6 +2,7 @@
 import * as firebase from 'firebase';
 
 import Account from '../Models/account.model';
+import Bill from '../Models/bill.model';
 
 import {
   FB_RESET_STATE,
@@ -12,6 +13,7 @@ import {
   FB_GOOGLE_LOGIN,
   FB_LOGOUT,
   FB_ADD_BILL,
+  FB_DELETE_BILL,
   FB_ADD_ACCOUNT,
   FB_UPDATE_INCOME,
   FB_GET_BILLS,
@@ -128,6 +130,27 @@ export const fbAddBill = (uid, bill) => {
   };
 };
 
+export const fbDeleteBill = (uid, billFbKey) => {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      firebase.database().ref().child(`users/${uid}/bills/${billFbKey}`).remove()
+        .then((data) => {
+          console.log(data);
+          dispatch({
+            type: FB_DELETE_BILL,
+            payload: true,
+          });
+          resolve(true);
+        })
+        .catch((error) => {
+          console.log('Error in delete');
+          console.log(error);
+          reject(error);
+        });
+    });
+  };
+};
+
 export const fbAddAccount = (uid, account) => {
   return dispatch => {
     const accountsRef = firebase.database().ref().child(`users/${uid}/accounts`);
@@ -171,6 +194,7 @@ export const fbGetBills = (uid) => {
     return new Promise((resolve, reject) => {
       firebase.database().ref().child(`users/${uid}/bills`).once('value')
         .then((snapshot) => {
+          const bills = snapshot.val()
           dispatch({
             type: FB_GET_BILLS,
             payload: snapshot.val(),
@@ -229,14 +253,19 @@ export const fbInitUser = (uid) => {
       dispatch(fbGetBills(uid))
         .then((bills) => {
           if (bills)
-            Object.keys(bills).map((key) => dispatch(addBill(bills[key])));
+            Object.keys(bills).map((key) => {
+              const { id, name, amount } = bills[key];
+              const billToAdd = new Bill(name, amount, key);
+              billToAdd.id = id;
+              dispatch(addBill(billToAdd));
+            });
 
           dispatch(fbGetAccounts(uid))
             .then((accounts) => {
               if (accounts)
                 Object.keys(accounts).map((key) => {
                   const { id, name, parentId, percent, percentageOfParent } = accounts[key];
-                  const accToAdd = new Account(name, 0, percentageOfParent, parentId);
+                  const accToAdd = new Account(name, 0, percentageOfParent, parentId, key);
                   accToAdd.id = id;
                   accToAdd.percent = percent;
                   return dispatch(addAccount(accToAdd));

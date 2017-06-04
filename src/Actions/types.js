@@ -18,6 +18,7 @@ export const FB_LOGIN_FAIL = 'FB_LOGIN_FAIL';
 export const FB_GOOGLE_LOGIN = 'FB_GOOGLE_LOGIN';
 export const FB_LOGOUT = 'FB_LOGOUT';
 export const FB_ADD_BILL = 'FB_ADD_BILL';
+export const FB_DELETE_BILL = 'FB_DELETE_BILL';
 export const FB_ADD_ACCOUNT = 'FB_ADD_ACCOUNT';
 export const FB_UPDATE_INCOME = 'FB_UPDATE_INCOME';
 export const FB_GET_BILLS = 'FB_GET_BILLS';

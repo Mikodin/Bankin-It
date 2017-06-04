@@ -9,6 +9,7 @@ import '../styles.css';
 import './billList.css';
 
 import { deleteBill, modifyBill } from '../Actions/bill.actions';
+import { fbDeleteBill } from '../Actions/firebase.actions';
 
 function BillListComp(props) {
   const billList =
@@ -24,7 +25,7 @@ function BillListComp(props) {
             <Button
               color="red"
               animated="vertical"
-              onClick={() => props.deleteBill(bill.id)}>
+              onClick={() => { props.deleteBill(bill.id); props.fbDeleteBill(props.uid, bill.fbKey); }}>
               <Button.Content hidden>Delete</Button.Content>
               <Button.Content visible>
                 <Icon name="trash" />
@@ -90,12 +91,14 @@ const mapStateToProps = (state) => {
   return {
     bills: state.userReducer.bills,
     billsTotal: state.userReducer.billsTotal,
+    uid: state.firebaseReducer.user.uid,
   };
 };
 
 const mapDispatchToProps = {
   deleteBill,
   modifyBill,
+  fbDeleteBill,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BillListComp);
