@@ -2,73 +2,94 @@
 
 import React from 'react';
 import { PropTypes } from 'prop-types';
-
-import './billList.css';
-
 import { connect } from 'react-redux';
-import { Button, Card, Grid } from 'semantic-ui-react';
+import { Button, Card, Grid, Table, Checkbox, Icon } from 'semantic-ui-react';
 
 import '../styles.css';
+import './billList.css';
+
 import { deleteBill, modifyBill } from '../Actions/bill.actions';
 
 function BillListComp(props) {
   const billList =
     props.bills.map(bill => {
       return (
-        <Grid.Column key={bill.id} style={{marginTop: '10px'}}>
-          <Card color="red" fluid raised>
-            <Card.Content>
-              <Card.Header>{bill.name}</Card.Header>
-              <Card.Meta>${bill.amount}</Card.Meta>
-            </Card.Content>
-            <Card.Content extra>
-              <Button
-                fluid
-                onClick={() => props.deleteBill(bill.id)}
-                basic
-                color="red">
-                Delete Bill
-          </Button>
-              <Button
-                fluid
-                basic
-                color="yellow">
-                Modify Bill
+        <Table.Row key={bill.id}>
+          <Table.Cell collapsing>
+            <Checkbox />
+          </Table.Cell>
+          <Table.Cell>{bill.name}</Table.Cell>
+          <Table.Cell>{bill.amount}</Table.Cell>
+          <Table.Cell>
+            <Button
+              color="red"
+              animated="vertical"
+              onClick={() => props.deleteBill(bill.id)}>
+              <Button.Content hidden>Delete</Button.Content>
+              <Button.Content visible>
+                <Icon name="trash" />
+              </Button.Content>
             </Button>
-            </Card.Content>
-          </Card>
-        </Grid.Column>
+            <Button
+              color="yellow"
+              animated="vertical">
+              <Button.Content hidden>Edit</Button.Content>
+              <Button.Content visible>
+                <Icon name="pencil" />
+              </Button.Content>
+            </Button>
+          </Table.Cell>
+        </Table.Row>
       );
     });
 
   return (
-    <div className="bill-cont">
-      <Grid
-        container
-        doubling
-        stackable
-        columns={4}
-        padded
-         >
-        <Grid.Row>
+    <div >
+      <Table compact sortable stackable striped singleLine size="small" definition>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell />
+            <Table.HeaderCell>Name</Table.HeaderCell>
+            <Table.HeaderCell>Amount</Table.HeaderCell>
+            <Table.HeaderCell>Edit</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body className="bill-cont">
           {billList}
-        </Grid.Row>
-      </Grid>
+        </Table.Body>
+        <Table.Footer fullWidth>
+          <Table.Row>
+            <Table.HeaderCell>
+              <Button size="small">Select All</Button>
+            </Table.HeaderCell>
+            <Table.HeaderCell />
+            <Table.HeaderCell>Total: {props.billsTotal}</Table.HeaderCell>
+            <Table.HeaderCell>
+              <Button icon color="red" size="small">
+                <Icon name="trash" /> Delete Selected
+            </Button>
+            </Table.HeaderCell>
+          </Table.Row>
+        </Table.Footer>
+      </Table>
     </div>
   );
 }
 
 BillListComp.propTypes = {
   bills: PropTypes.arrayOf(PropTypes.object),
+  billsTotal: PropTypes.number,
 };
 
 BillListComp.defaultProps = {
   bills: [],
+  billsTotal: 0,
 };
 
 const mapStateToProps = (state) => {
   return {
     bills: state.userReducer.bills,
+    billsTotal: state.userReducer.billsTotal,
   };
 };
 
