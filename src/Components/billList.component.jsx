@@ -3,13 +3,19 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Card, Grid, Table, Checkbox, Icon } from 'semantic-ui-react';
+import { Button, Table, Checkbox, Icon } from 'semantic-ui-react';
 
 import '../styles.css';
 import './billList.css';
 
 import { deleteBill, modifyBill } from '../Actions/bill.actions';
 import { fbDeleteBill } from '../Actions/firebase.actions';
+
+function removeBill(props, bill) {
+  const { id, fbKey } = bill;
+  props.deleteBill(id);
+  if (props.uid) props.fbDeleteBill(props.uid, fbKey);
+}
 
 function BillListComp(props) {
   const billList =
@@ -25,7 +31,7 @@ function BillListComp(props) {
             <Button
               color="red"
               animated="vertical"
-              onClick={() => { props.deleteBill(bill.id); props.fbDeleteBill(props.uid, bill.fbKey); }}>
+              onClick={() => { removeBill(props, bill); }}>
               <Button.Content hidden>Delete</Button.Content>
               <Button.Content visible>
                 <Icon name="trash" />
