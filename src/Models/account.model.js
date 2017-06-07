@@ -5,7 +5,7 @@ export default class Account {
     initialAmount = 0,
     percentage = 0,
     parentId = undefined,
-    fbKey = undefined) {
+    fbKey = '') {
     // TODO: Hacky but it works for now.  I'll pull in a library at some point
     this.id = Math.floor(Math.random() * 100000);
     this.name = name;
@@ -16,6 +16,7 @@ export default class Account {
     this.amount = this.calculateAmount(initialAmount, this.percentageOfParent);
     this.percent = 100;
     this.childAccounts = [];
+    this.error = '';
   }
 
   calculateAmount(amount, percentage) {

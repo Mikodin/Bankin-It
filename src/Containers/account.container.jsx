@@ -113,6 +113,9 @@ class AccountContainer extends Component {
             Name: {account.name}
           </Card.Header>
           <p>Amount: {account.amount}</p>
+          <p>Percentage of Parent: {account.percentageOfParent}</p>
+          <p>Percentage Remaining: {account.percent}</p>
+          <p>Error: {account.error}</p>
           <Button
             color="red"
             animated="vertical"
