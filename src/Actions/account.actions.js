@@ -10,7 +10,13 @@ import {
 function insertAccountIntoTree(accountList, accountToAdd, idToFind) {
   return accountList.map((account) => {
     if (account.id === idToFind) {
-      account.childAccounts.push(accountToAdd);
+      const percentRemaining = account.percent - accountToAdd.percentageOfParent;
+      percentRemaining >= 0
+        ? (() => {
+          account.percent = percentRemaining;
+          account.childAccounts.push(accountToAdd);
+        })()
+        : account.error = 'You cannot have more than 100% of the account';
       return account;
     }
     if (account.childAccounts.length >= 1)
@@ -20,7 +26,7 @@ function insertAccountIntoTree(accountList, accountToAdd, idToFind) {
   });
 }
 
-function deleteAccountFromTree(accountList, accountIdToRemove) {
+function deleteAccountFromTree(accountList, accountToRemove) {
   return accountList.filter((account) => {
     /*
      * TODO: Refactor
@@ -29,13 +35,13 @@ function deleteAccountFromTree(accountList, accountIdToRemove) {
     */
     // eslint-disable-next-line no-param-reassign
     account.childAccounts = account.childAccounts.filter((childAcc) => {
-      return childAcc.id !== accountIdToRemove;
+      return childAcc.id !== accountToRemove.id;
     });
 
     if (account.childAccounts)
-      deleteAccountFromTree(account.childAccounts, accountIdToRemove);
+      deleteAccountFromTree(account.childAccounts, accountToRemove);
 
-    return account.id !== accountIdToRemove;
+    return account.id !== accountToRemove.id;
   });
 }
 
@@ -59,9 +65,11 @@ export const addAccount = (account) =>
     });
   };
 
-export const deleteAccount = (accountId) =>
+export const deleteAccount = (account) =>
   (dispatch, getState) => {
-    const accounts = deleteAccountFromTree(getState().userReducer.accounts.slice(), accountId);
+    const accounts = deleteAccountFromTree(
+      getState().userReducer.accounts.slice(), account);
+
     dispatch({
       type: DELETE_ACCOUNT,
       payload: { accounts },

@@ -68,7 +68,8 @@ class AccountContainer extends Component {
   }
 
   removeAccount = (account) => {
-    this.props.deleteAccount(account.id);
+    console.log(account);
+    this.props.deleteAccount(account);
     if (this.props.uid) this.props.fbDeleteAccount(this.props.uid, account.fbKey);
   };
 
