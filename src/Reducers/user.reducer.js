@@ -19,24 +19,6 @@ const initialState = {
   accounts: [],
 };
 
-function updateIncomeInTree(accountList, newIncome) {
-  return accountList.map((account) => {
-    const { calculateAmount, percentageOfParent } = account;
-    /*
-     * TODO: Refactor
-     * I know I'm mutating the object, Object.assign isn't copying deep enough.
-     * Open for suggestions
-    */
-    // eslint-disable-next-line no-param-reassign
-    account.amount = calculateAmount(newIncome, percentageOfParent);
-
-    if (account.childAccounts.length >= 1)
-      updateIncomeInTree(account.childAccounts, account.amount);
-
-    return account;
-  });
-}
-
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
     case USER_RESET_STATE: {
@@ -53,16 +35,12 @@ export default function userReducer(state = initialState, action) {
       const billsTotal = bills.map((bill) => +bill.amount)
         .reduce((inc, amount) => inc + amount);
       const incomeAfterBills = state.income - billsTotal;
-      const accounts = updateIncomeInTree(
-        state.accounts.slice(),
-        incomeAfterBills);
 
       return Object.assign({}, state,
         {
           bills,
           billsTotal,
           incomeAfterBills,
-          accounts,
         });
     }
 
