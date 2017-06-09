@@ -6,6 +6,8 @@ import {
   MODIFY_ACCOUNT,
 } from './types';
 
+import { updatePercentRemaining } from './monthly.actions';
+
 
 function insertAccountIntoTree(accountList, accountToAdd, idToFind) {
   return accountList.map((account) => {
@@ -56,6 +58,7 @@ export const addAccount = (account) =>
         account,
         account.parentId);
     } else {
+      dispatch(updatePercentRemaining(-account.percentageOfParent));
       accounts = [...getState().userReducer.accounts, account];
     }
 

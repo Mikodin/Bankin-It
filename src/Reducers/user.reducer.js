@@ -3,6 +3,7 @@
 import {
   USER_RESET_STATE,
   UPDATE_INCOME,
+  UPDATE_PERCENT_REMAINING,
   ADD_BILL,
   DELETE_BILL,
   MODIFY_BILL,
@@ -29,6 +30,11 @@ export default function userReducer(state = initialState, action) {
     case UPDATE_INCOME: {
       const { income, incomeAfterBills, accounts } = action.payload;
       return Object.assign({}, state, { income, incomeAfterBills, accounts });
+    }
+
+    case UPDATE_PERCENT_REMAINING: {
+      const { percentRemaining } = action.payload;
+      return Object.assign({}, state, { percentRemaining });
     }
 
     case ADD_BILL: {
