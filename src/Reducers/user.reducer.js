@@ -13,6 +13,7 @@ import {
 
 const initialState = {
   income: 0,
+  percentRemaining: 100,
   bills: [],
   billsTotal: 0,
   incomeAfterBills: 0,

@@ -1,6 +1,6 @@
 /* eslint jsx-a11y/img-has-alt: 0 */
 
-import { UPDATE_INCOME } from './types';
+import { UPDATE_INCOME, UPDATE_PERCENT_REMAINING } from './types';
 
 function updateIncomeInTree(accountList, newIncome) {
   return accountList.map((account) => {
@@ -27,6 +27,16 @@ export const updateIncome = (income) =>
     dispatch({
       type: UPDATE_INCOME,
       payload: { income, incomeAfterBills, accounts },
+    });
+  };
+
+export const updatePercentRemaining = (amount) =>
+  (dispatch, getState) => {
+    const currentPercent = getState().userReducer.percentRemaining;
+    const percentRemaining = currentPercent + amount;
+    dispatch({
+      type: UPDATE_PERCENT_REMAINING,
+      payload: { percentRemaining },
     });
   };
 
