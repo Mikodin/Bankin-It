@@ -1,4 +1,3 @@
-#Bankin It 
-###"The whole is more than just the sum of it's parts." - Aristotle
-##A percentage based budgeting application
+# The Stache 
+## The answer for the question "How much money do you want to save"
 
