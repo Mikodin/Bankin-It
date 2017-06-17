@@ -39,5 +39,3 @@ export const updatePercentRemaining = (amount) =>
       payload: { percentRemaining },
     });
   };
-
-
