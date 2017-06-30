@@ -84,6 +84,7 @@ class MonthliesContainer extends Component {
                 <BillCreator />
                 <h3>Bills Total: {this.props.billsTotal}</h3>
                 <h3>Income After Bills: {this.props.incomeAfterBills}</h3>
+                <h3>Total Percentage Remaining: {this.props.percentRemaining}</h3>
               </Grid.Column>
               <Grid.Column width={12}>
                 <BillListComp />
@@ -102,6 +103,7 @@ const mapStateToProps = (state) => {
     income: state.userReducer.income,
     incomeAfterBills: state.userReducer.incomeAfterBills,
     uid: state.firebaseReducer.user.uid,
+    percentRemaining: state.userReducer.percentRemaining,
   };
 };
 

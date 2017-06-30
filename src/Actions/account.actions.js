@@ -58,8 +58,11 @@ export const addAccount = (account) =>
         account,
         account.parentId);
     } else {
-      dispatch(updatePercentRemaining(-account.percentageOfParent));
-      accounts = [...getState().userReducer.accounts, account];
+      if (getState().userReducer.percentRemaining > 0) {
+        dispatch(updatePercentRemaining(-account.percentageOfParent));
+        accounts = [...getState().userReducer.accounts, account];
+      } else
+      accounts = getState().userReducer.accounts;
     }
 
     dispatch({
