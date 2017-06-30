@@ -8,7 +8,6 @@ import {
 
 import { updatePercentRemaining } from './monthly.actions';
 
-
 function insertAccountIntoTree(accountList, accountToAdd, idToFind) {
   return accountList.map((account) => {
     if (account.id === idToFind) {
@@ -47,7 +46,6 @@ function deleteAccountFromTree(accountList, accountToRemove) {
   });
 }
 
-
 export const addAccount = (account) =>
   (dispatch, getState) => {
     let accounts;
@@ -73,6 +71,9 @@ export const addAccount = (account) =>
 
 export const deleteAccount = (account) =>
   (dispatch, getState) => {
+    if (!account.parentId)
+      dispatch(updatePercentRemaining(+account.percentageOfParent));
+
     const accounts = deleteAccountFromTree(
       getState().userReducer.accounts.slice(), account);
 
