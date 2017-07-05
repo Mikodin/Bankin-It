@@ -367,14 +367,45 @@ export const fbFullSave = (uid) => {
     return new Promise((resolve, reject) => {
       const { income, accounts, bills } = getState().userReducer;
       dispatch(fbUpdateIncome(uid, income));
-      bills.map(bill => dispatch(fbAddBill(uid, bill)));
+      dispatch(fbSetBills(uid, bills));
 
       const flattenedAccounts = flattenAccounts([], accounts);
-      flattenedAccounts[0].map(account => {
-        dispatch(fbAddAccount(uid, account));
-      });
+      dispatch(fbSetAccounts(uid, flattenedAccounts[0]));
 
       resolve(true);
     });
+  };
+};
+
+export const fbSetAccounts = (uid, accounts) => {
+  console.log(accounts);
+  return dispatch => {
+    const accountsRef = firebase.database().ref().child(`users/${uid}/accounts`);
+    accountsRef.set(accounts)
+      .then((data) => {
+        console.log(`Set ${data}`);
+      })
+      .catch((error) => {
+        dispatch({
+          type: FB_ADD_ACCOUNT,
+          payload: error,
+        });
+      });
+  };
+};
+
+export const fbSetBills = (uid, bills) => {
+  return dispatch => {
+    const billsRef = firebase.database().ref().child(`users/${uid}/bills`);
+    billsRef.set(bills)
+      .then((data) => {
+        console.log(`Set ${data}`);
+      })
+      .catch((error) => {
+        dispatch({
+          type: FB_ADD_BILL,
+          payload: error,
+        });
+      });
   };
 };
