@@ -11,6 +11,7 @@ import {
   logout,
   register,
   fbInitUser,
+  fbFullSave,
 } from '../Actions/firebase.actions';
 
 class LoginContainer extends Component {
@@ -36,7 +37,7 @@ class LoginContainer extends Component {
     super(props);
 
     this.state = {
-      email: 'NormalUser@gmail.com',
+      email: '1NormalUser@gmail.com',
       password: 'password1234',
     };
   }
@@ -81,6 +82,10 @@ class LoginContainer extends Component {
     this.props.googleLogin();
   }
 
+  fullSave = () => {
+    this.props.fbFullSave();
+  }
+
   render() {
     return (
       <div style={{ marginTop: '55px' }}>
@@ -102,7 +107,7 @@ class LoginContainer extends Component {
               onChange={(event) => this.updatePassword(event)} />
           </Form.Field>
           <Button type="button" onClick={this.login}>Login</Button>
-          <Button type="button" icon='google' onClick={this.googleLogin}></Button>
+          <Button type="button" icon='google' onClick={this.googleLogin} />
           <Button type="button" onClick={this.register}>Register</Button>
         </Form>
       </div>
@@ -121,6 +126,7 @@ const mapDispatchToProps = {
   logout,
   register,
   fbInitUser,
+  fbFullSave,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);

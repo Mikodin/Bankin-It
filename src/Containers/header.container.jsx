@@ -4,7 +4,7 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Sidebar, Button, Menu, Icon } from 'semantic-ui-react';
 
-import { logout } from '../Actions/firebase.actions';
+import { logout, fbFullSave } from '../Actions/firebase.actions';
 import LoginContainer from './login.container';
 
 class HeaderContainer extends Component {
@@ -31,6 +31,10 @@ class HeaderContainer extends Component {
   }
 
   toggleLogin = () => this.setState({ loginVisibile: !this.state.loginVisibile })
+
+  fullSave = () => {
+    this.props.fbFullSave(this.props.user.uid);
+  }
 
   render() {
     const loginCont = this.state.loginVisibile
@@ -59,6 +63,9 @@ class HeaderContainer extends Component {
           <Menu.Item name="save">
             <Button onClick={this.toggleLogin}>Save</Button>
           </Menu.Item>
+          <Menu.Item name="fullSave">
+            <Button onClick={this.fullSave}>FullSave</Button>
+          </Menu.Item>
         </Sidebar>
         {loginCont}
       </div>
@@ -74,6 +81,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   logout,
+  fbFullSave,
 };
 
 export default connect(

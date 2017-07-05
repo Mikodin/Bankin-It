@@ -22,6 +22,7 @@ import {
   FB_GET_ACCOUNTS,
   FB_INIT_USER,
   FB_INIT_USER_SUCCESS,
+  FB_FULL_SAVE,
 } from './types';
 
 import { addBill } from './bill.actions';
@@ -150,6 +151,7 @@ export const fbDeleteBill = (uid, billFbKey) => {
 };
 
 export const fbAddAccount = (uid, account) => {
+  console.log(account);
   return dispatch => {
     const accountsRef = firebase.database().ref().child(`users/${uid}/accounts`);
     accountsRef.push(account)
@@ -194,6 +196,7 @@ export const fbDeleteAccount = (uid, accountFbKey) => {
 };
 
 export const fbUpdateIncome = (uid, income) => {
+  console.log(uid);
   return dispatch => {
     const accountsRef = firebase.database().ref().child(`users/${uid}/income`);
     accountsRef.set({ income })
@@ -284,22 +287,39 @@ export const fbInitUser = (uid) => {
 
           dispatch(fbGetAccounts(uid))
             .then((accounts) => {
-              if (accounts)
-                Object.keys(accounts).map((key) => {
+              if (accounts) {
+                const structuredAccounts = Object.keys(accounts).map((key) => {
                   const {
                     id,
                     name,
                     parentId,
-                    percent,
                     percentageOfParent,
                   } = accounts[key];
 
                   const accToAdd =
                     new Account(name, 0, percentageOfParent, parentId, key);
                   accToAdd.id = id;
-                  accToAdd.percent = percent;
+                  
+                  return accToAdd;
+                });
+
+                const noParentId = structuredAccounts.filter((acc) => {
+                  return !acc.parentId;
+                });
+
+                const hasParentId = structuredAccounts.filter((acc) => {
+                  return acc.parentId;
+                });
+
+                const reOrdered = [...noParentId, ...hasParentId];
+                console.log(reOrdered);
+                console.log(structuredAccounts);
+
+
+                structuredAccounts.map((accToAdd) => {
                   return dispatch(addAccount(accToAdd));
                 });
+              }
 
               dispatch(fbGetIncome(uid))
                 .then((income) => {
@@ -316,6 +336,45 @@ export const fbInitUser = (uid) => {
             .catch(error => reject(error));
         })
         .catch(error => reject(error));
+    });
+  };
+};
+
+function flattenAccounts(flattened, accounts) {
+  return accounts.map((account) => {
+    const flattenedAccount = Object.assign({}, account, {
+      amount: account.amount,
+      id: account.id,
+      name: account.name,
+      parentId: account.parentId,
+      percent: account.percent,
+      percentageOfParent: account.percentageOfParent,
+    });
+
+    flattened.push(flattenedAccount);
+    console.log(flattened);
+
+    if (account.childAccounts.length >= 1)
+      flattenAccounts(flattened, account.childAccounts);
+
+
+    return flattened;
+  });
+}
+
+export const fbFullSave = (uid) => {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      const { income, accounts, bills } = getState().userReducer;
+      dispatch(fbUpdateIncome(uid, income));
+      bills.map(bill => dispatch(fbAddBill(uid, bill)));
+
+      const flattenedAccounts = flattenAccounts([], accounts);
+      flattenedAccounts[0].map(account => {
+        dispatch(fbAddAccount(uid, account));
+      });
+
+      resolve(true);
     });
   };
 };

@@ -29,6 +29,7 @@ export const FB_GET_INCOME = 'FB_GET_INCOME';
 export const FB_INIT_USER = 'FB_INIT_USER';
 export const FB_INIT_USER_SUCCESS = 'FB_INIT_USER_SUCCESS';
 export const FB_INIT_USER_ERROR = 'FB_INIT_USER_ERROR';
+export const FB_FULL_SAVE = 'FB_FULL_SAVE';
 
 export const USER_RESET_STATE = 'USER_RESET_STATE';
 export const FB_RESET_STATE = 'FB_RESET_STATE';
