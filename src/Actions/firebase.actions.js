@@ -23,6 +23,10 @@ import {
   FB_INIT_USER,
   FB_INIT_USER_SUCCESS,
   FB_FULL_SAVE,
+  FB_FULL_SAVE_SUCCESS,
+  FB_FULL_SAVE_ERROR,
+  FB_SET_ACCOUNTS,
+  FB_SET_BILLS,
 } from './types';
 
 import { addBill } from './bill.actions';
@@ -198,20 +202,24 @@ export const fbDeleteAccount = (uid, accountFbKey) => {
 export const fbUpdateIncome = (uid, income) => {
   console.log(uid);
   return dispatch => {
-    const accountsRef = firebase.database().ref().child(`users/${uid}/income`);
-    accountsRef.set({ income })
-      .then((data) => {
-        dispatch({
-          type: FB_UPDATE_INCOME,
-          payload: data,
+    return new Promise((resolve, reject) => {
+      const accountsRef = firebase.database().ref().child(`users/${uid}/income`);
+      accountsRef.set({ income })
+        .then((data) => {
+          dispatch({
+            type: FB_UPDATE_INCOME,
+            payload: data,
+          });
+          resolve(true);
+        })
+        .catch((error) => {
+          dispatch({
+            type: FB_UPDATE_INCOME,
+            payload: error,
+          });
+          reject(error);
         });
-      })
-      .catch((error) => {
-        dispatch({
-          type: FB_UPDATE_INCOME,
-          payload: error,
-        });
-      });
+    });
   };
 };
 
@@ -299,7 +307,7 @@ export const fbInitUser = (uid) => {
                   const accToAdd =
                     new Account(name, 0, percentageOfParent, parentId, key);
                   accToAdd.id = id;
-                  
+
                   return accToAdd;
                 });
 
@@ -362,50 +370,82 @@ function flattenAccounts(flattened, accounts) {
   });
 }
 
-export const fbFullSave = (uid) => {
-  return (dispatch, getState) => {
+const fbSetAccounts = (uid, accounts) => {
+  console.log(accounts);
+  return dispatch => {
     return new Promise((resolve, reject) => {
-      const { income, accounts, bills } = getState().userReducer;
-      dispatch(fbUpdateIncome(uid, income));
-      dispatch(fbSetBills(uid, bills));
-
-      const flattenedAccounts = flattenAccounts([], accounts);
-      dispatch(fbSetAccounts(uid, flattenedAccounts[0]));
-
-      resolve(true);
+      const accountsRef = firebase.database().ref().child(`users/${uid}/accounts`);
+      accountsRef.set(accounts)
+        .then(() => {
+          dispatch({
+            type: FB_SET_ACCOUNTS,
+            payload: true,
+          });
+          resolve(true);
+        })
+        .catch((error) => {
+          dispatch({
+            type: FB_SET_ACCOUNTS,
+            payload: error,
+          });
+          reject(error);
+        });
     });
   };
 };
 
-export const fbSetAccounts = (uid, accounts) => {
-  console.log(accounts);
+const fbSetBills = (uid, bills) => {
   return dispatch => {
-    const accountsRef = firebase.database().ref().child(`users/${uid}/accounts`);
-    accountsRef.set(accounts)
-      .then((data) => {
-        console.log(`Set ${data}`);
-      })
-      .catch((error) => {
-        dispatch({
-          type: FB_ADD_ACCOUNT,
-          payload: error,
+    return new Promise((resolve, reject) => {
+      const billsRef = firebase.database().ref().child(`users/${uid}/bills`);
+      billsRef.set(bills)
+        .then(() => {
+          dispatch({
+            type: FB_SET_BILLS,
+            payload: true,
+          });
+          resolve(true);
+        })
+        .catch((error) => {
+          dispatch({
+            type: FB_SET_BILLS,
+            payload: error,
+          });
+          reject(error);
         });
-      });
+    });
   };
 };
 
-export const fbSetBills = (uid, bills) => {
-  return dispatch => {
-    const billsRef = firebase.database().ref().child(`users/${uid}/bills`);
-    billsRef.set(bills)
-      .then((data) => {
-        console.log(`Set ${data}`);
-      })
-      .catch((error) => {
-        dispatch({
-          type: FB_ADD_BILL,
-          payload: error,
-        });
+export const fbFullSave = (uid) => {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      const { income, accounts, bills } = getState().userReducer;
+      dispatch({
+        type: FB_FULL_SAVE,
+        payload: { fetchingData: false },
       });
+
+      const flattenedAccounts = flattenAccounts([], accounts);
+      Promise.all([
+        dispatch(fbUpdateIncome(uid, income)),
+        dispatch(fbSetBills(uid, bills)),
+        dispatch(fbSetAccounts(uid, flattenedAccounts[0])),
+      ])
+        .then(() => {
+          dispatch({
+            type: FB_FULL_SAVE_SUCCESS,
+            payload: true,
+          });
+          resolve(true);
+        })
+        .catch((error) => {
+          dispatch({
+            type: FB_FULL_SAVE_ERROR,
+            payload: error,
+          });
+          reject(false);
+        });
+    });
   };
 };
