@@ -44,6 +44,8 @@ export const register = ({ email, password }) => {
   return dispatch => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((user) => {
+        const userRef = firebase.database().ref().child(`users/${user.uid}/`);
+        userRef.set({ email, uid: user.uid });
         dispatch({
           type: FB_REGISTER,
           payload: user,

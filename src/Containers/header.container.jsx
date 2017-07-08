@@ -6,6 +6,8 @@ import { Sidebar, Button, Menu, Icon } from 'semantic-ui-react';
 
 import { logout, fbFullSave } from '../Actions/firebase.actions';
 import LoginContainer from './login.container';
+// import '../styles.css';
+import './header.css';
 
 class HeaderContainer extends Component {
   static propTypes = {
@@ -54,6 +56,14 @@ class HeaderContainer extends Component {
 
     return (
       <div>
+        {/* Design Idea
+        <div className="top-header">
+          <Icon
+          name="travel"
+          className="floating-button"
+          onClick={() => console.log('Clicked')}
+          />
+        */}
         <Sidebar as={Menu} direction="top" visible>
           <Menu.Item name="home">
             <Icon name="travel" />
