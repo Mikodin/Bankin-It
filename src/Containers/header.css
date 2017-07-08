@@ -1,0 +1,13 @@
+.top-header {
+  overflow-y: visible !important;
+  position: relative;
+}
+.floating-button {
+  position: fixed !important;
+  font-size: 5em !important;
+  z-index: 105 !important;
+  height: min-content !important;
+  margin-left: 50vw !important;
+  padding: 0 0 !important;
+  margin-top: 40px !important;
+}
