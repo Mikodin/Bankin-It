@@ -6,3 +6,4 @@ npm-debug.log
 *.swo
 .git
 src/firebaseConfig.js
+./package-lock.json

@@ -30,29 +30,25 @@ class HeaderContainer extends Component {
 
   logout = () => {
     this.props.logout();
-  }
+  };
 
-  toggleLogin = () => this.setState({ loginVisibile: !this.state.loginVisibile })
+  toggleLogin = () => this.setState({ loginVisibile: !this.state.loginVisibile });
 
   fullSave = () => {
     this.props.fbFullSave(this.props.user.uid);
-  }
+  };
 
   render() {
     const loginCont = this.state.loginVisibile
       ? <LoginContainer toggleVisible={this.toggleLogin} />
       : undefined;
     const loginLogoutButton = this.props.user.uid
-      ? (
-        <Menu.Item name="logout">
+      ? (<Menu.Item name="logout">
           <Button onClick={this.logout}>Logout</Button>
-        </Menu.Item>
-      )
-      : (
-        <Menu.Item name="login">
+        </Menu.Item>)
+      : (<Menu.Item name="login">
           <Button onClick={this.toggleLogin}>Login</Button>
-        </Menu.Item>
-      );
+        </Menu.Item>);
 
     return (
       <div>
@@ -66,9 +62,11 @@ class HeaderContainer extends Component {
         */}
         <Sidebar as={Menu} direction="top" visible>
           <Menu.Item name="home">
-            <Icon name="travel" />
-            The Stache
-            </Menu.Item>
+            <h2>
+              <Icon name="travel" />The Stache
+            </h2>
+          </Menu.Item>
+
           {loginLogoutButton}
           <Menu.Item name="save">
             <Button onClick={this.toggleLogin}>Save</Button>
@@ -83,7 +81,7 @@ class HeaderContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     user: state.firebaseReducer.user,
   };
@@ -94,7 +92,4 @@ const mapDispatchToProps = {
   fbFullSave,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps)(HeaderContainer);
-
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);

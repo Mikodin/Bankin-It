@@ -3,7 +3,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import { Button, Form } from 'semantic-ui-react';
+import { Card, Button, Form } from 'semantic-ui-react';
+
+import './login.css';
 
 import {
   googleLogin,
@@ -22,7 +24,7 @@ class LoginContainer extends Component {
     logout: PropTypes.func,
     register: PropTypes.func,
     fbInitUser: PropTypes.func,
-  }
+  };
 
   static defaultProps = {
     toggleVisible: undefined,
@@ -31,7 +33,7 @@ class LoginContainer extends Component {
     logout: undefined,
     register: undefined,
     fbInitUser: undefined,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -42,82 +44,91 @@ class LoginContainer extends Component {
     };
   }
 
-  updateEmail = (event) => {
+  updateEmail = event => {
     const email = event.target.value;
     this.setState({ email });
-  }
+  };
 
-  updatePassword = (event) => {
+  updatePassword = event => {
     const password = event.target.value;
     this.setState({ password });
-  }
+  };
 
   login = () => {
     const { email, password } = this.state;
     const user = { email, password };
 
-    this.props.login(user)
-      .then(({ uid }) => {
-        this.initializeUser(uid);
-        this.props.toggleVisible();
-      });
-  }
+    this.props.login(user).then(({ uid }) => {
+      this.initializeUser(uid);
+      this.props.toggleVisible();
+    });
+  };
 
-  initializeUser = (uid) => {
+  initializeUser = uid => {
     this.props.fbInitUser(uid);
   };
 
   logout = () => {
     this.props.logout();
-  }
+  };
 
   register = () => {
     const { email, password } = this.state;
     const user = { email, password };
     this.props.register(user);
     this.props.toggleVisible();
-  }
+  };
 
   googleLogin = () => {
     this.props.googleLogin();
-  }
+  };
 
   fullSave = () => {
     this.props.fbFullSave();
-  }
+  };
 
   render() {
     return (
-      <div style={{ marginTop: '55px' }}>
-        <Form>
-          <Form.Field>
-            <Form.Input
-              width={4}
-              label="Email"
-              placeholder="Email"
-              value={this.state.email}
-              onChange={(event) => this.updateEmail(event)} />
-          </Form.Field>
-          <Form.Field>
-            <Form.Input
-              width={4}
-              label="Password"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={(event) => this.updatePassword(event)} />
-          </Form.Field>
-          <Button type="button" onClick={this.login}>Login</Button>
-          <Button type="button" icon='google' onClick={this.googleLogin} />
-          <Button type="button" onClick={this.register}>Register</Button>
-        </Form>
-      </div>
+      <Card className="login-form">
+        <Card.Content>
+          <Card.Header>
+            <h2>Login</h2>
+          </Card.Header>
+          <Form>
+            <Form.Field>
+              <Form.Input
+                width={12}
+                label="Email"
+                placeholder="Email"
+                value={this.state.email}
+                onChange={event => this.updateEmail(event)}
+              />
+            </Form.Field>
+            <Form.Field>
+              <Form.Input
+                width={12}
+                label="Password"
+                placeholder="Password"
+                value={this.state.password}
+                onChange={event => this.updatePassword(event)}
+              />
+            </Form.Field>
+            <Button type="button" onClick={this.login}>
+              Login
+            </Button>
+            <Button type="button" icon="google" onClick={this.googleLogin} />
+            <Button type="button" onClick={this.register}>
+              Register
+            </Button>
+          </Form>
+        </Card.Content>
+      </Card>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-  };
+const mapStateToProps = state => {
+  return {};
 };
 
 const mapDispatchToProps = {
