@@ -107,6 +107,8 @@ class AccountContainer extends Component {
       </Modal.Actions>
     </Modal>);
 
+    const errorMsg = account.error ? (<p>Error: {account.error}</p>) : undefined;
+
     return (
       <Card color="olive" fluid>
         <Card.Content>
@@ -116,7 +118,8 @@ class AccountContainer extends Component {
           <p>Amount: {account.amount}</p>
           <p>Percentage of Parent: {account.percentageOfParent}</p>
           <p>Percentage Remaining: {account.percent}</p>
-          <p>Error: {account.error}</p>
+          {errorMsg}
+          
           <Button
             color="red"
             animated="vertical"

@@ -58,7 +58,6 @@ function BillListComp(props) {
             <Table.HeaderCell />
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Amount</Table.HeaderCell>
-            <Table.HeaderCell>Edit</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body className="bill-cont">
